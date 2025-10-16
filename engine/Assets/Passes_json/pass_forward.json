@@ -1,0 +1,8 @@
+{
+  "name": "Forward",
+  "vs": "Assets/Shaders/model.vert",
+  "fs": "Assets/Shaders/model.frag",
+  "depthWrite": true,
+  "colorWrite": true,
+  "cullMode": "Back"
+}

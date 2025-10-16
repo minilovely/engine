@@ -87,6 +87,9 @@
     <ClCompile Include="Assets\MeshPrimitives.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Assets\PassAssets.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -161,8 +164,15 @@
     <ClInclude Include="Render\Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\PassAssets.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />
+    <None Include="packages.config" />
+    <None Include="Assets\Passes_json\pass_forward.json" />
+    <None Include="Assets\Shaders\model.vert" />
+    <None Include="Assets\Shaders\model.frag" />
   </ItemGroup>
 </Project>

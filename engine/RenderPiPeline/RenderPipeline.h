@@ -2,6 +2,8 @@
 #include <vector>
 #include <memory>
 #include "Pass.h"
+//#include "../Assets/PassAssets.h"
+
 class RenderPipeline
 {
 public:
