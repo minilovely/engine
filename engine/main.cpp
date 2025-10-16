@@ -1,4 +1,5 @@
 #include "./Assets/model.h"
+#include "./Assets/MeshPrimitives.h"
 #include "Render/RenderDevice.h"
 #include "RenderPipeline/RenderPipeline.h"
 #include "RenderPipeline/PassForward.h"
@@ -22,17 +23,16 @@ namespace
     std::unique_ptr<Actor> MakeModelActor(const std::string& filePath)
     {
         auto model = ImporterPMX::Load(filePath);
-        if (!model) throw std::runtime_error("load model failed!");
 
         auto actor = std::make_unique<Actor>("Model");
         auto trans = actor->AddComponent<Transform>();
         trans->setPosition({ 0, 0, 0 });
         trans->setScale({ 0.5f, 0.5f, 0.5f });
 
-        for (const auto& cpu : model->meshes)
+        for (const auto& mesh : model->meshes)
         {
             auto meshComp = actor->AddComponent<Mesh>();
-            meshComp->SetSingleMesh(cpu);   // 仅上传顶点/索引/贴图
+            meshComp->SetSingleMesh(mesh);
         }
         return actor;
     }
@@ -132,6 +132,13 @@ int main()
     /* ---- 模型 ---- */
     auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx");
     auto meshes = modelActor->GetComponents<Mesh>();
+    //平面，现在缺少纹理，无法显示
+    auto planeActor = std::make_unique<Actor>("Plane");
+    auto trans = planeActor->AddComponent<Transform>();
+    trans->setPosition({ 0, -1, 0 });
+    trans->setScale({ 10, 1, 10 });
+    auto meshComp = planeActor->AddComponent<Mesh>();
+    meshComp->SetSingleMesh(MeshPrimitives::makePlane());
 
     /* ---- 光源 ---- */
     //auto directionalLight = MakeDirectionalLightActor();
@@ -165,3 +172,5 @@ int main()
     首当其冲的是关于Passforward这给类的处理，现在它负责的是单个物体的shader编写和UBO的绑定，
     但是当场景中是多物体的渲染的时候，这个类的名字和它的作用就严重的不匹配了，需要重构。
 */
+
+//diffuseTex涉及到的部分没有全部改完

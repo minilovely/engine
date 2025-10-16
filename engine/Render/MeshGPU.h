@@ -2,6 +2,8 @@
 #include <vector>
 #include "../Core/math.h"
 #include "../Assets/model.h"
+#include "Texture2D.h"
+#include "Material.h"
 
 class MeshGPU
 {
@@ -9,18 +11,19 @@ public:
     //CPU数据转入GPU，将传入的顶点及其索引装入vao,ebo,vbo
     MeshGPU(const std::vector<Vertex>& verts, 
             const std::vector<unsigned int>& index,
-            unsigned int diffuseTex);
+            const std::shared_ptr<Material>& material);
     ~MeshGPU();
 
     void Bind() const;
     void Draw() const;
 
-    unsigned int getVAO()        const { return vao; }
-    unsigned int getIndexCount() const { return indexCount; }
+    Material* getMaterial() { return material.get(); }
 
 private:
     unsigned int vao = 0, vbo = 0, ebo = 0;
-    unsigned indexCount = 0;
-    unsigned int diffuseTex = 0;
+
+    std::vector<Vertex> verts;
+    std::vector<unsigned int> index;
+    std::shared_ptr<Material> material;
 };
 

@@ -50,7 +50,6 @@ public:
     }
 
     void Update(float dt) { for (auto& c : components) c->Update(dt); }
-    void Render() const { for (auto& c : components) c->Render(); }
 
     std::string getName() const { return name; }
 private:

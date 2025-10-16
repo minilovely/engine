@@ -156,6 +156,7 @@
     <ClInclude Include="Assets\ImporterPMX.h" />
     <ClInclude Include="Assets\model.h" />
     <ClInclude Include="Assets\MeshPrimitives.h" />
+    <ClInclude Include="Render\Material.h" />
     <ClInclude Include="System\LightManager.h" />
     <ClInclude Include="System\CameraSystem.h" />
     <ClInclude Include="Scene\Mesh.h" />

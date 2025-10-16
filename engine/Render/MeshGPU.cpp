@@ -3,8 +3,8 @@
 #include<iostream>
 MeshGPU::MeshGPU(const std::vector<Vertex>& verts,
                     const std::vector<unsigned int>& index,
-                    unsigned int diffuseTex)
-	: indexCount(static_cast<unsigned int>(index.size())), diffuseTex(diffuseTex)
+                    const std::shared_ptr<Material>& material)
+	: verts(verts), index(index), material(material)
 {
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
@@ -34,19 +34,21 @@ MeshGPU::~MeshGPU()
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
 }
-
+//°ó¶¨VAO£¬²ÄÖÊ
 void MeshGPU::Bind() const
 {
     glBindVertexArray(vao);
+    if (material)
+    {
+        material->bind();
+    }
+    else
+    {
+        std::cout << "Material lose!" << std::endl;
+    }
 }
 
 void MeshGPU::Draw() const
 {
-    //std::cout << "[MeshGPU] Drawing mesh with diffuseTex = " << diffuseTex << "\n";
-    if (diffuseTex != 0) 
-    {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, diffuseTex);
-    }
-    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, index.size(), GL_UNSIGNED_INT, nullptr);
 }

@@ -158,6 +158,9 @@
     <ClInclude Include="Assets\MeshPrimitives.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Render\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />

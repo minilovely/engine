@@ -1,17 +1,19 @@
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
-
-struct Vertex {
+#include "../Render/Material.h"
+struct Vertex
+{
     glm::vec3 pos;
     glm::vec3 normal;
     glm::vec2 uv;
 };
 
-struct MeshCPU {
+struct MeshCPU
+{
     std::vector<Vertex> vertices;
     std::vector<unsigned int> indices;
-    unsigned int diffuseTex = 0;
+    std::shared_ptr<Material> material;
 };
 //Model类存放顶点CPU端数据，控制ImporterPMX的输出为完整模型
 class Model 

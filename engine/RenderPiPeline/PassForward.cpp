@@ -71,7 +71,7 @@ void PassForward::Init()
         };
 
         uniform vec3 viewPos;
-        uniform sampler2D diffTex;
+        uniform sampler2D diffTex[2];
         uniform Light lights[8];
         uniform int lightCount;
 
@@ -109,7 +109,7 @@ void PassForward::Init()
 
         void main()
         {
-            vec3 texCol = texture(diffTex, fs_in.vUV).rgb;
+            vec3 texCol = texture(diffTex[0], fs_in.vUV).rgb;
             vec3 wNormal = normalize(fs_in.vNorm);
             vec3 viewDir = normalize(viewPos - fs_in.wVertPos);
             vec3 result = vec3(0.0);
@@ -129,7 +129,7 @@ void PassForward::Init()
             fragColor = vec4(result, 1.0);
         }
     )";
-    shader = std::make_unique<Shader>(vs, fs);
+    shader = std::make_shared<Shader>(vs, fs);
 
 }
 
@@ -147,20 +147,18 @@ void PassForward::Draw(const std::vector<Mesh*>& meshes, const Camera& camera)
     shader->setInt("lightCount", lightManager.getLightCount());
     for (Mesh* mc : meshes)
     {
-        if (!mc) continue;
         Actor* owner = mc->GetOwner();
         auto* trans = owner->GetComponent<Transform>();
-        if (!trans) continue;
 
         glm::mat4 M = trans->getModelMatrix();
         glm::mat4 MVP = P * V * M;
 
         shader->setMat4("MVP", MVP);
         shader->setMat4("M", M);
-        shader->setInt("diffTex", 0);
-
-        mc->Render();
-        //点光源距离衰减如何计算,可通过
+        MeshGPU* gpu_data = mc->getMeshGPU();
+        gpu_data->getMaterial()->setShader(shader);
+        gpu_data->Bind();
+        gpu_data->Draw();
     }
 }
 
