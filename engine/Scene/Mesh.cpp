@@ -8,7 +8,7 @@ Mesh::Mesh(Actor* owner) : Component(owner)
 
 }
 
-void Mesh::SetSingleMesh(const MeshCPU& cpu)
+void Mesh::transCPUToGPU(const MeshCPU& cpu)
 {
     mesh_gpu =  std::make_unique<MeshGPU>(cpu.vertices, cpu.indices, cpu.material);
 }

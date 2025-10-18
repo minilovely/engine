@@ -1,7 +1,6 @@
-#include "Input.h"
+#include "InputSystem.h"
 #include "GLFW/glfw3.h"
 #include <algorithm>
-
 
 bool Input::keysCur[512] = {};
 bool Input::keysPre[512] = {};

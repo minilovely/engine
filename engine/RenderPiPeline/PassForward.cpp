@@ -5,11 +5,12 @@
 #include "../Scene/Light.h"
 #include "../Scene/Actor.h"
 #include "../System/LightManager.h"
+#include "../RenderPiPeline/RenderQueue.h"
 #include <iostream>
 
 void PassForward::Init()
 {
-    std::string json_path = "Assets/Passes_json/pass_forward.json";
+    std::string json_path = "Assets/Passes_json/model.json";
     asset = PassAssets::Load(json_path);
     auto vs_src = PassAssets::ReadText(asset->getVSPath());
     auto fs_src = PassAssets::ReadText(asset->getFSPath());
@@ -17,32 +18,35 @@ void PassForward::Init()
 
 }
 
-void PassForward::Draw(const std::vector<Mesh*>& meshes, const Camera& camera)
+void PassForward::Collect(const Camera& camera, const std::vector<Mesh*>& meshes, RenderQueue& outQueue)
 {
-    shader->use();
-    //Camera数据上传
-    glm::mat4 V = camera.getViewMatrix();
-    glm::mat4 P = camera.getProjectionMatrix();
-    glm::vec3 cameraPos = camera.getPosition();
-    shader->setVec3("viewPos", cameraPos);
-    //光源数据上传
+    const glm::mat4 V = camera.getViewMatrix();
+    const glm::mat4 P = camera.getProjectionMatrix();
+    const glm::vec3 camPos = camera.getPosition();
+
     auto& lightManager = LightManager::Get();
     lightManager.upLoadToShader(shader.get());
     shader->setInt("lightCount", lightManager.getLightCount());
+
     for (Mesh* mc : meshes)
     {
-        Actor* owner = mc->GetOwner();
+        auto* owner = mc->GetOwner();
         auto* trans = owner->GetComponent<Transform>();
+        auto* gpuMesh = mc->getMeshGPU();
+        auto  mat = gpuMesh->getMaterial();
 
-        glm::mat4 M = trans->getModelMatrix();
-        glm::mat4 MVP = P * V * M;
-
-        shader->setMat4("MVP", MVP);
-        shader->setMat4("M", M);
-        MeshGPU* gpu_data = mc->getMeshGPU();
-        gpu_data->getMaterial()->setShader(shader);
-        gpu_data->Bind();
-        gpu_data->Draw();
+        RenderCommand cmd;
+        cmd.mesh = gpuMesh;
+        cmd.modelMatrix = trans->getModelMatrix();
+        cmd.MVP = P * V * cmd.modelMatrix;
+        cmd.M = trans->getModelMatrix();
+        cmd.viewPos = camPos;
+        cmd.material = mat;
+        cmd.shader = shader;
+        cmd.value = mc->getValue();
+        cmd.lightCount = lightManager.getLightCount();
+        cmd.material->setShader(shader);
+        outQueue.Add(cmd);
     }
 }
 

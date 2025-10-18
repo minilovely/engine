@@ -32,7 +32,7 @@ namespace
         for (const auto& mesh : model->meshes)
         {
             auto meshComp = actor->AddComponent<Mesh>();
-            meshComp->SetSingleMesh(mesh);
+            meshComp->transCPUToGPU(mesh);
         }
         return actor;
     }
@@ -47,6 +47,7 @@ namespace
         camComp->setCenter({ 0,3,0 });
         return actor;
     }
+
     std::unique_ptr<Actor> MakeDirectionalLightActor()
     {
         auto actor = std::make_unique<Actor>("DirectionalLight");
@@ -132,24 +133,21 @@ int main()
     /* ---- 模型 ---- */
     auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx");
     auto meshes = modelActor->GetComponents<Mesh>();
-    //平面，现在缺少纹理，无法显示
+    //平面，现在缺少材质，无法显示
     auto planeActor = std::make_unique<Actor>("Plane");
     auto trans = planeActor->AddComponent<Transform>();
     trans->setPosition({ 0, -1, 0 });
     trans->setScale({ 10, 1, 10 });
-    auto meshComp = planeActor->AddComponent<Mesh>();
-    meshComp->SetSingleMesh(MeshPrimitives::makePlane());
-
+    auto mesh_plane = planeActor->AddComponent<Mesh>();
+    mesh_plane->transCPUToGPU(MeshPrimitives::makePlane());
+    //meshes.push_back(mesh_plane);
     /* ---- 光源 ---- */
-    //auto directionalLight = MakeDirectionalLightActor();
     auto pointLight = MakePointLightActor();
-    std::cout << "[Main] Rendering " << meshes.size() << " Mesh components\n";
 
-    /* ---- 渲染管线 ---- */
     RenderPipeline pipeline;//这种申请方式会在栈中申请内存
-    pipeline.AddPass<PassForward>();   // 前向光照 Pass
+    //添加至管线的Pass自动执行Init()方法
+    pipeline.AddPass<PassForward>();
 
-    /* ---- 主循环 ---- */
     while (!window.shouldClose())
     {
         window.PollEvent();
@@ -157,20 +155,12 @@ int main()
 
         RenderDevice::Clear({ 0.2f,0.3f,0.3f });
         RenderDevice::SetDepthTest(true);
+        //这个mesh目前为空
+        std::vector<Mesh*> allMeshes;
 
-        // 把 mesh 扔给管线，用 mainCam 绘制
         pipeline.Render(meshes, *mainCam);
 
         window.SwapBuffers();
     }
     return 0;
 }
-
-
-/*
-    目前来说，项目的大概的地基已经完成，但是这块地基还存在着一些问题。
-    首当其冲的是关于Passforward这给类的处理，现在它负责的是单个物体的shader编写和UBO的绑定，
-    但是当场景中是多物体的渲染的时候，这个类的名字和它的作用就严重的不匹配了，需要重构。
-*/
-
-//diffuseTex涉及到的部分没有全部改完

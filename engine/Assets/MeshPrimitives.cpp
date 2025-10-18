@@ -1,4 +1,5 @@
 #include "MeshPrimitives.h"
+#include "../Render/Texture2D.h"
 
 MeshCPU MeshPrimitives::makePlane(float width, float height)
 {
@@ -14,5 +15,7 @@ MeshCPU MeshPrimitives::makePlane(float width, float height)
 		{{-w, 0,  h}, {0, 1, 0}, {0, 1}}
 	};
 	mesh.indices = { 0, 1, 2, 2, 3, 0 };
-	return MeshCPU();
+	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);//默认颜色为白色
+	mesh.material->addTexture(std::make_shared<Texture2D>(color));
+	return mesh;
 }

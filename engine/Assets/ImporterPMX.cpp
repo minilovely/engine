@@ -1,7 +1,7 @@
-//在CPU端将模型数据提取，返回一个模型指针
 #include "ImporterPMX.h"
 #include "../Render/Texture2D.h"
 #include "../Render/Material.h"
+#include "../Assets/MaterialAssets.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -26,8 +26,6 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
     model->meshes.reserve(scene->mNumMeshes);
     auto materials = std::vector<std::shared_ptr<Material>>();//收集所有mesh的材质
     materials.reserve(scene->mNumMaterials);
-    //存储所有纹理的路径
-    static std::unordered_map<std::string, std::shared_ptr<Texture2D>> textureCache;
     //加载所有材质纹理
     for (unsigned int m = 0; m < scene->mNumMaterials; ++m)
     {
@@ -40,18 +38,10 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
             std::string modelFolder = filePath.substr(0, filePath.find_last_of("/\\") + 1);
             std::string fullPath = modelFolder + texPath.C_Str();
             //对是否已有纹理路径检查
-            auto it = textureCache.find(fullPath);
-            if (it != textureCache.end())
+            auto tex = MaterialAssets::getTexture(fullPath);
+            if (tex)
             {
-                material->addTexture(it->second);
-                std::cout << "[Cache] Reusing texture: " << fullPath << std::endl;
-            }
-            else
-            {
-                auto tex = std::make_shared<Texture2D>(fullPath);
-                textureCache[fullPath] = tex;
                 material->addTexture(tex);
-                std::cout << "[Load] New texture: " << fullPath << std::endl;
             }
             materials.push_back(material);
             //std::cout << fullPath << std::endl;

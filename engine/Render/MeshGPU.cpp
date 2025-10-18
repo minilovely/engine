@@ -40,7 +40,7 @@ void MeshGPU::Bind() const
     glBindVertexArray(vao);
     if (material)
     {
-        material->bind();
+        material->bindTextures();
     }
     else
     {

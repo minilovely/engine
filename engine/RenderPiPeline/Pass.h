@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "../Core/math.h"
-
+#include "RenderQueue.h"
 class Camera;
 class Mesh;
 
@@ -11,8 +11,8 @@ public:
 	Pass() {};
 	virtual ~Pass() = default;
 	virtual void Init() = 0;
-
-	virtual void Draw(const std::vector<Mesh*>& meshes, const Camera& camera) = 0;
+	virtual void Collect(const Camera& cam,
+		const std::vector<Mesh*>& meshes,RenderQueue& outQueue) = 0;
 private:
 
 };

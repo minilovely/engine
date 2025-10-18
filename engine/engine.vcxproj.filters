@@ -42,7 +42,7 @@
     <ClCompile Include="source.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="System\Input.cpp">
+    <ClCompile Include="System\InputSystem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="System\Window.cpp">
@@ -90,6 +90,12 @@
     <ClCompile Include="Assets\PassAssets.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Assets\MaterialAssets.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPiPeline\RenderQueue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -98,7 +104,7 @@
     <ClInclude Include="Core\math.h">
       <Filter>头文件\Core</Filter>
     </ClInclude>
-    <ClInclude Include="System\Input.h">
+    <ClInclude Include="System\InputSystem.h">
       <Filter>头文件\System</Filter>
     </ClInclude>
     <ClInclude Include="System\Window.h">
@@ -167,11 +173,14 @@
     <ClInclude Include="Assets\PassAssets.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Assets\MaterialAssets.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />
     <None Include="packages.config" />
-    <None Include="Assets\Passes_json\pass_forward.json" />
+    <None Include="Assets\Passes_json\model.json" />
     <None Include="Assets\Shaders\model.vert" />
     <None Include="Assets\Shaders\model.frag" />
   </ItemGroup>

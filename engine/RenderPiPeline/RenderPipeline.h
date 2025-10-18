@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 #include "Pass.h"
-//#include "../Assets/PassAssets.h"
+#include "../RenderPiPeline/RenderQueue.h"
 
 class RenderPipeline
 {
@@ -15,13 +15,16 @@ public:
         passes.push_back(std::move(pass));
     }
 
-    // 直接传“可见网格列表”+相机
-    void Render(const std::vector<Mesh*>& meshes,
-        const Camera& cam)
+    void Render(const std::vector<Mesh*>& meshes, const Camera& cam)
     {
-        for (auto& p : passes) p->Draw(meshes, cam);
+        queue.Clear();
+        for (auto& pass : passes)
+            pass->Collect(cam, meshes, queue);
+        queue.Sort();
+        queue.Draw();
     }
 
 private:
     std::vector<std::unique_ptr<Pass>> passes;
+    RenderQueue queue;
 };

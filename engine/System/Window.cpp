@@ -2,7 +2,7 @@
 #include "GLFW/glfw3.h"
 #include <iostream>
 #include "Window.h"
-#include "Input.h"
+#include "InputSystem.h"
 #include "CameraSystem.h"
 
 

@@ -7,10 +7,8 @@
 class Material
 {
 public:
-	std::shared_ptr<Shader> shader;
-	std::vector<std::shared_ptr<Texture2D>> textures;
 
-	void bind() const
+	void bindTextures()
 	{
 		if (!shader)
 		{
@@ -28,5 +26,6 @@ public:
 	void setShader(std::shared_ptr<Shader> s) { shader = s; }
 	void addTexture(std::shared_ptr<Texture2D> t) { textures.push_back(t); }
 private:
-
+	std::shared_ptr<Shader> shader;
+	std::vector<std::shared_ptr<Texture2D>> textures;
 };

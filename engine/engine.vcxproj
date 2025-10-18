@@ -134,6 +134,8 @@
     <ClCompile Include="Assets\ImporterPMX.cpp" />
     <ClCompile Include="Assets\MeshPrimitives.cpp" />
     <ClCompile Include="Assets\PassAssets.cpp" />
+    <ClCompile Include="Assets\MaterialAssets.cpp" />
+    <ClCompile Include="RenderPiPeline\RenderQueue.cpp" />
     <ClCompile Include="System\LightManager.cpp" />
     <ClCompile Include="System\CameraSystem.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
@@ -144,7 +146,7 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="Render\RenderDevice.cpp" />
     <ClCompile Include="Render\Shader.cpp" />
-    <ClCompile Include="System\Input.cpp" />
+    <ClCompile Include="System\InputSystem.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="source.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -158,6 +160,7 @@
     <ClInclude Include="Assets\model.h" />
     <ClInclude Include="Assets\MeshPrimitives.h" />
     <ClInclude Include="Assets\PassAssets.h" />
+    <ClInclude Include="Assets\MaterialAssets.h" />
     <ClInclude Include="Render\Material.h" />
     <ClInclude Include="System\LightManager.h" />
     <ClInclude Include="System\CameraSystem.h" />
@@ -175,14 +178,14 @@
     <ClInclude Include="Render\Shader.h" />
     <ClInclude Include="Scene\Actor.h" />
     <ClInclude Include="Scene\Component.h" />
-    <ClInclude Include="System\Input.h" />
+    <ClInclude Include="System\InputSystem.h" />
     <ClInclude Include="System\Window.h" />
     <ClInclude Include="Scene\Transform.h" />
     <ClInclude Include="Render\Texture2D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\model.frag" />
-    <None Include="Assets\Passes_json\pass_forward.json" />
+    <None Include="Assets\Passes_json\model.json" />
     <None Include="Assets\Shaders\model.vert" />
     <None Include="assimp-vc143-mtd.dll">
       <DeploymentContent>true</DeploymentContent>
