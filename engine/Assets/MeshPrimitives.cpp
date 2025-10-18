@@ -16,6 +16,8 @@ MeshCPU MeshPrimitives::makePlane(float width, float height)
 	};
 	mesh.indices = { 0, 1, 2, 2, 3, 0 };
 	glm::vec3 color = glm::vec3(1.0f, 1.0f, 1.0f);//默认颜色为白色
+
+	mesh.material = std::make_shared<Material>();
 	mesh.material->addTexture(std::make_shared<Texture2D>(color));
 	return mesh;
 }

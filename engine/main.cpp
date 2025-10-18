@@ -140,7 +140,7 @@ int main()
     trans->setScale({ 10, 1, 10 });
     auto mesh_plane = planeActor->AddComponent<Mesh>();
     mesh_plane->transCPUToGPU(MeshPrimitives::makePlane());
-    //meshes.push_back(mesh_plane);
+    meshes.push_back(mesh_plane);
     /* ---- นโิด ---- */
     auto pointLight = MakePointLightActor();
 
