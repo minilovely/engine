@@ -3,6 +3,7 @@
 #include <vector>
 #include "Component.h"
 #include "../Render/MeshGPU.h"
+#include "../RenderPiPeline/Pass.h"
 
 struct MeshCPU;
 class MeshGPU;
@@ -16,10 +17,13 @@ public:
     
     MeshGPU* getMeshGPU() const { return mesh_gpu.get(); }
     int getValue() const { return value; }
-
     void setValue(int v) { value = v; }
+
+    void addPass(std::shared_ptr<Pass> p) { passes.push_back(std::move(p)); }
+    const auto& getPasses() const { return passes; }
 private:
     std::unique_ptr<MeshGPU> mesh_gpu;
+    std::vector<std::shared_ptr<Pass>> passes;
     int value = 2000;
 };
 

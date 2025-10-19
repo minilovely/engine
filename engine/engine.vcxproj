@@ -182,11 +182,17 @@
     <ClInclude Include="System\Window.h" />
     <ClInclude Include="Scene\Transform.h" />
     <ClInclude Include="Render\Texture2D.h" />
+    <ClInclude Include="Utils.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\model.frag" />
+    <None Include="Assets\Passes_json\plane.json" />
+    <None Include="Assets\Shaders\model\model.frag" />
     <None Include="Assets\Passes_json\model.json" />
-    <None Include="Assets\Shaders\model.vert" />
+    <None Include="Assets\Shaders\model\model.vert" />
+    <None Include="Assets\Shaders\plane\plane.frag" />
+    <None Include="Assets\Shaders\plane\plane.vert" />
     <None Include="assimp-vc143-mtd.dll">
       <DeploymentContent>true</DeploymentContent>
     </None>

@@ -11,8 +11,7 @@ public:
 	Pass() {};
 	virtual ~Pass() = default;
 	virtual void Init() = 0;
-	virtual void Collect(const Camera& cam,
-		const std::vector<Mesh*>& meshes,RenderQueue& outQueue) = 0;
+	virtual void Collect(const Camera& cam,Mesh* mesh,RenderQueue& outQueue) = 0;
 private:
 
 };

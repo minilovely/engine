@@ -61,7 +61,7 @@ void LightManager::upLoadToShader(Shader* shader)
 	//updateTransform();
 	size_t lightCount = std::min(lights_active.size(), size_t(MAX_LIGHT)); // 限制最大光源数
 
-	shader->setInt("lightCount", static_cast<int>(lightCount));
+	shader->setInt("lightCount", lightCount);
 
 	for (size_t i = 0; i < lights_active.size(); i++)
 	{

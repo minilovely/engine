@@ -11,7 +11,7 @@ public:
 	void bind(unsigned int slot);
 
 	unsigned int getHandle() const { return id; }
-
+	glm::vec3 getColor() const { return color; }
 private:
 	unsigned int id = 0;
 	unsigned char* data;

@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-Texture2D::Texture2D(glm::vec3 col)
+Texture2D::Texture2D(glm::vec3 col):color(col)
 {
     glGenTextures(1, &id);
     glBindTexture(GL_TEXTURE_2D, id);

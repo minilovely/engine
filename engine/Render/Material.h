@@ -24,7 +24,9 @@ public:
 	}
 
 	void setShader(std::shared_ptr<Shader> s) { shader = s; }
+	const auto& getShader() const { return shader; }
 	void addTexture(std::shared_ptr<Texture2D> t) { textures.push_back(t); }
+	glm::vec3 getTexColor() const { return textures[0]->getColor(); }
 private:
 	std::shared_ptr<Shader> shader;
 	std::vector<std::shared_ptr<Texture2D>> textures;

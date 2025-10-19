@@ -6,15 +6,18 @@
 struct RenderCommand
 {
     MeshGPU*  mesh;
-    glm::mat4                 modelMatrix;
     Material*                 material;
-    std::shared_ptr<Shader>   shader;
     int                       value = 2000;         //渲染队列的值
 
     glm::mat4                 MVP;
     glm::mat4                 M;
     glm::vec3                 viewPos;
     int                       lightCount = 0;       // 可扩展任意 uniform
+
+    enum class PassType
+    {
+        Forward, Shadow
+    }PassType = PassType::Forward;
 };
 
 class RenderQueue

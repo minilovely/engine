@@ -15,9 +15,10 @@ uniform mat4 M;
 
 void main()
 {
-	vs_out.vNorm = mat3(transpose(inverse(M))) * normal;//变换法线至world space
+	vs_out.vNorm = mat3(transpose(inverse(M))) * normal;
 	vs_out.vUV   = uv;
+	vs_out.wVertPos = mat3(M) * pos;
+
 	gl_Position = MVP * vec4(pos,1.0);
 
-	vs_out.wVertPos = mat3(M) * pos;
 }

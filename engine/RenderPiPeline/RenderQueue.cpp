@@ -1,4 +1,6 @@
 #include "RenderQueue.h"
+#include "../System/LightManager.h"
+
 #include <algorithm>
 
 
@@ -20,11 +22,16 @@ void RenderQueue::Sort()
 
 void RenderQueue::Draw() const
 {
+    auto& lightManager = LightManager::Get();
     for (const auto& cmd : cmds) {
-        cmd.shader->setMat4("MVP", cmd.MVP);
-        cmd.shader->setMat4("M", cmd.modelMatrix);
-        cmd.shader->setVec3("viewPos", cmd.viewPos);
         cmd.material->bindTextures();
+        auto shader = cmd.material->getShader();
+        shader->use();
+        lightManager.upLoadToShader(shader.get());
+        shader->setMat4("MVP", cmd.MVP);
+        shader->setMat4("M", cmd.M);
+        shader->setVec3("viewPos", cmd.viewPos);
+        shader->setVec3("color", cmd.material->getTexColor());
         cmd.mesh->Bind();
         cmd.mesh->Draw();
     }

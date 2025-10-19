@@ -1,0 +1,8 @@
+{
+  "name": "Plane",
+  "vs": "Assets/Shaders/plane/plane.vert",
+  "fs": "Assets/Shaders/plane/plane.frag",
+  "depthWrite": true,
+  "colorWrite": true,
+  "cullMode": "Back"
+}

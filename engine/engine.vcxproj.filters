@@ -176,12 +176,18 @@
     <ClInclude Include="Assets\MaterialAssets.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />
     <None Include="packages.config" />
     <None Include="Assets\Passes_json\model.json" />
-    <None Include="Assets\Shaders\model.vert" />
-    <None Include="Assets\Shaders\model.frag" />
+    <None Include="Assets\Shaders\model\model.vert" />
+    <None Include="Assets\Shaders\model\model.frag" />
+    <None Include="Assets\Passes_json\plane.json" />
+    <None Include="Assets\Shaders\plane\plane.vert" />
+    <None Include="Assets\Shaders\plane\plane.frag" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #include <memory>
 #include "Pass.h"
 #include "../RenderPiPeline/RenderQueue.h"
+#include "../Scene/Mesh.h"
 
 class RenderPipeline
 {
@@ -12,19 +13,22 @@ public:
     {
         auto pass = std::make_unique<T>();
         pass->Init();
-        passes.push_back(std::move(pass));
     }
 
     void Render(const std::vector<Mesh*>& meshes, const Camera& cam)
     {
         queue.Clear();
-        for (auto& pass : passes)
-            pass->Collect(cam, meshes, queue);
+        for (Mesh* mc : meshes)
+        {
+            for (auto& pass : mc->getPasses())
+            {
+                pass->Collect(cam, mc, queue);
+            }
+        }
         queue.Sort();
         queue.Draw();
     }
 
 private:
-    std::vector<std::unique_ptr<Pass>> passes;
     RenderQueue queue;
 };

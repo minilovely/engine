@@ -20,11 +20,11 @@
 namespace 
 {   
     // 匿名命名空间，内部链接
-    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath)
+    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name)
     {
         auto model = ImporterPMX::Load(filePath);
 
-        auto actor = std::make_unique<Actor>("Model");
+        auto actor = std::make_unique<Actor>(name);
         auto trans = actor->AddComponent<Transform>();
         trans->setPosition({ 0, 0, 0 });
         trans->setScale({ 0.5f, 0.5f, 0.5f });
@@ -37,9 +37,9 @@ namespace
         return actor;
     }
 
-    std::unique_ptr<Actor> MakeCameraActor()
+    std::unique_ptr<Actor> MakeCameraActor(std::string name)
     {
-        auto actor = std::make_unique<Actor>("MainCamera");
+        auto actor = std::make_unique<Actor>(name);
         auto transComp = actor->AddComponent<Transform>();
         transComp->setPosition({ 0, 0, 6 });
 
@@ -48,9 +48,9 @@ namespace
         return actor;
     }
 
-    std::unique_ptr<Actor> MakeDirectionalLightActor()
+    std::unique_ptr<Actor> MakeDirectionalLightActor(std::string name)
     {
-        auto actor = std::make_unique<Actor>("DirectionalLight");
+        auto actor = std::make_unique<Actor>(name);
         auto trans = actor->AddComponent<Transform>();
         auto light = actor->AddComponent<Light>();
 
@@ -62,9 +62,9 @@ namespace
         return actor;
     }
 
-    std::unique_ptr<Actor> MakePointLightActor()
+    std::unique_ptr<Actor> MakePointLightActor(std::string name)
     {
-        auto actor = std::make_unique<Actor>("PointLight");
+        auto actor = std::make_unique<Actor>(name);
         auto trans = actor->AddComponent<Transform>();
         auto light = actor->AddComponent<Light>();
 
@@ -75,6 +75,29 @@ namespace
 
         return actor;
     }
+
+    std::unique_ptr<Actor> MakePlaneActor(std::string name)
+    {
+        auto planeActor = std::make_unique<Actor>(name);
+        auto trans = planeActor->AddComponent<Transform>();
+        trans->setPosition({ 0, 0, 0 });
+        trans->setScale({ 10, 1, 10 });//注意：Y轴数据不起作用
+        auto mesh_plane = planeActor->AddComponent<Mesh>();
+        MeshPrimitives primitive;
+        primitive.setColor(glm::vec3(0.6f, 0.6f, 0.6f));
+        mesh_plane->transCPUToGPU(primitive.makePlane());
+        return planeActor;
+    }
+
+    auto loadShader = [](const std::string& jsonPath)
+    {
+        auto asset = PassAssets::Load(jsonPath);
+        return std::make_shared<Shader>(
+            PassAssets::ReadText(asset->getVSPath()),
+            PassAssets::ReadText(asset->getFSPath())
+        );
+    };
+
 }
 
 
@@ -123,30 +146,42 @@ Light
 
 int main()
 {
-    /* ---- 窗口 ---- */
+    //窗口
     Window window(1280, 720, "Model Viewer");
 
-    /* ---- 相机 ---- */
-    auto cameraActor = MakeCameraActor();
+    //相机
+    auto cameraActor = MakeCameraActor("camera");
     Camera* mainCam = cameraActor->GetComponent<Camera>();
 
-    /* ---- 模型 ---- */
-    auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx");
-    auto meshes = modelActor->GetComponents<Mesh>();
-    //平面，现在缺少材质，无法显示
-    auto planeActor = std::make_unique<Actor>("Plane");
-    auto trans = planeActor->AddComponent<Transform>();
-    trans->setPosition({ 0, -1, 0 });
-    trans->setScale({ 10, 1, 10 });
-    auto mesh_plane = planeActor->AddComponent<Mesh>();
-    mesh_plane->transCPUToGPU(MeshPrimitives::makePlane());
-    meshes.push_back(mesh_plane);
-    /* ---- 光源 ---- */
-    auto pointLight = MakePointLightActor();
+    std::vector<Mesh*> allMeshes;
+
+    //模型
+    auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx","model");
+    auto model_meshes = modelActor->GetComponents<Mesh>();
+    std::shared_ptr<Shader> modelShader = loadShader("Assets/Passes_json/model.json");
+    auto forwardPass = std::make_shared<PassForward>();
+    for (Mesh* m : model_meshes)
+    {
+        m->getMeshGPU()->getMaterial()->setShader(modelShader);
+        m->addPass(forwardPass);
+    }
+    allMeshes.insert(allMeshes.begin(), model_meshes.begin(), model_meshes.end());
+    //平面
+    auto planeActor = MakePlaneActor("plane");
+    auto plane_mesh = planeActor->GetComponent<Mesh>();
+    std::shared_ptr<Shader> planeShader = loadShader("Assets/Passes_json/plane.json");
+    plane_mesh->getMeshGPU()->getMaterial()->setShader(planeShader);
+    plane_mesh->addPass(forwardPass);
+    allMeshes.push_back(plane_mesh);
+
+    //光源
+    auto pointLight = MakePointLightActor("pointLight");
 
     RenderPipeline pipeline;//这种申请方式会在栈中申请内存
-    //添加至管线的Pass自动执行Init()方法
-    pipeline.AddPass<PassForward>();
+
+    pipeline.AddPass<PassForward>();//所有加入pipeline的Pass目前设定执行Init()
+
+    //这个mesh目前为空
 
     while (!window.shouldClose())
     {
@@ -155,10 +190,8 @@ int main()
 
         RenderDevice::Clear({ 0.2f,0.3f,0.3f });
         RenderDevice::SetDepthTest(true);
-        //这个mesh目前为空
-        std::vector<Mesh*> allMeshes;
 
-        pipeline.Render(meshes, *mainCam);
+        pipeline.Render(allMeshes, *mainCam);
 
         window.SwapBuffers();
     }
