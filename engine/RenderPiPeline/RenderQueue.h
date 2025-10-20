@@ -14,6 +14,9 @@ struct RenderCommand
     glm::vec3                 viewPos;
     int                       lightCount = 0;       // 可扩展任意 uniform
 
+    bool                      depthWrite = true;
+    bool                      colorWrite = true;
+
     enum class PassType
     {
         Forward, Shadow

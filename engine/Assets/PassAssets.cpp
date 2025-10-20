@@ -1,4 +1,5 @@
 #include "PassAssets.h"
+#include "../Render/RenderDevice.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -6,7 +7,7 @@
 
 using json = nlohmann::json;
 
-std::shared_ptr<PassAssets> PassAssets::Load(const std::string& jsonpath)
+void PassAssets::Load(const std::string& jsonpath)
 {
 	auto asset = std::make_shared<PassAssets>();
 	std::ifstream i(jsonpath);
@@ -17,14 +18,14 @@ std::shared_ptr<PassAssets> PassAssets::Load(const std::string& jsonpath)
 	json j;
 	i >> j;// " << "操作符已被弃用
 
-	asset->name = j.value("name", "Unamed");
-	asset->vsPath = j.value("vs", "");
-	asset->fsPath = j.value("fs", "");
-	asset->depthWrite = j.value("depthWrite", true);
-	asset->colorWrite = j.value("colorWrite", true);
-	asset->cullMode = j.value("cullMode", "Back");
+	name = j.value("name", "Unamed");
+	vsPath = j.value("vs", "");
+	fsPath = j.value("fs", "");
+	shader = std::make_shared<Shader>(asset->ReadText(vsPath), asset->ReadText(fsPath));
+	depthWrite = j.value("depthWrite", true);
+	colorWrite = j.value("colorWrite", true);
+	cullMode = j.value("cullMode", "Back");
 
-	return asset;
 }
 std::string PassAssets::ReadText(const std::string& path)
 {
@@ -36,4 +37,19 @@ std::string PassAssets::ReadText(const std::string& path)
 	std::ostringstream o;
 	o << i.rdbuf();
 	return o.str();
+}
+
+std::shared_ptr<Shader> PassAssets::getShader()
+{
+	return shader;
+}
+
+void PassAssets::setDepthWrite()
+{
+	RenderDevice::SetDepthWrite(depthWrite);
+}
+
+void PassAssets::setColorWrite()
+{
+	RenderDevice::SetColorWrite(colorWrite);
 }

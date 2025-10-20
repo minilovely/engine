@@ -20,7 +20,7 @@
 namespace 
 {   
     // 匿名命名空间，内部链接
-    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name)
+    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name, std::shared_ptr<PassAssets> asset)
     {
         auto model = ImporterPMX::Load(filePath);
 
@@ -33,6 +33,8 @@ namespace
         {
             auto meshComp = actor->AddComponent<Mesh>();
             meshComp->transCPUToGPU(mesh);
+            meshComp->setDepthWrite(asset->getDepthWrite());
+            meshComp->setColorWrite(asset->getColorWrite());
         }
         return actor;
     }
@@ -76,27 +78,21 @@ namespace
         return actor;
     }
 
-    std::unique_ptr<Actor> MakePlaneActor(std::string name)
+    std::unique_ptr<Actor> MakePlaneActor(std::string name, std::shared_ptr<PassAssets> asset)
     {
         auto planeActor = std::make_unique<Actor>(name);
         auto trans = planeActor->AddComponent<Transform>();
         trans->setPosition({ 0, 0, 0 });
-        trans->setScale({ 10, 1, 10 });//注意：Y轴数据不起作用
+        trans->setScale({ 10, 2, 10 });//注意：Y轴数据不起作用
         auto mesh_plane = planeActor->AddComponent<Mesh>();
         MeshPrimitives primitive;
         primitive.setColor(glm::vec3(0.6f, 0.6f, 0.6f));
         mesh_plane->transCPUToGPU(primitive.makePlane());
+        mesh_plane->setDepthWrite(asset->getDepthWrite());
+        mesh_plane->setColorWrite(asset->getColorWrite());
+
         return planeActor;
     }
-
-    auto loadShader = [](const std::string& jsonPath)
-    {
-        auto asset = PassAssets::Load(jsonPath);
-        return std::make_shared<Shader>(
-            PassAssets::ReadText(asset->getVSPath()),
-            PassAssets::ReadText(asset->getFSPath())
-        );
-    };
 
 }
 
@@ -156,9 +152,12 @@ int main()
     std::vector<Mesh*> allMeshes;
 
     //模型
-    auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx","model");
+    std::shared_ptr<PassAssets> model_asset = std::make_shared<PassAssets>();
+    model_asset->Load("Assets/Passes_json/model.json");
+    auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx",
+        "model", model_asset);
     auto model_meshes = modelActor->GetComponents<Mesh>();
-    std::shared_ptr<Shader> modelShader = loadShader("Assets/Passes_json/model.json");
+    std::shared_ptr<Shader> modelShader = model_asset->getShader();
     auto forwardPass = std::make_shared<PassForward>();
     for (Mesh* m : model_meshes)
     {
@@ -167,11 +166,14 @@ int main()
     }
     allMeshes.insert(allMeshes.begin(), model_meshes.begin(), model_meshes.end());
     //平面
-    auto planeActor = MakePlaneActor("plane");
+    std::shared_ptr<PassAssets> plane_asset = std::make_shared<PassAssets>();
+    plane_asset->Load("Assets/Passes_json/plane.json");
+    auto planeActor = MakePlaneActor("plane", plane_asset);
     auto plane_mesh = planeActor->GetComponent<Mesh>();
-    std::shared_ptr<Shader> planeShader = loadShader("Assets/Passes_json/plane.json");
+    std::shared_ptr<Shader> planeShader = plane_asset->getShader();
     plane_mesh->getMeshGPU()->getMaterial()->setShader(planeShader);
     plane_mesh->addPass(forwardPass);
+
     allMeshes.push_back(plane_mesh);
 
     //光源

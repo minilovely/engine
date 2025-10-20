@@ -2,24 +2,33 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include "../Render/Shader.h"
+
 
 //¶ÁÈ¡jsonÎÄ¼þ
 class PassAssets
 {
 public:
 	PassAssets() = default;
-	static std::shared_ptr<PassAssets> Load(const std::string& jsonPath);
-	static std::string ReadText(const std::string& path);
+	void Load(const std::string& jsonPath);
+	std::string ReadText(const std::string& path);
+	std::shared_ptr<Shader> getShader();
 
 	std::string getVSPath() { return vsPath; }
 	std::string getFSPath() { return fsPath; }
 
+	void setDepthWrite();
+	bool getDepthWrite() const { return depthWrite; }
+	void setColorWrite();
+	bool getColorWrite() const { return colorWrite; }
 private:
 
 	std::string name;
 	std::string vsPath;
 	std::string fsPath;
+	std::shared_ptr<Shader> shader;
 	bool depthWrite = true;
 	bool colorWrite = true;
 	std::string cullMode = "Back";
+
 };

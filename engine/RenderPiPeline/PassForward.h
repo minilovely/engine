@@ -12,7 +12,7 @@ public:
 	void Init() override;
 	void Collect(const Camera& camera, Mesh* mesh,RenderQueue& outQueue) override;
 private:
-	std::shared_ptr<PassAssets> asset;
+
 };
 
 

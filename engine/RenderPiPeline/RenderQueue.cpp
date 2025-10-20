@@ -2,6 +2,7 @@
 #include "../System/LightManager.h"
 
 #include <algorithm>
+#include "../Render/RenderDevice.h"
 
 
 void RenderQueue::Clear()
@@ -33,6 +34,8 @@ void RenderQueue::Draw() const
         shader->setVec3("viewPos", cmd.viewPos);
         shader->setVec3("color", cmd.material->getTexColor());
         cmd.mesh->Bind();
+        RenderDevice::SetDepthWrite(cmd.depthWrite);
+        RenderDevice::SetColorWrite(cmd.colorWrite);
         cmd.mesh->Draw();
     }
 }
