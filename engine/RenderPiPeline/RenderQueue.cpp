@@ -36,6 +36,7 @@ void RenderQueue::Draw() const
         cmd.mesh->Bind();
         RenderDevice::SetDepthWrite(cmd.depthWrite);
         RenderDevice::SetColorWrite(cmd.colorWrite);
+        RenderDevice::SetCullMode(cmd.cullMode);
         cmd.mesh->Draw();
     }
 }

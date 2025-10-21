@@ -35,6 +35,7 @@ namespace
             meshComp->transCPUToGPU(mesh);
             meshComp->setDepthWrite(asset->getDepthWrite());
             meshComp->setColorWrite(asset->getColorWrite());
+            meshComp->setCullMode(asset->getCullMode());
         }
         return actor;
     }
@@ -43,7 +44,7 @@ namespace
     {
         auto actor = std::make_unique<Actor>(name);
         auto transComp = actor->AddComponent<Transform>();
-        transComp->setPosition({ 0, 0, 6 });
+        transComp->setPosition({ 0, 5, 6 });
 
         auto camComp = actor->AddComponent<Camera>();
         camComp->setCenter({ 0,3,0 });
@@ -90,7 +91,7 @@ namespace
         mesh_plane->transCPUToGPU(primitive.makePlane());
         mesh_plane->setDepthWrite(asset->getDepthWrite());
         mesh_plane->setColorWrite(asset->getColorWrite());
-
+        mesh_plane->setCullMode(asset->getCullMode());
         return planeActor;
     }
 
@@ -163,6 +164,7 @@ int main()
     {
         m->getMeshGPU()->getMaterial()->setShader(modelShader);
         m->addPass(forwardPass);
+        m->setValue(1500);
     }
     allMeshes.insert(allMeshes.begin(), model_meshes.begin(), model_meshes.end());
     //平面
@@ -173,7 +175,7 @@ int main()
     std::shared_ptr<Shader> planeShader = plane_asset->getShader();
     plane_mesh->getMeshGPU()->getMaterial()->setShader(planeShader);
     plane_mesh->addPass(forwardPass);
-
+    plane_mesh->setValue(2000);
     allMeshes.push_back(plane_mesh);
 
     //光源
@@ -192,6 +194,7 @@ int main()
 
         RenderDevice::Clear({ 0.2f,0.3f,0.3f });
         RenderDevice::SetDepthTest(true);
+        RenderDevice::SetCullEnabled(true);
 
         pipeline.Render(allMeshes, *mainCam);
 

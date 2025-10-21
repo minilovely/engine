@@ -32,5 +32,6 @@ void PassForward::Collect(const Camera& camera,Mesh* mesh, RenderQueue& outQueue
     cmd.PassType = RenderCommand::PassType::Forward;
     cmd.depthWrite = mesh->getDepthWrite();
     cmd.colorWrite = mesh->getColorWrite();
+    cmd.cullMode = mesh->getCullMode();
     outQueue.Add(cmd);
 }

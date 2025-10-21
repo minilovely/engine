@@ -14,7 +14,7 @@ MeshCPU MeshPrimitives::makePlane(float width, float height)
 		{{ w, 0,  h}, {0, 1, 0}, {1, 1}},
 		{{-w, 0,  h}, {0, 1, 0}, {0, 1}}
 	};
-	mesh.indices = { 0, 1, 2, 2, 3, 0 };
+	mesh.indices = { 0, 2, 1, 2, 0, 3 };
 
 	mesh.material = std::make_shared<Material>();
 	mesh.material->addTexture(std::make_shared<Texture2D>(color));

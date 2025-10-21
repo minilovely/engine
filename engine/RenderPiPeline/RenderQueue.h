@@ -16,6 +16,7 @@ struct RenderCommand
 
     bool                      depthWrite = true;
     bool                      colorWrite = true;
+    std::string               cullMode = "Back";
 
     enum class PassType
     {

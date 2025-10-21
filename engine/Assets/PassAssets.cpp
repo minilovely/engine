@@ -9,7 +9,6 @@ using json = nlohmann::json;
 
 void PassAssets::Load(const std::string& jsonpath)
 {
-	auto asset = std::make_shared<PassAssets>();
 	std::ifstream i(jsonpath);
 	if (!i)
 	{
@@ -21,7 +20,7 @@ void PassAssets::Load(const std::string& jsonpath)
 	name = j.value("name", "Unamed");
 	vsPath = j.value("vs", "");
 	fsPath = j.value("fs", "");
-	shader = std::make_shared<Shader>(asset->ReadText(vsPath), asset->ReadText(fsPath));
+	shader = std::make_shared<Shader>(ReadText(vsPath),ReadText(fsPath));
 	depthWrite = j.value("depthWrite", true);
 	colorWrite = j.value("colorWrite", true);
 	cullMode = j.value("cullMode", "Back");

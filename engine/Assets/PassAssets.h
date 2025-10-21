@@ -21,8 +21,9 @@ public:
 	bool getDepthWrite() const { return depthWrite; }
 	void setColorWrite();
 	bool getColorWrite() const { return colorWrite; }
+	void setCullMode(std::string mode) { cullMode = mode; }
+	std::string getCullMode() const { return cullMode; }
 private:
-
 	std::string name;
 	std::string vsPath;
 	std::string fsPath;

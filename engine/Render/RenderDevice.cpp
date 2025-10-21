@@ -1,6 +1,9 @@
 #include "RenderDevice.h"
 #include "glad.h"
 
+#include <string>
+#include <iostream>
+
 void RenderDevice::SetViewport(int x, int y, int w, int h)
 {
 	glViewport(x, y, w, h);
@@ -26,4 +29,28 @@ void RenderDevice::SetColorWrite(bool enable)
 {
 	enable ? glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE)
 		: glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+}
+
+void RenderDevice::SetCullMode(std::string mode)
+{
+	if (mode == "Back")
+	{
+		glCullFace(GL_BACK);
+		return;
+	}
+	if (mode == "Front")
+	{
+		glCullFace(GL_FRONT);
+		return;
+	}
+	if (mode == "Front_and_Back")
+	{
+		glCullFace(GL_FRONT_AND_BACK);
+		return;
+	}
+}
+
+void RenderDevice::SetCullEnabled(bool on)
+{
+	on ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
 }
