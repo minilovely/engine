@@ -5,20 +5,6 @@
 
 #include <string>
 #include <iostream>
-//Light::Light(Actor* owner,LightType type,
-//				glm::vec3 color,float intensity)
-//	
-//{
-//	switch (type)
-//	{
-//	case LightType::Diractional:
-//		direction = glm::vec3(0, 1, 0);
-//		break;
-//	case LightType::Point:
-//		range = 10.0f;
-//		break;
-//	}
-//}
 
 Light::~Light()
 {

@@ -135,6 +135,7 @@
     <ClCompile Include="Assets\MeshPrimitives.cpp" />
     <ClCompile Include="Assets\PassAssets.cpp" />
     <ClCompile Include="Assets\MaterialAssets.cpp" />
+    <ClCompile Include="Core\MeshRegistry.cpp" />
     <ClCompile Include="RenderPiPeline\RenderQueue.cpp" />
     <ClCompile Include="System\LightManager.cpp" />
     <ClCompile Include="System\CameraSystem.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Assets\MeshPrimitives.h" />
     <ClInclude Include="Assets\PassAssets.h" />
     <ClInclude Include="Assets\MaterialAssets.h" />
+    <ClInclude Include="Core\MeshRegistry.h" />
     <ClInclude Include="Render\Material.h" />
     <ClInclude Include="System\LightManager.h" />
     <ClInclude Include="System\CameraSystem.h" />
@@ -183,7 +185,7 @@
     <ClInclude Include="Scene\Transform.h" />
     <ClInclude Include="Render\Texture2D.h" />
     <ClInclude Include="Utils.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

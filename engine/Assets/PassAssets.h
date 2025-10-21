@@ -1,9 +1,9 @@
 #pragma once
+#include "../Render/Shader.h"
+
 #include <string>
 #include <vector>
 #include <memory>
-#include "../Render/Shader.h"
-
 
 //¶ÁÈ¡jsonÎÄ¼ş
 class PassAssets

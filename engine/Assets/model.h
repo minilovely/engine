@@ -1,7 +1,9 @@
 #pragma once
+#include "../Render/Material.h"
+
 #include <vector>
 #include <glm/glm.hpp>
-#include "../Render/Material.h"
+
 struct Vertex
 {
     glm::vec3 pos;

@@ -1,11 +1,10 @@
-#include "./Assets/model.h"
-#include "./Assets/MeshPrimitives.h"
+#include "Assets/model.h"
+#include "Assets/MeshPrimitives.h"
+#include "Assets/ImporterPMX.h"
 #include "Render/RenderDevice.h"
 #include "RenderPipeline/RenderPipeline.h"
 #include "RenderPipeline/PassForward.h"
-#include "./Scene/Camera.h"
-#include "./Render/MeshGPU.h"
-#include "Assets/ImporterPMX.h"
+#include "Scene/Camera.h"
 #include "Scene/Actor.h"
 #include "Scene/Mesh.h"
 #include "Scene/Transform.h"
@@ -13,90 +12,12 @@
 #include "System/CameraSystem.h"
 #include "System/Window.h"
 #include "System/LightManager.h"
+#include "Core/MeshRegistry.h"
+#include "Utils.h"
+
 #include <memory>
 #include <stdexcept>
 #include<iostream>
-
-namespace 
-{   
-    // 匿名命名空间，内部链接
-    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name, std::shared_ptr<PassAssets> asset)
-    {
-        auto model = ImporterPMX::Load(filePath);
-
-        auto actor = std::make_unique<Actor>(name);
-        auto trans = actor->AddComponent<Transform>();
-        trans->setPosition({ 0, 0, 0 });
-        trans->setScale({ 0.5f, 0.5f, 0.5f });
-
-        for (const auto& mesh : model->meshes)
-        {
-            auto meshComp = actor->AddComponent<Mesh>();
-            meshComp->transCPUToGPU(mesh);
-            meshComp->setDepthWrite(asset->getDepthWrite());
-            meshComp->setColorWrite(asset->getColorWrite());
-            meshComp->setCullMode(asset->getCullMode());
-        }
-        return actor;
-    }
-
-    std::unique_ptr<Actor> MakeCameraActor(std::string name)
-    {
-        auto actor = std::make_unique<Actor>(name);
-        auto transComp = actor->AddComponent<Transform>();
-        transComp->setPosition({ 0, 5, 6 });
-
-        auto camComp = actor->AddComponent<Camera>();
-        camComp->setCenter({ 0,3,0 });
-        return actor;
-    }
-
-    std::unique_ptr<Actor> MakeDirectionalLightActor(std::string name)
-    {
-        auto actor = std::make_unique<Actor>(name);
-        auto trans = actor->AddComponent<Transform>();
-        auto light = actor->AddComponent<Light>();
-
-        light->setType(0);  // Directional
-        light->setDirection(glm::vec3(-0.5f, -1.0f, -0.5f));
-        light->setColor(glm::vec3(1.0f, 0.9f, 0.8f));
-        light->setIntensity(1.2f);
-
-        return actor;
-    }
-
-    std::unique_ptr<Actor> MakePointLightActor(std::string name)
-    {
-        auto actor = std::make_unique<Actor>(name);
-        auto trans = actor->AddComponent<Transform>();
-        auto light = actor->AddComponent<Light>();
-
-        light->setType(1);  // Point
-        light->setColor(glm::vec3(0.8f, 0.8f, 1.0f));
-        light->setIntensity(3.0f);
-        trans->setPosition({ -2.0f, 3.0f, 2.0f });
-
-        return actor;
-    }
-
-    std::unique_ptr<Actor> MakePlaneActor(std::string name, std::shared_ptr<PassAssets> asset)
-    {
-        auto planeActor = std::make_unique<Actor>(name);
-        auto trans = planeActor->AddComponent<Transform>();
-        trans->setPosition({ 0, 0, 0 });
-        trans->setScale({ 10, 2, 10 });//注意：Y轴数据不起作用
-        auto mesh_plane = planeActor->AddComponent<Mesh>();
-        MeshPrimitives primitive;
-        primitive.setColor(glm::vec3(0.6f, 0.6f, 0.6f));
-        mesh_plane->transCPUToGPU(primitive.makePlane());
-        mesh_plane->setDepthWrite(asset->getDepthWrite());
-        mesh_plane->setColorWrite(asset->getColorWrite());
-        mesh_plane->setCullMode(asset->getCullMode());
-        return planeActor;
-    }
-
-}
-
 
 /*
 程序食用说明：
@@ -106,6 +27,13 @@ namespace
 1.camera创建      example:    auto camComp = actor->AddComponent<Camera>();
 2.灯光创建        example:    auto light = actor->AddComponent<Light>();
 3.载体坐标创建    example:    auto trans = actor->AddComponent<Transform>();
+
+支持功能：
+1.mesh支持自定义添加Pass类型渲染方式
+2.mesh支持自定义选择json文件，绑定已有的shader，针对于该mesh的渲染设置
+3.场景支持通过控制mesh的属性value,进行自定义渲染顺序
+4.场景支持通过RenderDevice控制渲染场景的通用设置，如深度测试，剔除
+5.
 
 注意事项:
 1.程序所有实体按照——单个载体可对应多组件的形式存在
@@ -147,15 +75,15 @@ int main()
     Window window(1280, 720, "Model Viewer");
 
     //相机
-    auto cameraActor = MakeCameraActor("camera");
+    auto cameraActor = Utils::MakeCameraActor("camera");
     Camera* mainCam = cameraActor->GetComponent<Camera>();
 
-    std::vector<Mesh*> allMeshes;
-
+    MeshRegistry& mr = MeshRegistry::instance();
+    mr.clear();
     //模型
     std::shared_ptr<PassAssets> model_asset = std::make_shared<PassAssets>();
     model_asset->Load("Assets/Passes_json/model.json");
-    auto modelActor = MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx",
+    auto modelActor = Utils::MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx",
         "model", model_asset);
     auto model_meshes = modelActor->GetComponents<Mesh>();
     std::shared_ptr<Shader> modelShader = model_asset->getShader();
@@ -166,20 +94,21 @@ int main()
         m->addPass(forwardPass);
         m->setValue(1500);
     }
-    allMeshes.insert(allMeshes.begin(), model_meshes.begin(), model_meshes.end());
+    mr.append(model_meshes);
+
     //平面
     std::shared_ptr<PassAssets> plane_asset = std::make_shared<PassAssets>();
     plane_asset->Load("Assets/Passes_json/plane.json");
-    auto planeActor = MakePlaneActor("plane", plane_asset);
+    auto planeActor = Utils::MakePlaneActor("plane", plane_asset);
     auto plane_mesh = planeActor->GetComponent<Mesh>();
     std::shared_ptr<Shader> planeShader = plane_asset->getShader();
     plane_mesh->getMeshGPU()->getMaterial()->setShader(planeShader);
     plane_mesh->addPass(forwardPass);
     plane_mesh->setValue(2000);
-    allMeshes.push_back(plane_mesh);
+    mr.add(plane_mesh);
 
     //光源
-    auto pointLight = MakePointLightActor("pointLight");
+    auto pointLight = Utils::MakePointLightActor("pointLight");
 
     RenderPipeline pipeline;//这种申请方式会在栈中申请内存
 
@@ -196,7 +125,7 @@ int main()
         RenderDevice::SetDepthTest(true);
         RenderDevice::SetCullEnabled(true);
 
-        pipeline.Render(allMeshes, *mainCam);
+        pipeline.Render(mr.getallMeshes(), *mainCam);
 
         window.SwapBuffers();
     }

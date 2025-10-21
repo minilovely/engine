@@ -48,6 +48,7 @@ void RenderDevice::SetCullMode(std::string mode)
 		glCullFace(GL_FRONT_AND_BACK);
 		return;
 	}
+	std::cout << "[RenderDevice] cullMode setting failed, cullMode only accepts 'Back','Front',Front_and_Back'" << std::endl;
 }
 
 void RenderDevice::SetCullEnabled(bool on)

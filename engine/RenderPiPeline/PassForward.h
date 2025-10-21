@@ -2,6 +2,7 @@
 #include "Pass.h"
 #include "../RenderPiPeline/RenderQueue.h"
 #include "../Assets/PassAssets.h"
+
 #include <memory>
 
 class PassForward : public Pass

@@ -96,6 +96,9 @@
     <ClCompile Include="RenderPiPeline\RenderQueue.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Core\MeshRegistry.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -177,6 +180,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MeshRegistry.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

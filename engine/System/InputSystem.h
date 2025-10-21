@@ -1,6 +1,6 @@
 #pragma once
 #include "../Core/math.h"
-//
+
 class Input
 {
 	friend class Window;
@@ -15,7 +15,7 @@ public:
 	static bool isKeyReleased(int key);
 	//mouse
 	static bool isMouseDown(int button);
-	//static glm::vec2 getMouseOffset();
+
 	static glm::vec2 getMousePos() { return mouseCurPos; }
 	static float getTotalScrollOffset();
 	static void resetScroll();

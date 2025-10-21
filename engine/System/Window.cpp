@@ -1,11 +1,10 @@
-#include "glad.h"
-#include "GLFW/glfw3.h"
-#include <iostream>
 #include "Window.h"
 #include "InputSystem.h"
 #include "CameraSystem.h"
 
-
+#include "glad.h"
+#include "GLFW/glfw3.h"
+#include <iostream>
 
 Window::Window(int width, int height, const char* title)
 				:width(width),height(height)

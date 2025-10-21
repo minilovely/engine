@@ -1,7 +1,9 @@
 #pragma once
-#include <vector>
 #include "../Core/math.h"
 #include "RenderQueue.h"
+
+#include <vector>
+
 class Camera;
 class Mesh;
 

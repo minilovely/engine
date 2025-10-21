@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core/math.h"
+
 #include <string>
 class Shader
 {

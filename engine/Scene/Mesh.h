@@ -1,9 +1,10 @@
 #pragma once
-#include <memory>
-#include <vector>
 #include "Component.h"
 #include "../Render/MeshGPU.h"
 #include "../RenderPiPeline/Pass.h"
+
+#include <memory>
+#include <vector>
 
 struct MeshCPU;
 class MeshGPU;

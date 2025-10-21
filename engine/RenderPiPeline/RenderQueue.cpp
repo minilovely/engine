@@ -1,9 +1,8 @@
 #include "RenderQueue.h"
 #include "../System/LightManager.h"
-
-#include <algorithm>
 #include "../Render/RenderDevice.h"
 
+#include <algorithm>
 
 void RenderQueue::Clear()
 {

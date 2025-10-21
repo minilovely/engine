@@ -1,5 +1,6 @@
 #include "LightManager.h"
 #include "../Scene/Transform.h"
+
 #include <iostream>
 
 LightManager* LightManager::instance = nullptr;
@@ -35,21 +36,6 @@ void LightManager::unRegisterLight(Light* light)
 		std::remove(lights_active.begin(), lights_active.end(), light),lights_active.end());
 
 }
-
-//void LightManager::updateTransform()
-//{
-//	for (auto& record : lights_registered)
-//	{
-//		if (record.owner && record.light)
-//		{
-//			auto* transform = record.owner->GetComponent<Transform>();
-//			if (transform)
-//			{
-//				record.light->setPos(transform->getPosition());
-//			}
-//		}
-//	}
-//}
 
 void LightManager::upLoadToShader(Shader* shader)
 {

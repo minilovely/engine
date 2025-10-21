@@ -1,9 +1,10 @@
 #pragma once
+#include "Component.h"
+#include "../Scene/Light.h"
+
 #include <vector>
 #include <memory>
 #include <string>
-#include "Component.h"
-#include "../Scene/Light.h"
 
 class LightManager;
 //Actor本身并没有什么作用，主要作用是作为component的容器

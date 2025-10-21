@@ -1,10 +1,12 @@
 #include "Camera.h"
-#include "../System/InputSystem.h"
-#include "GLFW/glfw3.h"
-#include "../System/Window.h"
-#include "../System/CameraSystem.h"
 #include "Actor.h"
 #include "Transform.h"
+#include "../System/InputSystem.h"
+#include "../System/Window.h"
+#include "../System/CameraSystem.h"
+
+#include "GLFW/glfw3.h"
+
 Camera::Camera(Actor* owner) : Component(owner)
 {
     CameraSystem::Instance().Register(this);

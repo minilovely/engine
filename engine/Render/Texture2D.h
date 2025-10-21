@@ -1,6 +1,8 @@
 #pragma once
-#include <string>
 #include "../Core/math.h"
+
+#include <string>
+
 class Texture2D
 {
 public:

@@ -11,9 +11,9 @@
 #include <memory>
 #include <vector>
 
-class Utils
+namespace Utils
 {
-    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name)
+    std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name, std::shared_ptr<PassAssets> asset)
     {
         auto model = ImporterPMX::Load(filePath);
 
@@ -26,6 +26,9 @@ class Utils
         {
             auto meshComp = actor->AddComponent<Mesh>();
             meshComp->transCPUToGPU(mesh);
+            meshComp->setDepthWrite(asset->getDepthWrite());
+            meshComp->setColorWrite(asset->getColorWrite());
+            meshComp->setCullMode(asset->getCullMode());
         }
         return actor;
     }
@@ -34,7 +37,7 @@ class Utils
     {
         auto actor = std::make_unique<Actor>(name);
         auto transComp = actor->AddComponent<Transform>();
-        transComp->setPosition({ 0, 0, 6 });
+        transComp->setPosition({ 0, 5, 6 });
 
         auto camComp = actor->AddComponent<Camera>();
         camComp->setCenter({ 0,3,0 });
@@ -69,25 +72,20 @@ class Utils
         return actor;
     }
 
-    std::unique_ptr<Actor> MakePlaneActor(std::string name)
+    std::unique_ptr<Actor> MakePlaneActor(std::string name, std::shared_ptr<PassAssets> asset)
     {
         auto planeActor = std::make_unique<Actor>(name);
         auto trans = planeActor->AddComponent<Transform>();
         trans->setPosition({ 0, 0, 0 });
-        trans->setScale({ 10, 1, 10 });
+        trans->setScale({ 10, 2, 10 });//注意：Y轴数据不起作用
         auto mesh_plane = planeActor->AddComponent<Mesh>();
-        mesh_plane->transCPUToGPU(MeshPrimitives::makePlane());
+        MeshPrimitives primitive;
+        primitive.setColor(glm::vec3(0.6f, 0.6f, 0.6f));
+        mesh_plane->transCPUToGPU(primitive.makePlane());
+        mesh_plane->setDepthWrite(asset->getDepthWrite());
+        mesh_plane->setColorWrite(asset->getColorWrite());
+        mesh_plane->setCullMode(asset->getCullMode());
         return planeActor;
     }
 
-    auto loadShader = [](const std::string& jsonPath)
-        {
-            auto asset = PassAssets::Load(jsonPath);
-            return std::make_shared<Shader>(
-                PassAssets::ReadText(asset->getVSPath()),
-                PassAssets::ReadText(asset->getFSPath()));
-        };
-
-    void meshSetShader()
-
-};
+}

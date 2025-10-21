@@ -1,5 +1,6 @@
 #include "MeshGPU.h"
 #include "glad.h"
+
 #include<iostream>
 MeshGPU::MeshGPU(const std::vector<Vertex>& verts,
                     const std::vector<unsigned int>& index,

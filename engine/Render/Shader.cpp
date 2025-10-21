@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "glad.h"
+
 #include <iostream>
 
 static bool CheckCompile(unsigned int shader)

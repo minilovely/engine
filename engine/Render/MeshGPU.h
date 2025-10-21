@@ -1,9 +1,10 @@
 #pragma once
-#include <vector>
 #include "../Core/math.h"
 #include "../Assets/model.h"
 #include "Texture2D.h"
 #include "Material.h"
+
+#include <vector>
 
 class MeshGPU
 {
