@@ -11,7 +11,7 @@ class Pass
 {
 public:
 	Pass() {};
-	virtual ~Pass() = default;
+	~Pass() = default;
 	virtual void Init() = 0;
 	virtual void Collect(const Camera& cam,Mesh* mesh,RenderQueue& outQueue) = 0;
 private:

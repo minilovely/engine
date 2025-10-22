@@ -136,7 +136,9 @@
     <ClCompile Include="Assets\PassAssets.cpp" />
     <ClCompile Include="Assets\MaterialAssets.cpp" />
     <ClCompile Include="Core\MeshRegistry.cpp" />
+    <ClCompile Include="RenderPiPeline\PassShadow.cpp" />
     <ClCompile Include="RenderPiPeline\RenderQueue.cpp" />
+    <ClCompile Include="Render\ShadowMap.cpp" />
     <ClCompile Include="System\LightManager.cpp" />
     <ClCompile Include="System\CameraSystem.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
@@ -163,7 +165,9 @@
     <ClInclude Include="Assets\PassAssets.h" />
     <ClInclude Include="Assets\MaterialAssets.h" />
     <ClInclude Include="Core\MeshRegistry.h" />
+    <ClInclude Include="RenderPiPeline\PassShadow.h" />
     <ClInclude Include="Render\Material.h" />
+    <ClInclude Include="Render\ShadowMap.h" />
     <ClInclude Include="System\LightManager.h" />
     <ClInclude Include="System\CameraSystem.h" />
     <ClInclude Include="Scene\Mesh.h" />
@@ -190,11 +194,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Passes_json\plane.json" />
+    <None Include="Assets\Passes_json\shadow.json" />
     <None Include="Assets\Shaders\model\model.frag" />
     <None Include="Assets\Passes_json\model.json" />
     <None Include="Assets\Shaders\model\model.vert" />
     <None Include="Assets\Shaders\plane\plane.frag" />
     <None Include="Assets\Shaders\plane\plane.vert" />
+    <None Include="Assets\Shaders\shadow\shadow.frag" />
+    <None Include="Assets\Shaders\shadow\shadow.vert" />
     <None Include="assimp-vc143-mtd.dll">
       <DeploymentContent>true</DeploymentContent>
     </None>

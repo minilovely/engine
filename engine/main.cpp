@@ -121,7 +121,7 @@ int main()
         window.PollEvent();
         CameraSystem::Instance().UpdateFromInput(0.016f);//0.016¡Ö1/60
 
-        RenderDevice::Clear({ 0.2f,0.3f,0.3f });
+        RenderDevice::Clear({ 0.4f,0.4f,0.4f });
         RenderDevice::SetDepthTest(true);
         RenderDevice::SetCullEnabled(true);
 

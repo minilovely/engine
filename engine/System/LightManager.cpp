@@ -3,14 +3,10 @@
 
 #include <iostream>
 
-LightManager* LightManager::instance = nullptr;
 LightManager& LightManager::Get()
 {
-	if (!instance)
-	{
-		instance = new LightManager();
-	}
-	return *instance;
+	static LightManager instance;
+	return instance;
 }
 
 void LightManager::registerLight(Actor* owner, Light* light)

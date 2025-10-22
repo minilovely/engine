@@ -24,6 +24,13 @@ struct RenderCommand
     }PassType = PassType::Forward;
 };
 
+struct ShadowCommand
+{
+    MeshGPU* mesh;
+    glm::mat4                 lightMat4 = glm::mat4(1.0f);
+    int                       lightIndex = 0;
+};
+
 class RenderQueue
 {
 public:

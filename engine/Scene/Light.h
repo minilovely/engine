@@ -1,6 +1,9 @@
 #pragma once
 #include "../Core/math.h"
+#include "../Render/ShadowMap.h"
 #include "Component.h"
+
+#include <memory>
 class Shader;
 
 class Light : public Component
@@ -41,6 +44,7 @@ private:
 	glm::vec3 color = glm::vec3(0.8, 0.8, 0.8);
 	float intensity = 2.0f;
 	int type;
+	std::unique_ptr<ShadowMap> shadowMap;
 
 	//directional light
 	glm::vec3 direction;

@@ -51,5 +51,7 @@ void MeshGPU::Bind() const
 
 void MeshGPU::Draw() const
 {
+    glPointSize(10.0f);
+    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
     glDrawElements(GL_TRIANGLES, index.size(), GL_UNSIGNED_INT, nullptr);
 }

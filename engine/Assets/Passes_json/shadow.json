@@ -1,0 +1,8 @@
+{
+  "name": "Shadow",
+  "vs": "Assets/Shaders/shadow/shadow.vert",
+  "fs": "Assets/Shaders/shadow/shadow.frag",
+  "depthWrite": true,
+  "colorWrite": false,
+  "cullMode": "Back"
+}

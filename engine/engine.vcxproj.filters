@@ -99,6 +99,12 @@
     <ClCompile Include="Core\MeshRegistry.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Render\ShadowMap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPiPeline\PassShadow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -185,6 +191,12 @@
     <ClInclude Include="Core\MeshRegistry.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Render\ShadowMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPiPeline\PassShadow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />
@@ -195,5 +207,8 @@
     <None Include="Assets\Passes_json\plane.json" />
     <None Include="Assets\Shaders\plane\plane.vert" />
     <None Include="Assets\Shaders\plane\plane.frag" />
+    <None Include="Assets\Shaders\shadow\shadow.vert" />
+    <None Include="Assets\Shaders\shadow\shadow.frag" />
+    <None Include="Assets\Passes_json\shadow.json" />
   </ItemGroup>
 </Project>

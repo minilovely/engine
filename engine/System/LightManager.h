@@ -30,7 +30,6 @@ private:
 	};
 	std::vector<LightRecord> lights_registered;
 	std::vector<Light*> lights_active;
-	static LightManager* instance;
 	LightManager() = default;
 };
 
