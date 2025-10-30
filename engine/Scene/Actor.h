@@ -8,7 +8,8 @@
 
 class LightManager;
 //Actor本身并没有什么作用，主要作用是作为component的容器
-class Actor {
+class Actor
+{
 public:
     //explicit作用为避免函数隐式调用
     explicit Actor(const std::string& name) : name(name) {}

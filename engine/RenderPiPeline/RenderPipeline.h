@@ -12,24 +12,27 @@ public:
     template<typename T, typename... Args>
     void AddPass(Args&&... args)
     {
-        auto pass = std::make_unique<T>();
+        auto pass = std::make_shared<T>(std::forward<Args>(args)...);
         pass->Init();
+        passes.push_back(pass);
     }
 
     void Render(const std::vector<Mesh*>& meshes, const Camera& cam)
     {
         queue.Clear();
-        for (Mesh* mc : meshes)
+        for (auto& pass : passes)
         {
-            for (auto& pass : mc->getPasses())
+            for (auto* mesh : meshes)
             {
-                pass->Collect(cam, mc, queue);
+                pass->Collect(cam, mesh, queue);
             }
         }
         queue.Sort();
-        queue.Draw();
+        queue.DrawShadow(); // 首先绘制阴影贴图
+        queue.DrawForward(); // 然后主渲染采样
     }
 
 private:
     RenderQueue queue;
+    std::vector<std::shared_ptr<Pass>> passes;
 };

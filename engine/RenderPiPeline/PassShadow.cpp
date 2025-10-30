@@ -1,21 +1,43 @@
 #include "PassShadow.h"
-#include "../Assets/PassAssets.h"
+#include "../Scene/Camera.h"
 #include "../Scene/Mesh.h"
-#include "../Scene/Actor.h"
 #include "../Scene/Transform.h"
-#include "../System/LightManager.h"
+#include "../RenderPiPeline/RenderQueue.h"
+#include "../Scene/Light.h"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glad.h>
+#include <iostream>
+
+PassShadow::PassShadow(){}
 
 void PassShadow::Init()
 {
-	std::shared_ptr<PassAssets> asset = std::make_shared<PassAssets>();
-	asset->Load("Assets/Passes_json/shadow.json");
-	shader = asset->getShader();
-
+    lightManager = &LightManager::Get();
+    if (!shadowMap)
+        shadowMap = std::make_shared<ShadowMap>();
+    shadowMap->Init(2048);
+    shadowAssets = std::make_shared<PassAssets>();
+    shadowAssets->Load("Assets/Passes_json/shadow.json");
+    // 无需再计算lightSpaceMatrix，完全由Light内部维护
 }
 
-void PassShadow::Collect(const Camera& cam, Mesh* mesh, RenderQueue& outQueue)
+void PassShadow::Collect(const Camera& /*camera*/, Mesh* mesh, RenderQueue& outQueue)
 {
-	auto* trans = mesh->GetOwner()->GetComponent<Transform>();
-	const auto& lights = LightManager::Get().getActiveLight();
-
+    // 获取主平行光
+    Light* dirLight = lightManager ? lightManager->GetMainDirectionalLight() : nullptr;
+    if (!dirLight) return;
+    glm::mat4 lightSpaceMatrix = dirLight->GetLightSpaceMatrix();
+    auto* owner = mesh->GetOwner();
+    auto* trans = owner->GetComponent<Transform>();
+    auto* gpuMesh = mesh->getMeshGPU();
+    auto  mat = gpuMesh->getMaterial();
+    RenderCommand cmd;
+    cmd.mesh = gpuMesh;
+    cmd.material = mat;
+    cmd.M = trans ? trans->getModelMatrix() : glm::mat4(1.0f);
+    cmd.MVP = lightSpaceMatrix * cmd.M;
+    cmd.shadowMap = shadowMap;
+    cmd.PassType = RenderCommand::PassType::Shadow;
+    outQueue.Add(cmd);
 }
+

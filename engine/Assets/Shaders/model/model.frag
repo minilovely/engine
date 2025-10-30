@@ -25,6 +25,9 @@ uniform vec3 viewPos;
 uniform sampler2D diffTex[2];
 uniform Light lights[8];
 uniform int lightCount;
+// --- æ–°å¢žé˜´å½±é‡‡æ ·å‚æ•° ---
+uniform sampler2D shadowMap;
+uniform mat4 lightSpaceMatrix;
 
 vec3 CalculateLight(Light light, vec3 normal, vec3 viewDir, vec3 texColor)
 {
@@ -33,29 +36,42 @@ vec3 CalculateLight(Light light, vec3 normal, vec3 viewDir, vec3 texColor)
 
 	if (light.type == 0) 
 	{
-	lightDir = normalize(-light.direction);// ·½Ïò¹â
+	lightDir = normalize(-light.direction);// ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 	else
 	{
-	// µã¹âÔ´
+	// ï¿½ï¿½ï¿½Ô´
 	lightDir = normalize(light.position - fs_in.wVertPos);
 	float distance = length(light.position - fs_in.wVertPos);
 	attenuation = 1.0 / (light.constant + light.linear * distance + 
 	light.quadratic * (distance * distance));
 	}
-	// »·¾³¹â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	vec3 ambient = 0.1 * light.color;
 
-	// Âþ·´Éä
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = diff * light.color;
 
-	// ¾µÃæ·´Éä
+	// ï¿½ï¿½ï¿½æ·´ï¿½ï¿½
 	vec3 reflectDir = reflect(-lightDir, normal);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
 	vec3 specular = spec * light.color;
 
 	return (ambient + diffuse + specular) * attenuation * texColor;
+}
+
+// --- æ–°å¢žï¼šåŸºç¡€é˜´å½±é‡‡æ ·ï¼Œä»…ç¡¬é˜´å½±ï¼Œå¯æ‹“å±•è½¯é˜´å½±PCF ---
+float ShadowCalc(vec3 wPos)
+{
+	vec4 lightSpacePos = lightSpaceMatrix * vec4(wPos, 1.0);
+	vec3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
+	projCoords = projCoords * 0.5 + 0.5;
+	float currentDepth = projCoords.z;
+	float closestDepth = texture(shadowMap, projCoords.xy).r;
+	float bias = 0.005;
+	float shadow = currentDepth - bias > closestDepth ? 0.4 : 1.0;
+	return shadow;
 }
 
 void main()
@@ -69,11 +85,12 @@ void main()
 		float dist = length(lights[i].position - fs_in.wVertPos);
 		if(dist > lights[i].range)
 		{
-		fragColor = vec4(0.0,0.0,0.0,1.0);
+			fragColor = vec4(0.0,0.0,0.0,1.0);
 		}
 		else
 		{
-		result += CalculateLight(lights[i], wNormal, viewDir, texCol);
+			float shadow = ShadowCalc(fs_in.wVertPos);
+			result += CalculateLight(lights[i], wNormal, viewDir, texCol) * shadow;
 		}
 	}
 	fragColor = vec4(result, 1.0);

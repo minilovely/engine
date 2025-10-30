@@ -4,6 +4,7 @@
 #include "Render/RenderDevice.h"
 #include "RenderPipeline/RenderPipeline.h"
 #include "RenderPipeline/PassForward.h"
+#include "RenderPiPeline/PassShadow.h"
 #include "Scene/Camera.h"
 #include "Scene/Actor.h"
 #include "Scene/Mesh.h"
@@ -91,7 +92,6 @@ int main()
     for (Mesh* m : model_meshes)
     {
         m->getMeshGPU()->getMaterial()->setShader(modelShader);
-        m->addPass(forwardPass);
         m->setValue(1500);
     }
     mr.append(model_meshes);
@@ -103,15 +103,17 @@ int main()
     auto plane_mesh = planeActor->GetComponent<Mesh>();
     std::shared_ptr<Shader> planeShader = plane_asset->getShader();
     plane_mesh->getMeshGPU()->getMaterial()->setShader(planeShader);
-    plane_mesh->addPass(forwardPass);
     plane_mesh->setValue(2000);
     mr.add(plane_mesh);
 
     //光源
-    auto pointLight = Utils::MakePointLightActor("pointLight");
+    //auto pointLight = Utils::MakePointLightActor("pointLight");
+    auto dirLightActor = Utils::MakeDirectionalLightActor("mainLight");
+    Light* dirLight = dirLightActor->GetComponent<Light>();
+    LightManager::Get().registerLight(dirLightActor.get(), dirLight);
 
     RenderPipeline pipeline;//这种申请方式会在栈中申请内存
-
+    pipeline.AddPass<PassShadow>();
     pipeline.AddPass<PassForward>();//所有加入pipeline的Pass目前设定执行Init()
 
     //这个mesh目前为空

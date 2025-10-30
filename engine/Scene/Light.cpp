@@ -27,6 +27,30 @@ void Light::setDirection(glm::vec3 dirPos)
     glm::vec3 startPos = getPos();
     glm::vec3 dir = dirPos - startPos;
     direction = glm::normalize(dir);
+    updateLightSpaceMatrix();
+}
+
+glm::mat4 Light::GetLightSpaceMatrix() const
+{
+    return lightSpaceMatrix;
+}
+
+void Light::updateLightSpaceMatrix()
+{
+    if(type == static_cast<int>(Type::Diractional))
+    {
+        float orthoWidth = 10.0f;
+        float nearPlane = -30.0f, farPlane = 50.0f;
+        glm::mat4 lightProj = glm::ortho(-orthoWidth, orthoWidth, -orthoWidth, orthoWidth, nearPlane, farPlane);
+        glm::vec3 sceneCenter = glm::vec3(0.0f); // 可扩展
+        float dist = 20.0f;
+        glm::vec3 lightPos = sceneCenter - direction * dist;
+        glm::mat4 lightView = glm::lookAt(lightPos, sceneCenter, glm::vec3(0, 1, 0));
+        lightSpaceMatrix = lightProj * lightView;
+    } else
+    {
+        lightSpaceMatrix = glm::mat4(1.0f);
+    }
 }
 
 void Light::UploadToShader(Shader* shader,int index)

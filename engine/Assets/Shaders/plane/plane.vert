@@ -5,11 +5,12 @@ layout(location=2) in vec2 uv;
 
 out vec4 fragPosLightSpace;
 
+uniform mat4 M;
 uniform mat4 MVP;
-//uniform mat4 lightSpaceMatrix;
+uniform mat4 lightSpaceMatrix;
 
 void main()
 {
-	//fragPosLightSpace = lightSpaceMatrix * vec4(pos, 1.0);
+	fragPosLightSpace = lightSpaceMatrix * M * vec4(pos, 1.0);
 	gl_Position = MVP * vec4(pos, 1.0);
 }

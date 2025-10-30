@@ -20,8 +20,8 @@ void LightManager::registerLight(Actor* owner, Light* light)
 		lights_active.push_back(light);
 		std::cout << "[LightManager] Registered light, total: " 
 			<< lights_registered.size() << std::endl;
-
 	}
+	std::cout << "light registered" << std::endl;
 }
 
 void LightManager::unRegisterLight(Light* light)

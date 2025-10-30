@@ -11,9 +11,8 @@ class Light : public Component
 public:
 	enum class Type : int
 	{
-		Diractional = 0,	//ƽ�й�
-		Point = 1		//���
-		//��һ���۹��
+		Diractional = 0,
+		Point = 1
 	};
 
 	explicit Light(Actor* owner) : Component(owner) {}
@@ -38,6 +37,7 @@ public:
 	void setQuadratic(float q) { quadratic = q; }
 
 	void UploadToShader(Shader* shader,int i);
+	glm::mat4 GetLightSpaceMatrix() const;
 
 
 private:
@@ -45,8 +45,7 @@ private:
 	float intensity = 2.0f;
 	int type;
 	std::unique_ptr<ShadowMap> shadowMap;
-
-	//directional light
+	glm::mat4 lightSpaceMatrix = glm::mat4(1.0f); // 仅平行光生效，点光源等为单位阵
 	glm::vec3 direction;
 
 	//point light
@@ -54,5 +53,6 @@ private:
 	float constant = 1.0f;
 	float linear = 0.35f;
 	float quadratic = 0.44f;
+	void updateLightSpaceMatrix(); // 新增：纯声明，无实现
 };
 

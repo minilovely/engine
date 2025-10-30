@@ -1,22 +1,22 @@
 #pragma once
 #include "../Core/math.h"
+#include <memory>
+#include <glad.h>
 
-#include<glad.h>
-
-class ShadowMap
-{
+class ShadowMap {
 public:
-	ShadowMap(unsigned int = 2048);
-	~ShadowMap();
+    ShadowMap();
+    ~ShadowMap();
+    void Init(int size = 2048);
+    void Bind();
+    void BindTexture(unsigned int unit);
+    void Unbind();
+    GLuint GetTexture() const;
+    int GetSize() const { return shadowSize; }
 
-	void BindForWriting();
-	void BindForReading(unsigned int texUnit = 3);
-
-	unsigned int getDepthMap() const { return depthMap; }
-	unsigned getSize() const { return size; }
 private:
-	unsigned int depthMap = 0;
-	unsigned int size;
-	unsigned int fbo = 0;
+    GLuint fbo = 0;
+    GLuint depthTexture = 0;
+    int shadowSize = 2048;
 };
 

@@ -2,21 +2,23 @@
 #include "../Core/math.h"
 #include "../Render/MeshGPU.h"
 #include "../Render/Material.h"
+#include "../Render/ShadowMap.h"
 
 struct RenderCommand
 {
     MeshGPU*  mesh;
     Material*                 material;
-    int                       value = 2000;         //渲染队列的值
+    int                       value = 2000;
 
     glm::mat4                 MVP;
     glm::mat4                 M;
     glm::vec3                 viewPos;
-    int                       lightCount = 0;       // 可扩展任意 uniform
+    int                       lightCount = 0;
 
     bool                      depthWrite = true;
     bool                      colorWrite = true;
     std::string               cullMode = "Back";
+    std::shared_ptr<ShadowMap> shadowMap;
 
     enum class PassType
     {
@@ -24,12 +26,12 @@ struct RenderCommand
     }PassType = PassType::Forward;
 };
 
-struct ShadowCommand
-{
-    MeshGPU* mesh;
-    glm::mat4                 lightMat4 = glm::mat4(1.0f);
-    int                       lightIndex = 0;
-};
+//struct ShadowCommand
+//{
+//    MeshGPU* mesh;
+//    glm::mat4                 lightMat4 = glm::mat4(1.0f);
+//    int                       lightIndex = 0;
+//};
 
 class RenderQueue
 {
@@ -39,10 +41,12 @@ public:
     void Clear();
     void Add(const RenderCommand& cmd);
     void Sort();
-    void Draw() const;
+    void DrawForward();
+    void DrawShadow();
     const std::vector<RenderCommand>& getRenderCommands() const { return cmds; }
 
 private:
     std::vector<RenderCommand> cmds;
+    std::shared_ptr<ShadowMap> shadowMap;
 };
 

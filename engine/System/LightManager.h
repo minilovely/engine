@@ -22,6 +22,16 @@ public:
 
 	//void updateTransform();
 	void upLoadToShader(Shader* shader);
+
+	Light* GetMainDirectionalLight() const
+	{
+        for (auto* l : lights_active)
+		{
+            if (l->getType() == static_cast<int>(Light::Type::Diractional))
+                return l;
+        }
+        return nullptr;
+    }
 private:
 	struct LightRecord
 	{
