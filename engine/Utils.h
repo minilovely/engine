@@ -1,12 +1,13 @@
 #pragma once
 #include "Scene/Mesh.h"
 #include "Scene/Actor.h"
+#include "Scene/Transform.h"
+#include "Scene/Camera.h"
 #include "RenderPiPeline/PassForward.h"
 #include "Assets/ImporterPMX.h"
-#include "Scene/Transform.h"
+#include "Assets/MeshPrimitives.h"
 #include "System/CameraSystem.h"
-#include "./Scene/Camera.h"
-#include "./Assets/MeshPrimitives.h"
+#include "Render/SkyBox.h"
 
 #include <memory>
 #include <vector>
@@ -50,6 +51,7 @@ namespace Utils
         auto trans = actor->AddComponent<Transform>();
         auto light = actor->AddComponent<Light>();
 
+        trans->setPosition(glm::vec3(-2.0, 3.0, 4.0));
         light->setType(0);  // Directional
         light->setDirection(glm::vec3(-0.5f, -1.0f, -0.5f));
         light->setColor(glm::vec3(1.0f, 0.9f, 0.8f));
@@ -86,6 +88,23 @@ namespace Utils
         mesh_plane->setColorWrite(asset->getColorWrite());
         mesh_plane->setCullMode(asset->getCullMode());
         return planeActor;
+    }
+    std::unique_ptr<SkyBox> MakeSkyBox(float size = 1.0f)
+    {
+        auto skyBox = std::make_unique<SkyBox>();
+        skyBox->Init(size);
+        //std::vector<std::string> faces =
+        //{
+        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_left.png",
+        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_right.png",
+        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_up.png",
+        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_down.png",
+        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_front.png",
+        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_back.png"
+        //};
+        //auto cubeMap = std::make_shared<TextureCube>(faces);
+        //skyBox->SetCubeMap(cubeMap);
+        return skyBox;
     }
 
 }

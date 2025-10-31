@@ -20,3 +20,45 @@ MeshCPU MeshPrimitives::makePlane(float width, float height)
 	mesh.material->addTexture(std::make_shared<Texture2D>(color));
 	return mesh;
 }
+
+MeshCPU MeshPrimitives::makeCube(float size)
+{
+	MeshCPU mesh;
+	float s = size * 0.5f;
+
+	mesh.vertices =
+	{
+		// 前 (+Z)
+		{{-s, -s,  s}, {0,0,1}, {0,0}}, {{ s, -s,  s}, {0,0,1}, {1,0}},
+		{{ s,  s,  s}, {0,0,1}, {1,1}}, {{-s,  s,  s}, {0,0,1}, {0,1}},
+		// 后 (-Z)
+		{{ s, -s, -s}, {0,0,-1}, {0,0}}, {{-s, -s, -s}, {0,0,-1}, {1,0}},
+		{{-s,  s, -s}, {0,0,-1}, {1,1}}, {{ s,  s, -s}, {0,0,-1}, {0,1}},
+		// 左 (-X)
+		{{-s, -s, -s}, {-1,0,0}, {0,0}}, {{-s, -s,  s}, {-1,0,0}, {1,0}},
+		{{-s,  s,  s}, {-1,0,0}, {1,1}}, {{-s,  s, -s}, {-1,0,0}, {0,1}},
+		// 右 (+X)
+		{{ s, -s,  s}, {1,0,0}, {0,0}}, {{ s, -s, -s}, {1,0,0}, {1,0}},
+		{{ s,  s, -s}, {1,0,0}, {1,1}}, {{ s,  s,  s}, {1,0,0}, {0,1}},
+		// 上 (+Y)
+		{{-s,  s,  s}, {0,1,0}, {0,0}}, {{ s,  s,  s}, {0,1,0}, {1,0}},
+		{{ s,  s, -s}, {0,1,0}, {1,1}}, {{-s,  s, -s}, {0,1,0}, {0,1}},
+		// 下 (-Y)
+		{{-s, -s, -s}, {0,-1,0}, {0,0}}, {{ s, -s, -s}, {0,-1,0}, {1,0}},
+		{{ s, -s,  s}, {0,-1,0}, {1,1}}, {{-s, -s,  s}, {0,-1,0}, {0,1}}
+	};
+
+	mesh.indices =
+	{
+		 0, 1, 2,  2, 3, 0,   // 前
+		 4, 5, 6,  6, 7, 4,   // 后
+		 8, 9,10, 10,11, 8,   // 左
+		12,13,14, 14,15,12,   // 右
+		16,17,18, 18,19,16,   // 上
+		20,21,22, 22,23,20    // 下
+	};
+
+	mesh.material = std::make_shared<Material>();
+	mesh.material->addTexture(std::make_shared<Texture2D>(color));
+	return mesh;
+}

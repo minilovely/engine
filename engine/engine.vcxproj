@@ -139,6 +139,7 @@
     <ClCompile Include="RenderPiPeline\PassShadow.cpp" />
     <ClCompile Include="RenderPiPeline\RenderQueue.cpp" />
     <ClCompile Include="Render\ShadowMap.cpp" />
+    <ClCompile Include="Render\SkyBox.cpp" />
     <ClCompile Include="System\LightManager.cpp" />
     <ClCompile Include="System\CameraSystem.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
@@ -157,6 +158,7 @@
     <ClCompile Include="System\Window.cpp" />
     <ClCompile Include="Scene\Transform.cpp" />
     <ClCompile Include="Render\Texture2D.cpp" />
+    <ClCompile Include="Render\TextureCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assets\ImporterPMX.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="RenderPiPeline\PassShadow.h" />
     <ClInclude Include="Render\Material.h" />
     <ClInclude Include="Render\ShadowMap.h" />
+    <ClInclude Include="Render\SkyBox.h" />
     <ClInclude Include="System\LightManager.h" />
     <ClInclude Include="System\CameraSystem.h" />
     <ClInclude Include="Scene\Mesh.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="System\Window.h" />
     <ClInclude Include="Scene\Transform.h" />
     <ClInclude Include="Render\Texture2D.h" />
+    <ClInclude Include="Render\TextureCube.h" />
     <ClInclude Include="Utils.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -195,6 +199,7 @@
   <ItemGroup>
     <None Include="Assets\Passes_json\plane.json" />
     <None Include="Assets\Passes_json\shadow.json" />
+    <None Include="Assets\Passes_json\skyBox.json" />
     <None Include="Assets\Shaders\model\model.frag" />
     <None Include="Assets\Passes_json\model.json" />
     <None Include="Assets\Shaders\model\model.vert" />
@@ -202,6 +207,8 @@
     <None Include="Assets\Shaders\plane\plane.vert" />
     <None Include="Assets\Shaders\shadow\shadow.frag" />
     <None Include="Assets\Shaders\shadow\shadow.vert" />
+    <None Include="Assets\Shaders\SkyBox\skyBox.frag" />
+    <None Include="Assets\Shaders\SkyBox\skyBox.vert" />
     <None Include="assimp-vc143-mtd.dll">
       <DeploymentContent>true</DeploymentContent>
     </None>

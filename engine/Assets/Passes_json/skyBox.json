@@ -1,0 +1,8 @@
+{
+  "name": "skyBox",
+  "vs": "Assets/Shaders/SkyBox/skyBox.vert",
+  "fs": "Assets/Shaders/SkyBox/skyBox.frag",
+  "depthWrite": false,
+  "colorWrite": true,
+  "cullMode": "Back"
+}

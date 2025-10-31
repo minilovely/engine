@@ -105,6 +105,12 @@
     <ClCompile Include="RenderPiPeline\PassShadow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Render\SkyBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\TextureCube.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -197,6 +203,12 @@
     <ClInclude Include="RenderPiPeline\PassShadow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Render\SkyBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\TextureCube.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />
@@ -210,5 +222,8 @@
     <None Include="Assets\Shaders\shadow\shadow.vert" />
     <None Include="Assets\Shaders\shadow\shadow.frag" />
     <None Include="Assets\Passes_json\shadow.json" />
+    <None Include="Assets\Shaders\SkyBox\skyBox.vert" />
+    <None Include="Assets\Shaders\SkyBox\skyBox.frag" />
+    <None Include="Assets\Passes_json\skyBox.json" />
   </ItemGroup>
 </Project>

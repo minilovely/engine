@@ -30,13 +30,14 @@ void PassShadow::Collect(const Camera& /*camera*/, Mesh* mesh, RenderQueue& outQ
     auto* owner = mesh->GetOwner();
     auto* trans = owner->GetComponent<Transform>();
     auto* gpuMesh = mesh->getMeshGPU();
-    auto  mat = gpuMesh->getMaterial();
+    auto* mat = gpuMesh->getMaterial();
     RenderCommand cmd;
     cmd.mesh = gpuMesh;
     cmd.material = mat;
     cmd.M = trans ? trans->getModelMatrix() : glm::mat4(1.0f);
     cmd.MVP = lightSpaceMatrix * cmd.M;
     cmd.shadowMap = shadowMap;
+    cmd.shadowAssets = shadowAssets;
     cmd.PassType = RenderCommand::PassType::Shadow;
     outQueue.Add(cmd);
 }

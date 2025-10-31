@@ -17,11 +17,11 @@ public:
     void transCPUToGPU(const MeshCPU& cpu);
     
     MeshGPU* getMeshGPU() const { return mesh_gpu.get(); }
-    void addPass(std::shared_ptr<Pass> p) { passes.push_back(std::move(p)); }
+    //void addPass(std::shared_ptr<Pass> p) { passes.push_back(std::move(p)); }
 
     int getValue() const { return value; }
     void setValue(int v) { value = v; }
-    const auto& getPasses() const { return passes; }
+    //const auto& getPasses() const { return passes; }
     void setDepthWrite(bool value) { depthWrite = value; }
     bool getDepthWrite() const { return depthWrite; }
     void setColorWrite(bool value) { colorWrite = value; }
@@ -30,7 +30,7 @@ public:
     std::string getCullMode() const { return cullMode; }
 private:
     std::unique_ptr<MeshGPU> mesh_gpu;
-    std::vector<std::shared_ptr<Pass>> passes;
+    //std::vector<std::shared_ptr<Pass>> passes;
     int value = 2000;
     bool depthWrite = true;
     bool colorWrite = true;

@@ -19,6 +19,32 @@ void RenderQueue::Sort()
         [](const auto& a, const auto& b) {return a.value < b.value; });
 }
 
+void RenderQueue::DrawShadow()
+{
+    for (const auto& cmd : cmds)
+    {
+        if (cmd.PassType != RenderCommand::PassType::Shadow) continue;
+        shadowMap = cmd.shadowMap;
+        shadowMap->Bind();
+        auto shader = cmd.shadowAssets ? cmd.shadowAssets->getShader() : nullptr;
+        if (shader)
+        {
+            shader->use();
+            shader->setMat4("lightSpaceMatrix", cmd.MVP);
+            shader->setMat4("M", cmd.M);
+        }
+        if (cmd.mesh)
+        {
+            cmd.mesh->Bind();
+            RenderDevice::SetDepthWrite(true);
+            RenderDevice::SetColorWrite(false);
+            //RenderDevice::SetCullMode("Back");
+            cmd.mesh->Draw();
+        }
+    }
+    shadowMap->Unbind();
+}
+
 void RenderQueue::DrawForward()
 {
     auto& lightManager = LightManager::Get();
@@ -43,30 +69,5 @@ void RenderQueue::DrawForward()
     }
 }
 
-void RenderQueue::DrawShadow()
-{
-    for (const auto& cmd : cmds)
-    {
-        if (cmd.PassType != RenderCommand::PassType::Shadow) continue;
-        shadowMap = cmd.shadowMap;
-        shadowMap->Bind();
-        auto shader = cmd.material ? cmd.material->getShader() : nullptr;
-        if (shader)
-        {
-            shader->use();
-            shader->setMat4("lightSpaceMatrix", cmd.MVP);
-            shader->setMat4("M", cmd.M);
-        }
-        if (cmd.mesh)
-        {
-            cmd.mesh->Bind();
-            RenderDevice::SetDepthWrite(true);
-            RenderDevice::SetColorWrite(false);
-            RenderDevice::SetCullMode("Back");
-            cmd.mesh->Draw();
-        }
-    }
-    shadowMap->Unbind();
-}
 
 

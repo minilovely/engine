@@ -36,24 +36,21 @@ vec3 CalculateLight(Light light, vec3 normal, vec3 viewDir, vec3 texColor)
 
 	if (light.type == 0) 
 	{
-	lightDir = normalize(-light.direction);// �����
+		lightDir = normalize(-light.direction);
 	}
 	else
 	{
-	// ���Դ
-	lightDir = normalize(light.position - fs_in.wVertPos);
-	float distance = length(light.position - fs_in.wVertPos);
-	attenuation = 1.0 / (light.constant + light.linear * distance + 
-	light.quadratic * (distance * distance));
+		lightDir = normalize(light.position - fs_in.wVertPos);
+		float distance = length(light.position - fs_in.wVertPos);
+		attenuation = 1.0 / (light.constant + light.linear * distance + 
+		light.quadratic * (distance * distance));
 	}
-	// ������
+
 	vec3 ambient = 0.1 * light.color;
 
-	// ������
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = diff * light.color;
 
-	// ���淴��
 	vec3 reflectDir = reflect(-lightDir, normal);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32.0);
 	vec3 specular = spec * light.color;

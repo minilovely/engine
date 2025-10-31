@@ -3,6 +3,7 @@
 #include "../Render/MeshGPU.h"
 #include "../Render/Material.h"
 #include "../Render/ShadowMap.h"
+#include "../Assets/PassAssets.h"
 
 struct RenderCommand
 {
@@ -19,6 +20,7 @@ struct RenderCommand
     bool                      colorWrite = true;
     std::string               cullMode = "Back";
     std::shared_ptr<ShadowMap> shadowMap;
+    std::shared_ptr<PassAssets> shadowAssets;
 
     enum class PassType
     {
@@ -41,8 +43,8 @@ public:
     void Clear();
     void Add(const RenderCommand& cmd);
     void Sort();
-    void DrawForward();
     void DrawShadow();
+    void DrawForward();
     const std::vector<RenderCommand>& getRenderCommands() const { return cmds; }
 
 private:

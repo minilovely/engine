@@ -4,6 +4,7 @@ class MeshPrimitives
 {
 public:
 	MeshCPU makePlane(float width = 1.0f, float height = 1.0f);
+	MeshCPU makeCube(float size);
 
 	void setColor(glm::vec3 col) { color = col; }
 private:

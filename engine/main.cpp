@@ -116,7 +116,7 @@ int main()
     pipeline.AddPass<PassShadow>();
     pipeline.AddPass<PassForward>();//所有加入pipeline的Pass目前设定执行Init()
 
-    //这个mesh目前为空
+    auto skyBox = Utils::MakeSkyBox(500.0f);
 
     while (!window.shouldClose())
     {
@@ -128,6 +128,7 @@ int main()
         RenderDevice::SetCullEnabled(true);
 
         pipeline.Render(mr.getallMeshes(), *mainCam);
+        skyBox->Render(mainCam->getViewMatrix(), mainCam->getProjectionMatrix());
 
         window.SwapBuffers();
     }
