@@ -167,6 +167,7 @@
     <ClInclude Include="Assets\PassAssets.h" />
     <ClInclude Include="Assets\MaterialAssets.h" />
     <ClInclude Include="Core\MeshRegistry.h" />
+    <ClInclude Include="include\Vmd.h" />
     <ClInclude Include="RenderPiPeline\PassShadow.h" />
     <ClInclude Include="Render\Material.h" />
     <ClInclude Include="Render\ShadowMap.h" />

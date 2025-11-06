@@ -21,7 +21,7 @@ public:
 
     void clear(){ allmeshes.clear(); }
 
-    std::vector<Mesh*> getallMeshes() const noexcept { return allmeshes; }
+    std::vector<Mesh*> getotalMeshes() const noexcept { return allmeshes; }
 
 private:
     MeshRegistry() = default;

@@ -26,18 +26,18 @@ public:
 	int getType() const { return type; }
 	glm::vec3 getDirection() const { return direction; }
 	float getRange() const { return range; }
+	glm::mat4 GetLightSpaceMatrix() const;
 
 	void setColor(glm::vec3 col) { this->color = col; }
 	void setIntensity(float i) { this->intensity = i; }
 	void setType(int t) { type = t; }
-	void setDirection(glm::vec3 dirPos);
+	void setDirection(glm::vec3 dir);
 	void setRange(float r) { range = r; }
 	void setConstant(float c) { constant = c; }
 	void setLinear(float li) { linear = li; }
 	void setQuadratic(float q) { quadratic = q; }
 
 	void UploadToShader(Shader* shader,int i);
-	glm::mat4 GetLightSpaceMatrix() const;
 
 
 private:
@@ -53,6 +53,6 @@ private:
 	float constant = 1.0f;
 	float linear = 0.35f;
 	float quadratic = 0.44f;
-	void updateLightSpaceMatrix(); // 新增：纯声明，无实现
+	void updateLightSpaceMatrix();
 };
 

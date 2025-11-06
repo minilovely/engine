@@ -1,6 +1,8 @@
 #pragma once
 #include "Pass.h"
 #include "../RenderPiPeline/RenderQueue.h"
+#include "../RenderPiPeline/PassShadow.h"
+#include "../Render/ShadowMap.h"
 #include "../Scene/Mesh.h"
 
 #include <vector>
@@ -28,6 +30,16 @@ public:
             }
         }
         queue.Sort();
+        std::shared_ptr<ShadowMap> sm;
+        for (auto& p : passes)
+        {
+            if (auto shadowPass = std::dynamic_pointer_cast<PassShadow>(p))
+            {
+                sm = shadowPass->GetShadowMap();
+                break;
+            }
+        }
+        queue.SetShadowMap(sm);
         queue.DrawShadow(); // 首先绘制阴影贴图
         queue.DrawForward(); // 然后主渲染采样
     }

@@ -79,16 +79,15 @@ void main()
 	vec3 result = vec3(0.0);
 	for (int i = 0; i < lightCount; i++) 
 	{
-		float dist = length(lights[i].position - fs_in.wVertPos);
-		if(dist > lights[i].range)
+		if (lights[i].type == 1)
 		{
-			fragColor = vec4(0.0,0.0,0.0,1.0);
+			float dist = length(lights[i].position - fs_in.wVertPos);
+			if (dist > lights[i].range)
+				continue;
 		}
-		else
-		{
-			float shadow = ShadowCalc(fs_in.wVertPos);
-			result += CalculateLight(lights[i], wNormal, viewDir, texCol) * shadow;
-		}
+
+		float shadow = ShadowCalc(fs_in.wVertPos);
+		result += CalculateLight(lights[i], wNormal, viewDir, texCol) * shadow;
 	}
 	fragColor = vec4(result, 1.0);
 }

@@ -4,6 +4,7 @@
 #include "../Scene/Transform.h"
 #include "../Scene/Actor.h"
 #include "../RenderPiPeline/RenderQueue.h"
+#include "../System/LightManager.h"
 
 #include <iostream>
 
@@ -14,6 +15,11 @@ void PassForward::Init()
 
 void PassForward::Collect(const Camera& camera,Mesh* mesh, RenderQueue& outQueue)
 {
+    auto lightManager = &LightManager::Get();
+    Light* dirLight = lightManager ? lightManager->GetMainDirectionalLight() : nullptr;
+    if (!dirLight) return;
+    glm::mat4 lightSpaceMatrix = dirLight->GetLightSpaceMatrix();
+
     const glm::mat4 V = camera.getViewMatrix();
     const glm::mat4 P = camera.getProjectionMatrix();
     const glm::vec3 camPos = camera.getPosition();
@@ -34,5 +40,6 @@ void PassForward::Collect(const Camera& camera,Mesh* mesh, RenderQueue& outQueue
     cmd.depthWrite = mesh->getDepthWrite();
     cmd.colorWrite = mesh->getColorWrite();
     cmd.cullMode = mesh->getCullMode();
+    cmd.lightSpaceMatrix = lightSpaceMatrix;
     outQueue.Add(cmd);
 }

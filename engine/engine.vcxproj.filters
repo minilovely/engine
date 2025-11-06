@@ -209,6 +209,9 @@
     <ClInclude Include="Render\TextureCube.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="include\Vmd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="assimp-vc143-mtd.dll" />

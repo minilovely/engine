@@ -18,7 +18,6 @@ void PassShadow::Init()
     shadowMap->Init(2048);
     shadowAssets = std::make_shared<PassAssets>();
     shadowAssets->Load("Assets/Passes_json/shadow.json");
-    // 无需再计算lightSpaceMatrix，完全由Light内部维护
 }
 
 void PassShadow::Collect(const Camera& /*camera*/, Mesh* mesh, RenderQueue& outQueue)
@@ -35,7 +34,7 @@ void PassShadow::Collect(const Camera& /*camera*/, Mesh* mesh, RenderQueue& outQ
     cmd.mesh = gpuMesh;
     cmd.material = mat;
     cmd.M = trans ? trans->getModelMatrix() : glm::mat4(1.0f);
-    cmd.MVP = lightSpaceMatrix * cmd.M;
+    cmd.lightSpaceMatrix = lightSpaceMatrix;
     cmd.shadowMap = shadowMap;
     cmd.shadowAssets = shadowAssets;
     cmd.PassType = RenderCommand::PassType::Shadow;

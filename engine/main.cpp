@@ -24,6 +24,7 @@
 程序食用说明：
 1.window窗体创建  example:    Window window(长, 宽, "窗口名");
 2.载体创建        example:    auto actor = std::make_unique<Actor>("载体名");
+3.天空盒创建      example:    auto skyBox = std::make_unique<SkyBox>();
 组件：
 1.camera创建      example:    auto camComp = actor->AddComponent<Camera>();
 2.灯光创建        example:    auto light = actor->AddComponent<Light>();
@@ -116,7 +117,17 @@ int main()
     pipeline.AddPass<PassShadow>();
     pipeline.AddPass<PassForward>();//所有加入pipeline的Pass目前设定执行Init()
 
-    auto skyBox = Utils::MakeSkyBox(500.0f);
+    std::vector<std::string> night_faces =
+    {
+        "Assets/Textures/SkyBox/Night/FS013_Night_Cubemap_left.png",
+        "Assets/Textures/SkyBox/Night/FS013_Night_Cubemap_right.png",
+        "Assets/Textures/SkyBox/Night/FS013_Night_Cubemap_up.png",
+        "Assets/Textures/SkyBox/Night/FS013_Night_Cubemap_down.png",
+        "Assets/Textures/SkyBox/Night/FS013_Night_Cubemap_front.png",
+        "Assets/Textures/SkyBox/Night/FS013_Night_Cubemap_back.png"
+    };
+
+    auto skyBox = Utils::MakeSkyBox(night_faces);
 
     while (!window.shouldClose())
     {
@@ -127,8 +138,8 @@ int main()
         RenderDevice::SetDepthTest(true);
         RenderDevice::SetCullEnabled(true);
 
-        pipeline.Render(mr.getallMeshes(), *mainCam);
         skyBox->Render(mainCam->getViewMatrix(), mainCam->getProjectionMatrix());
+        pipeline.Render(mr.getotalMeshes(), *mainCam);
 
         window.SwapBuffers();
     }

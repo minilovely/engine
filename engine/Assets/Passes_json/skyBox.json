@@ -4,5 +4,5 @@
   "fs": "Assets/Shaders/SkyBox/skyBox.frag",
   "depthWrite": false,
   "colorWrite": true,
-  "cullMode": "Back"
+  "cullMode": "front"
 }

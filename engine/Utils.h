@@ -20,7 +20,7 @@ namespace Utils
 
         auto actor = std::make_unique<Actor>(name);
         auto trans = actor->AddComponent<Transform>();
-        trans->setPosition({ 0, 0, 0 });
+        trans->setPosition({ 0, -0.5, 0 });
         trans->setScale({ 0.5f, 0.5f, 0.5f });
 
         for (const auto& mesh : model->meshes)
@@ -51,9 +51,9 @@ namespace Utils
         auto trans = actor->AddComponent<Transform>();
         auto light = actor->AddComponent<Light>();
 
-        trans->setPosition(glm::vec3(-2.0, 3.0, 4.0));
+        trans->setPosition(glm::vec3(2.0, 0.0, 0.0));
         light->setType(0);  // Directional
-        light->setDirection(glm::vec3(-0.5f, -1.0f, -0.5f));
+        light->setDirection(glm::vec3(1.0f, 0.0f, -1.0f));
         light->setColor(glm::vec3(1.0f, 0.9f, 0.8f));
         light->setIntensity(1.2f);
 
@@ -78,8 +78,8 @@ namespace Utils
     {
         auto planeActor = std::make_unique<Actor>(name);
         auto trans = planeActor->AddComponent<Transform>();
-        trans->setPosition({ 0, 0, 0 });
-        trans->setScale({ 10, 2, 10 });//注意：Y轴数据不起作用
+        trans->setPosition({ 0, 0, -3 });
+        trans->setScale({ 100, 1, 100 });//注意：Y轴数据不起作用
         auto mesh_plane = planeActor->AddComponent<Mesh>();
         MeshPrimitives primitive;
         primitive.setColor(glm::vec3(0.6f, 0.6f, 0.6f));
@@ -89,21 +89,12 @@ namespace Utils
         mesh_plane->setCullMode(asset->getCullMode());
         return planeActor;
     }
-    std::unique_ptr<SkyBox> MakeSkyBox(float size = 1.0f)
+    std::unique_ptr<SkyBox> MakeSkyBox(std::vector<std::string> faces)
     {
         auto skyBox = std::make_unique<SkyBox>();
-        skyBox->Init(size);
-        //std::vector<std::string> faces =
-        //{
-        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_left.png",
-        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_right.png",
-        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_up.png",
-        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_down.png",
-        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_front.png",
-        //    "D:/Unity/unity project/MoveAndAnimation/Assets/Fantasy Skybox FREE/Cubemaps/FS013/Images/FS013_Night_Cubemap_back.png"
-        //};
-        //auto cubeMap = std::make_shared<TextureCube>(faces);
-        //skyBox->SetCubeMap(cubeMap);
+        skyBox->Init();
+        auto cubeMap = std::make_shared<TextureCube>(faces);
+        skyBox->SetCubeMap(cubeMap);
         return skyBox;
     }
 

@@ -5,14 +5,14 @@
 
 #include "glad.h"
 
-void SkyBox::Init(float size)
+void SkyBox::Init()
 {
     auto passAsset = std::make_shared<PassAssets>();
     passAsset->Load("Assets/Passes_json/skyBox.json");
     shader = passAsset->getShader();
 
     MeshPrimitives prim;
-    MeshCPU cube = prim.makeCube(size);
+    MeshCPU cube = prim.makeCube(1.0f);
     auto mat = std::make_shared<Material>();
     mat->setShader(shader);
     meshGPU = std::make_unique<MeshGPU>(cube.vertices, cube.indices, mat);
@@ -31,12 +31,14 @@ void SkyBox::Init(float size)
 void SkyBox::Render(const glm::mat4& view, const glm::mat4& proj)
 {
     if (!cubeMap)
+    {
+        std::cout << "[SkyBox] cubeMap is null" << std::endl;
         return;
+    }
 
     glDepthFunc(GL_LEQUAL);
     glDepthMask(GL_FALSE);
     RenderDevice::SetCullEnabled(false);
-    //RenderDevice::SetCullMode("Back");
 
     shader->use();
     shader->setMat4("MVP", proj * glm::mat4(glm::mat3(view)));

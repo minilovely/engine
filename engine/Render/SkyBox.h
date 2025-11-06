@@ -10,7 +10,7 @@ public:
 	SkyBox() = default;
 	~SkyBox() = default;
 
-	void Init(float size);
+	void Init();
 
 	void SetCubeMap(std::shared_ptr<TextureCube> newCube) { cubeMap = std::move(newCube); }
 

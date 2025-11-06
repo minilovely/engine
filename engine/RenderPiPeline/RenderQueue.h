@@ -11,8 +11,9 @@ struct RenderCommand
     Material*                 material;
     int                       value = 2000;
 
-    glm::mat4                 MVP;
     glm::mat4                 M;
+    glm::mat4                 lightSpaceMatrix;
+    glm::mat4                 MVP;
     glm::vec3                 viewPos;
     int                       lightCount = 0;
 
@@ -46,7 +47,7 @@ public:
     void DrawShadow();
     void DrawForward();
     const std::vector<RenderCommand>& getRenderCommands() const { return cmds; }
-
+    void SetShadowMap(std::shared_ptr<ShadowMap> sm) { shadowMap = std::move(sm); }
 private:
     std::vector<RenderCommand> cmds;
     std::shared_ptr<ShadowMap> shadowMap;

@@ -22,10 +22,8 @@ glm::vec3 Light::getPos() const
     }
 }
 
-void Light::setDirection(glm::vec3 dirPos)
+void Light::setDirection(glm::vec3 dir)
 {
-    glm::vec3 startPos = getPos();
-    glm::vec3 dir = dirPos - startPos;
     direction = glm::normalize(dir);
     updateLightSpaceMatrix();
 }
@@ -39,18 +37,23 @@ void Light::updateLightSpaceMatrix()
 {
     if(type == static_cast<int>(Type::Diractional))
     {
+        glm::vec3 lightDir = glm::normalize(direction);
+        glm::vec3 sceneCenter = glm::vec3(0.0f);
+        float distance = 80.0f;  // 足够远
+        glm::vec3 virtualEye = sceneCenter - lightDir * distance;
+
+        glm::mat4 lightView = glm::lookAt(virtualEye, sceneCenter, glm::vec3(0, 1, 0));
+
         float orthoWidth = 10.0f;
-        float nearPlane = 1.0f, farPlane = 50.0f;
+        float nearPlane = 0.1f, farPlane = 100.0f;
         glm::mat4 lightProj = glm::ortho(-orthoWidth, orthoWidth, -orthoWidth, orthoWidth, nearPlane, farPlane);
-        glm::vec3 sceneCenter = glm::vec3(0.0f); // 可扩展
-        float dist = 20.0f;
-        glm::vec3 lightPos = sceneCenter - direction * dist;
-        lightPos = getPos();
-        glm::mat4 lightView = glm::lookAt(lightPos, sceneCenter, glm::vec3(0, 1, 0));
+
         lightSpaceMatrix = lightProj * lightView;
-    } else
+    }
+    else
     {
         lightSpaceMatrix = glm::mat4(1.0f);
+        std::cout << "Diractional light is null" << std::endl;
     }
 }
 
