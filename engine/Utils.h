@@ -6,8 +6,10 @@
 #include "RenderPiPeline/PassForward.h"
 #include "Assets/ImporterPMX.h"
 #include "Assets/MeshPrimitives.h"
+#include "Assets/Bone.h"
 #include "System/CameraSystem.h"
 #include "Render/SkyBox.h"
+#include "Scene/VmdAnimation.h"
 
 #include <memory>
 #include <vector>
@@ -16,12 +18,21 @@ namespace Utils
 {
     std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name, std::shared_ptr<PassAssets> asset)
     {
+        auto actor = std::make_unique<Actor>(name);
+        
         auto model = ImporterPMX::Load(filePath);
 
-        auto actor = std::make_unique<Actor>(name);
         auto trans = actor->AddComponent<Transform>();
-        trans->setPosition({ 0, -0.5, 0 });
+        trans->setPosition({ 0, 0, 0 });
         trans->setScale({ 0.5f, 0.5f, 0.5f });
+		trans->setRotation({ 0, 180, 0 });
+
+        GlobalSkeletonCache::get().registerSkeleton(name, model->skeleton);
+        GlobalSkeletonCache::get().createPose(name, model->skeleton.bones.size());//目前是空姿势表
+        //vmd动画组件
+        auto* vmd = actor->AddComponent<VmdAnimation>();
+        vmd->Load("D:/Models/t1.vmd");  
+        vmd->Play();
 
         for (const auto& mesh : model->meshes)
         {

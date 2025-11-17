@@ -41,7 +41,7 @@ void Light::updateLightSpaceMatrix()
         glm::vec3 sceneCenter = glm::vec3(0.0f);
         float distance = 80.0f;  // 足够远
         glm::vec3 virtualEye = sceneCenter - lightDir * distance;
-
+        
         glm::mat4 lightView = glm::lookAt(virtualEye, sceneCenter, glm::vec3(0, 1, 0));
 
         float orthoWidth = 10.0f;

@@ -19,7 +19,7 @@
 #include <memory>
 #include <stdexcept>
 #include<iostream>
-
+#include <windows.h>
 /*
 程序食用说明：
 1.window窗体创建  example:    Window window(长, 宽, "窗口名");
@@ -35,7 +35,8 @@
 2.mesh支持自定义选择json文件，绑定已有的shader，针对于该mesh的渲染设置
 3.场景支持通过控制mesh的属性value,进行自定义渲染顺序
 4.场景支持通过RenderDevice控制渲染场景的通用设置，如深度测试，剔除
-5.
+5.可添加任意PMX格式模型，但是需要将纹理贴图放置在与模型文件同一目录下
+6.
 
 注意事项:
 1.程序所有实体按照——单个载体可对应多组件的形式存在
@@ -73,6 +74,10 @@ Light
 
 int main()
 {
+    SetConsoleOutputCP(CP_UTF8);  // 65001
+    SetConsoleCP(CP_UTF8);
+    setlocale(LC_ALL, ".UTF-8");
+
     //窗口
     Window window(1280, 720, "Model Viewer");
 
@@ -85,7 +90,7 @@ int main()
     //模型
     std::shared_ptr<PassAssets> model_asset = std::make_shared<PassAssets>();
     model_asset->Load("Assets/Passes_json/model.json");
-    auto modelActor = Utils::MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx",
+    auto modelActor = Utils::MakeModelActor("D:/Models/LTYv4//LTYv4/luotianyi_v4_ver3.3.pmx",
         "model", model_asset);
     auto model_meshes = modelActor->GetComponents<Mesh>();
     std::shared_ptr<Shader> modelShader = model_asset->getShader();
@@ -129,11 +134,19 @@ int main()
 
     auto skyBox = Utils::MakeSkyBox(night_faces);
 
+    float accumulator = 0.0f;
+    const float physicsTimeStep = 1.0f / 60.0f;
+
     while (!window.shouldClose())
     {
-        window.PollEvent();
-        CameraSystem::Instance().UpdateFromInput(0.016f);//0.016≈1/60
-
+        accumulator += 0.016f;  // 近似值
+        while (accumulator >= physicsTimeStep)
+        {
+            window.PollEvent();
+            CameraSystem::Instance().UpdateFromInput(physicsTimeStep);
+            modelActor->Update(physicsTimeStep);
+            accumulator -= physicsTimeStep;
+        }
         RenderDevice::Clear({ 0.4f,0.4f,0.4f });
         RenderDevice::SetDepthTest(true);
         RenderDevice::SetCullEnabled(true);

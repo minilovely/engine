@@ -1,14 +1,11 @@
 #pragma once
 #include "Component.h"
 #include "../Render/MeshGPU.h"
+#include "../Assets/model.h"
 #include "../RenderPiPeline/Pass.h"
 
 #include <memory>
 #include <vector>
-
-struct MeshCPU;
-class MeshGPU;
-class Model;
 
 class Mesh : public Component
 {
@@ -30,7 +27,7 @@ public:
     std::string getCullMode() const { return cullMode; }
 private:
     std::unique_ptr<MeshGPU> mesh_gpu;
-    //std::vector<std::shared_ptr<Pass>> passes;
+
     int value = 2000;
     bool depthWrite = true;
     bool colorWrite = true;

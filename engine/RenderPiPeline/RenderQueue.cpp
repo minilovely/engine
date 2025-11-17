@@ -79,7 +79,12 @@ void RenderQueue::DrawForward()
         shader->setVec3("color", cmd.material->getTexColor());
 
         shader->setMat4("lightSpaceMatrix", cmd.lightSpaceMatrix);
+		shader->setBool("uHasBones", cmd.hasBones);
         shader->setInt("shadowMap", 1);
+        if (!cmd.uBoneMats.empty())
+        {
+            shader->setMat4Array("uBoneMats", cmd.uBoneMats);
+        }
         if (shadowMap)
         {
             shadowMap->BindTexture(1);

@@ -7,7 +7,7 @@
 
 struct RenderCommand
 {
-    MeshGPU*  mesh;
+    MeshGPU*                  mesh = nullptr;
     Material*                 material;
     int                       value = 2000;
 
@@ -16,25 +16,22 @@ struct RenderCommand
     glm::mat4                 MVP;
     glm::vec3                 viewPos;
     int                       lightCount = 0;
-
+    
     bool                      depthWrite = true;
     bool                      colorWrite = true;
     std::string               cullMode = "Back";
-    std::shared_ptr<ShadowMap> shadowMap;
-    std::shared_ptr<PassAssets> shadowAssets;
+    std::shared_ptr<ShadowMap> shadowMap = nullptr;
+    std::shared_ptr<PassAssets> shadowAssets = nullptr;
+
+	std::vector<glm::mat4>   uBoneMats;
+
+    bool hasBones = false;
 
     enum class PassType
     {
         Forward, Shadow
     }PassType = PassType::Forward;
 };
-
-//struct ShadowCommand
-//{
-//    MeshGPU* mesh;
-//    glm::mat4                 lightMat4 = glm::mat4(1.0f);
-//    int                       lightIndex = 0;
-//};
 
 class RenderQueue
 {

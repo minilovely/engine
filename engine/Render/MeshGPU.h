@@ -9,6 +9,8 @@
 class MeshGPU
 {
 public:
+    std::vector<int> localBonesIdx;
+
     //CPU数据转入GPU，将传入的顶点及其索引装入vao,ebo,vbo
     MeshGPU(const std::vector<Vertex>& verts, 
             const std::vector<unsigned int>& index,
@@ -26,5 +28,6 @@ private:
     std::vector<Vertex> verts;
     std::vector<unsigned int> index;
     std::shared_ptr<Material> material;
+
 };
 

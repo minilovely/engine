@@ -140,6 +140,7 @@
     <ClCompile Include="RenderPiPeline\RenderQueue.cpp" />
     <ClCompile Include="Render\ShadowMap.cpp" />
     <ClCompile Include="Render\SkyBox.cpp" />
+    <ClCompile Include="Scene\VmdAnimation.cpp" />
     <ClCompile Include="System\LightManager.cpp" />
     <ClCompile Include="System\CameraSystem.cpp" />
     <ClCompile Include="Scene\Mesh.cpp" />
@@ -161,17 +162,20 @@
     <ClCompile Include="Render\TextureCube.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Assets\Bone.h" />
     <ClInclude Include="Assets\ImporterPMX.h" />
     <ClInclude Include="Assets\model.h" />
     <ClInclude Include="Assets\MeshPrimitives.h" />
     <ClInclude Include="Assets\PassAssets.h" />
     <ClInclude Include="Assets\MaterialAssets.h" />
     <ClInclude Include="Core\MeshRegistry.h" />
+    <ClInclude Include="include\EncodingHelper.h" />
     <ClInclude Include="include\Vmd.h" />
     <ClInclude Include="RenderPiPeline\PassShadow.h" />
     <ClInclude Include="Render\Material.h" />
     <ClInclude Include="Render\ShadowMap.h" />
     <ClInclude Include="Render\SkyBox.h" />
+    <ClInclude Include="Scene\VmdAnimation.h" />
     <ClInclude Include="System\LightManager.h" />
     <ClInclude Include="System\CameraSystem.h" />
     <ClInclude Include="Scene\Mesh.h" />

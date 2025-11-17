@@ -111,6 +111,9 @@
     <ClCompile Include="Render\TextureCube.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\VmdAnimation.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -210,6 +213,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\Vmd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Assets\Bone.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\VmdAnimation.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\EncodingHelper.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

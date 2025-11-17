@@ -51,7 +51,11 @@ public:
         return result;
     }
 
-    void Update(float dt) { for (auto& c : components) c->Update(dt); }
+    void Update(float dt)
+    {
+        for (auto& c : components)
+            c->Update(dt);
+    }
 
     std::string getName() const { return name; }
 private:

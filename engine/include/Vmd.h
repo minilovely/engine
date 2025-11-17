@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <ostream>
+#include "EncodingHelper.h"
 
 namespace vmd
 {
@@ -28,7 +29,12 @@ namespace vmd
 		{
 			char buffer[15];
 			stream->read((char*)buffer, sizeof(char) * 15);
-			name = std::string(buffer);
+
+			oguna::EncodingConverter converter;
+			std::string utf8Name;
+			converter.Cp932ToUtf8(buffer, 15, &utf8Name);
+			name = utf8Name;
+			//name = std::string(buffer);
 			stream->read((char*)&frame, sizeof(int));
 			stream->read((char*)position, sizeof(float) * 3);
 			stream->read((char*)orientation, sizeof(float) * 4);

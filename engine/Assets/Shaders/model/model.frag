@@ -58,19 +58,36 @@ vec3 CalculateLight(Light light, vec3 normal, vec3 viewDir, vec3 texColor)
 	return (ambient + diffuse + specular) * attenuation * texColor;
 }
 
-// --- 新增：基础阴影采样，仅硬阴影，可拓展软阴影PCF ---
-float ShadowCalc(vec3 wPos)
+float ShadowCalc(vec3 wPos, vec3 wNormal)
 {
-	vec4 lightSpacePos = lightSpaceMatrix * vec4(wPos, 1.0);
-	vec3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
-	projCoords = projCoords * 0.5 + 0.5;
-	float currentDepth = projCoords.z;
-	float closestDepth = texture(shadowMap, projCoords.xy).r;
-	float bias = 0.005;
-	float shadow = currentDepth - bias > closestDepth ? 0.4 : 1.0;
-	return shadow;
+    vec4 lightSpacePos = lightSpaceMatrix * vec4(wPos, 1.0);
+    vec3 projCoords = lightSpacePos.xyz / lightSpacePos.w;
+    projCoords = projCoords * 0.5 + 0.5;
+    
+    // 超出阴影贴图范围则不失效
+    if(projCoords.z > 1.0)
+        return 1.0;
+    
+    float currentDepth = projCoords.z;
+    float closestDepth = texture(shadowMap, projCoords.xy).r;
+    
+    //动态Bias：基于法线与光源方向夹角
+    vec3 lightDir = normalize(-lights[0].direction);
+    float bias = max(0.001 * (1.0 - dot(wNormal, lightDir)), 0.0001);
+    
+    //PCF软阴影（可选，消除锯齿）
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x) {
+        for(int y = -1; y <= 1; ++y) {
+            float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x,y) * texelSize).r;
+            shadow += currentDepth - bias > pcfDepth ? 0.4 : 1.0;
+        }
+    }
+    shadow /= 9.0;
+    
+    return shadow;
 }
-
 void main()
 {
 	vec3 texCol = texture(diffTex[0], fs_in.vUV).rgb;
@@ -86,7 +103,7 @@ void main()
 				continue;
 		}
 
-		float shadow = ShadowCalc(fs_in.wVertPos);
+		float shadow = ShadowCalc(fs_in.wVertPos, wNormal);
 		result += CalculateLight(lights[i], wNormal, viewDir, texCol) * shadow;
 	}
 	fragColor = vec4(result, 1.0);
