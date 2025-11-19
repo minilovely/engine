@@ -7,9 +7,9 @@ layout(location = 4) in vec4  boneWeights;
 
 out vertex
 {
-	vec3 vNorm;//���編��
+	vec3 vNorm;//世界法线
 	vec2 vUV;
-	vec3 wVertPos;//���綥������
+	vec3 wVertPos;//世界顶点坐标
 }vs_out;
 
 uniform mat4 MVP;
@@ -19,9 +19,9 @@ uniform mat4 M;
 uniform mat4 uBoneMats[MAX_BONES];
 uniform bool uHasBones;
 
-//����Ҫ����������ҪĿ���Ǹı���Ⱦ���ԣ�ÿ��mesh�����ٴ������Ǽܵ����ձ任����OpenGL���ڼĴ�������
-//Ҫ������2���£�ÿ��meshֻ�洢���Լ��йصĹ�����������ÿ�������Ӧ��ȫ�ֹ�������Ҳ��Ҫ�ı�Ϊ�ֲ�����
-//1.���������������ȡ��->����ImporterPMX����¼ÿ��mesh�����еĹ�����������vmdAnimation������й�����ȫ�ֱ任������ٸ��ݱ任Ϊ�ֲ���Ĺ�����������Ӧ�ı任����д��shader
+//这里要做的事情主要目的是改变渲染策略，每个mesh不能再存整个骨架的最终变换矩阵，OpenGL存在寄存器上限
+//要做的有2件事：每个mesh只存储和自己有关的骨骼矩阵，这里每个顶点对应的全局骨骼索引也需要改变为局部索引
+//1.骨骼矩阵在哪里获取？->先在ImporterPMX处记录每个mesh所持有的骨骼索引，在vmdAnimation完成所有骨骼的全局变换计算后再根据变换为局部后的骨骼索引所对应的变换矩阵写入shader
 mat4 GetSkinMat()
 {
     mat4 m = mat4(0.0);

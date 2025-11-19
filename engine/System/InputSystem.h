@@ -5,12 +5,12 @@ class Input
 {
 	friend class Window;
 public:
-	//½«µ±Ç°ÊäÈë×´Ì¬¸´ÖÆµ½ÉÏÒ»Ö¡Êı¾İ
+	//å°†å½“å‰è¾“å…¥çŠ¶æ€å¤åˆ¶åˆ°ä¸Šä¸€å¸§æ•°æ®
 	static void Tick();
 	//keybored
-	//¶Ì°´¼ü
+	//çŸ­æŒ‰é”®
 	static bool isKeyPressed(int key);
-	//³¤°´¼ü
+	//é•¿æŒ‰é”®
 	static bool isKeyDown(int key);
 	static bool isKeyReleased(int key);
 	//mouse
@@ -26,7 +26,7 @@ private:
 	static bool mouse[3];
 	static glm::vec2 mouseCurPos;
 	static glm::vec2 mousePrePos;
-	//Ò»Ö¡µ±ÖĞµÄÆ«ÒÆÁ¿
+	//ä¸€å¸§å½“ä¸­çš„åç§»é‡
 	static float scroll_Y;
 
 	static void setKey(int key, bool down);

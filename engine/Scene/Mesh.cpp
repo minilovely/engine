@@ -11,14 +11,14 @@ Mesh::Mesh(Actor* owner) : Component(owner)
 
 void Mesh::transCPUToGPU(const MeshCPU& cpu)
 {
-	std::unordered_map<int, int> boneMap;//È«¾Ö¹Ç÷ÀË÷Òýµ½±¾µØ¹Ç÷ÀË÷ÒýµÄÓ³Éä
+	std::unordered_map<int, int> boneMap;//å…¨å±€éª¨éª¼ç´¢å¼•åˆ°æœ¬åœ°éª¨éª¼ç´¢å¼•çš„æ˜ å°„
 	for (size_t i = 0; i < cpu.bones.size(); ++i)
 	{
 		int globalBoneIdx = cpu.bones[i];
 		boneMap[globalBoneIdx] = i;
 	}
 	std::vector<Vertex> localVertices = cpu.vertices;
-	//ÐÞ¶©¶¥µãÖÐµÄ¹Ç÷ÀË÷ÒýÎª±¾µØË÷Òý
+	//ä¿®è®¢é¡¶ç‚¹ä¸­çš„éª¨éª¼ç´¢å¼•ä¸ºæœ¬åœ°ç´¢å¼•
 	for(auto& v : localVertices)
 	{
 		for (int i = 0; i < 4; ++i)
@@ -33,7 +33,7 @@ void Mesh::transCPUToGPU(const MeshCPU& cpu)
 				}
 				else
 				{
-					// ²»Ó¦¸Ã·¢Éú£¬ËµÃ÷¶¥µãÈ¨ÖØÓÐ´íÎó
+					// ä¸åº”è¯¥å‘ç”Ÿï¼Œè¯´æ˜Žé¡¶ç‚¹æƒé‡æœ‰é”™è¯¯
 					v.boneIDs[i] = 0;
 					std::cerr << "[Mesh] Warning: Bone index " << globalBoneIdx
 						<< " not found in usedGlobalBoneIndices" << std::endl;

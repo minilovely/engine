@@ -28,8 +28,8 @@ namespace Utils
 		trans->setRotation({ 0, 180, 0 });
 
         GlobalSkeletonCache::get().registerSkeleton(name, model->skeleton);
-        GlobalSkeletonCache::get().createPose(name, model->skeleton.bones.size());//Ä¿Ç°ÊÇ¿Õ×ËÊÆ±í
-        //vmd¶¯»­×é¼þ
+        GlobalSkeletonCache::get().createPose(name, model->skeleton.bones.size());//ç›®å‰æ˜¯ç©ºå§¿åŠ¿è¡¨
+        //vmdåŠ¨ç”»ç»„ä»¶
         auto* vmd = actor->AddComponent<VmdAnimation>();
         vmd->Load("D:/Models/t1.vmd");  
         vmd->Play();
@@ -90,7 +90,7 @@ namespace Utils
         auto planeActor = std::make_unique<Actor>(name);
         auto trans = planeActor->AddComponent<Transform>();
         trans->setPosition({ 0, 0, -3 });
-        trans->setScale({ 100, 1, 100 });//×¢Òâ£ºYÖáÊý¾Ý²»Æð×÷ÓÃ
+        trans->setScale({ 100, 1, 100 });//æ³¨æ„ï¼šYè½´æ•°æ®ä¸èµ·ä½œç”¨
         auto mesh_plane = planeActor->AddComponent<Mesh>();
         MeshPrimitives primitive;
         primitive.setColor(glm::vec3(0.6f, 0.6f, 0.6f));

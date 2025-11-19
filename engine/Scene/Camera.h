@@ -46,7 +46,7 @@ private:
 	float pitch = 0.0f;
 	//bool isFirstMouse = true;
 
-	float lastX = 0.f, lastY = 0.f;   // …œ“ª÷° Û±Í
+	float lastX = 0.f, lastY = 0.f;   // ‰∏ä‰∏ÄÂ∏ßÈº†Ê†á
 	bool  firstMouse = true;
 	void updateCamera();
 };

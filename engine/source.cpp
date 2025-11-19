@@ -1,26 +1,26 @@
 /*
-´ı×ö¹¦ÄÜ£º
-Ä¿Ç°×öµ½ÁË±éÀúmodelµÄ¸÷¸ömesh¼°meshÖĞ¸÷¸ö¶¥µã¡££¨¡Ì£©
-1.»ñÈ¡ÁËÃ¿¸ömeshºÍ¶¥µãºó£¬Êı¾İÁ÷ÈçºÎ·ÅÈëshader	£¨¡Ì£©
-2.Ê¹ÓÃ½á¹¹Ìå×éºÏÊı¾İºó£¬ÊÇ·ñÖ±½Ó½«Êı¾İ½Ó¿Ú£¨¼´vertexÀàĞÍ±äÁ¿£©·ÅÈëÊôĞÔµã¼´¿É£¬»¹ÊÇ±ğµÄ·½·¨£¨¡Ì£©
-£¨ÉèÖÃÊôĞÔµã¶ÁÈ¡Æğµã¼°²½³¤£©
-3.ÑÕÉ«ÔİÊ±ÒÔ°×Ä£µÄĞÎÊ½Õ¹ÏÖ£¬¾ßÌåµÄ²ÄÖÊÈçºÎ¸´Ô­ÖÁÔ­ÓĞµÄmeshÉÏ£¬²ÄÖÊµÄtexcoordÊÇ·ñĞèÒª×Ô¶¨Òå(¡Ì£©
-4.Ä£ĞÍµÄ¶¯×÷ÈçºÎÍê³É£¬ÊÇ·ñĞèÒªÏÈÔÚDCCÉÏÍê³ÉºóÔÙ³¢ÊÔµ¼ÈëÄ£ĞÍ
-5.Íê³É´°¿ÚµÄ²Ù×÷ÉèÖÃ£¨¡Ì£©
-6.Ìí¼Ó¹âÕÕ¼ÆËã£¬(¡Ì£©
-7.Ìí¼ÓĞÇÔÆ£¬Ê¹ÓÃÌåäÖÈ¾
-8.Ìí¼ÓÌì¿ÕºĞ£¨¡Ì£©
-9.Ìí¼ÓµØÇò£¬µØÇòµÄÎÆÀí±ä»»£ºÔÚÒõÓ°´¦ºÍ¹âÕÕ´¦ÎÆÀíÓ¦ÓÃÓ¦²»Í¬
-10.²Ù×÷PLUS£»ÈçºÎÍ¨¹ıµã»÷Ä£ĞÍ£¬¿ØÖÆÄ£ĞÍµÄÒÆ¶¯£¿×îºÃÓĞ×ø±êÖá£¬Í¨¹ı¿ØÖÆ×ø±êÖáÀ´ÒÆ¶¯
-11.ÒõÓ°£¨¡Ì£©
+å¾…åšåŠŸèƒ½ï¼š
+ç›®å‰åšåˆ°äº†éå†modelçš„å„ä¸ªmeshåŠmeshä¸­å„ä¸ªé¡¶ç‚¹ã€‚ï¼ˆâˆšï¼‰
+1.è·å–äº†æ¯ä¸ªmeshå’Œé¡¶ç‚¹åï¼Œæ•°æ®æµå¦‚ä½•æ”¾å…¥shader	ï¼ˆâˆšï¼‰
+2.ä½¿ç”¨ç»“æ„ä½“ç»„åˆæ•°æ®åï¼Œæ˜¯å¦ç›´æ¥å°†æ•°æ®æ¥å£ï¼ˆå³vertexç±»å‹å˜é‡ï¼‰æ”¾å…¥å±æ€§ç‚¹å³å¯ï¼Œè¿˜æ˜¯åˆ«çš„æ–¹æ³•ï¼ˆâˆšï¼‰
+ï¼ˆè®¾ç½®å±æ€§ç‚¹è¯»å–èµ·ç‚¹åŠæ­¥é•¿ï¼‰
+3.é¢œè‰²æš‚æ—¶ä»¥ç™½æ¨¡çš„å½¢å¼å±•ç°ï¼Œå…·ä½“çš„æè´¨å¦‚ä½•å¤åŸè‡³åŸæœ‰çš„meshä¸Šï¼Œæè´¨çš„texcoordæ˜¯å¦éœ€è¦è‡ªå®šä¹‰(âˆšï¼‰
+4.æ¨¡å‹çš„åŠ¨ä½œå¦‚ä½•å®Œæˆï¼Œæ˜¯å¦éœ€è¦å…ˆåœ¨DCCä¸Šå®Œæˆåå†å°è¯•å¯¼å…¥æ¨¡å‹
+5.å®Œæˆçª—å£çš„æ“ä½œè®¾ç½®ï¼ˆâˆšï¼‰
+6.æ·»åŠ å…‰ç…§è®¡ç®—ï¼Œ(âˆšï¼‰
+7.æ·»åŠ æ˜Ÿäº‘ï¼Œä½¿ç”¨ä½“æ¸²æŸ“
+8.æ·»åŠ å¤©ç©ºç›’ï¼ˆâˆšï¼‰
+9.æ·»åŠ åœ°çƒï¼Œåœ°çƒçš„çº¹ç†å˜æ¢ï¼šåœ¨é˜´å½±å¤„å’Œå…‰ç…§å¤„çº¹ç†åº”ç”¨åº”ä¸åŒ
+10.æ“ä½œPLUSï¼›å¦‚ä½•é€šè¿‡ç‚¹å‡»æ¨¡å‹ï¼Œæ§åˆ¶æ¨¡å‹çš„ç§»åŠ¨ï¼Ÿæœ€å¥½æœ‰åæ ‡è½´ï¼Œé€šè¿‡æ§åˆ¶åæ ‡è½´æ¥ç§»åŠ¨
+11.é˜´å½±ï¼ˆâˆšï¼‰
 12.To be continuing,,,
 
-´úÂë¼Ü¹¹£º
-1.²»Í¬µÄprogramÖ®¼äµÄ×÷ÓÃ¹ØÏµÊÇÊ²Ã´£¬ÊÇ·ñÇĞ»»programºó£¬Ç°Ò»¸öprogramµÄÏÔÊ¾»¹ÄÜ¼ÌĞø£¿
-2.ÏÖÔÚµÄ´úÂë½á¹¹ÈçºÎĞŞ¸Ä£¬ÏÖÔÚ¾ÍÊÇÒ»ÍÅÔÓÎï£¬É¶¶¼ÓĞ
-3.Èç¹ûÒªÌí¼Ó¹¦ÄÜ£¬ÏîÄ¿µÄ¼Ü¹¹ÈçºÎÉè¼Æ
+ä»£ç æ¶æ„ï¼š
+1.ä¸åŒçš„programä¹‹é—´çš„ä½œç”¨å…³ç³»æ˜¯ä»€ä¹ˆï¼Œæ˜¯å¦åˆ‡æ¢programåï¼Œå‰ä¸€ä¸ªprogramçš„æ˜¾ç¤ºè¿˜èƒ½ç»§ç»­ï¼Ÿ
+2.ç°åœ¨çš„ä»£ç ç»“æ„å¦‚ä½•ä¿®æ”¹ï¼Œç°åœ¨å°±æ˜¯ä¸€å›¢æ‚ç‰©ï¼Œå•¥éƒ½æœ‰
+3.å¦‚æœè¦æ·»åŠ åŠŸèƒ½ï¼Œé¡¹ç›®çš„æ¶æ„å¦‚ä½•è®¾è®¡
 */
-/*·şÁË£¬ÓÃÁËÏÂai¸øÎÒ¸ã³ÉÊºÉ½ÁË£¬¹úÇì¿ªÊ¼ÖØ¹¹´úÂë£¬ÏÖÓĞÕûÌåÒÑÓĞ»ù±¾¹¦ÄÜ*/
+/*æœäº†ï¼Œç”¨äº†ä¸‹aiç»™æˆ‘ææˆå±å±±äº†ï¼Œå›½åº†å¼€å§‹é‡æ„ä»£ç ï¼Œç°æœ‰æ•´ä½“å·²æœ‰åŸºæœ¬åŠŸèƒ½*/
 
 #include<iostream>
 #include<glm/glm.hpp>
@@ -45,7 +45,7 @@ int lastX, lastY;
 float yaw, pitch;
 
 void framebufferSize_callback(GLFWwindow* window, int width, int height);
-//key_callbackº¯ÊıÒÑÆúÓÃ£¬ÎŞ·¨Âú×ã³¤°´¼üµÄÊµÏÖ
+//key_callbackå‡½æ•°å·²å¼ƒç”¨ï¼Œæ— æ³•æ»¡è¶³é•¿æŒ‰é”®çš„å®ç°
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -162,7 +162,7 @@ void LuoTY::Init()
 		glfwTerminate();
 	}
 	glfwMakeContextCurrent(window);
-	//ÉèÖÃ»Øµ÷º¯Êı
+	//è®¾ç½®å›è°ƒå‡½æ•°
 	glfwSetFramebufferSizeCallback(window, framebufferSize_callback);
 	//glfwSetKeyCallback(window, key_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -238,7 +238,7 @@ void LuoTY::Init()
 
 		float ShadowCalculation(vec4 fragPosLightSpace)
 		{
-			// Í¸ÊÓ³ı·¨ -> [0,1]
+			// é€è§†é™¤æ³• -> [0,1]
 			vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 			projCoords = projCoords * 0.5 + 0.5;
 
@@ -246,7 +246,7 @@ void LuoTY::Init()
 
 			float closestDepth = texture(shadowMap, projCoords.xy).r;
 			float currentDepth = projCoords.z;
-			float bias = 0.005;                          // ¿Éµ÷
+			float bias = 0.005;                          // å¯è°ƒ
 
 			return (currentDepth - bias) > closestDepth ? 1.0 : 0.0;
 		}
@@ -265,7 +265,7 @@ void LuoTY::Init()
 
 			float shadow = ShadowCalculation(fs_in.fragPosLightSpace);
 
-			vec3 ambient = col * 0.2; // »·¾³¹â
+			vec3 ambient = col * 0.2; // ç¯å¢ƒå…‰
 			vec3 result = (ambient + (1.0 - shadow) * (diffuse + specular)) * lightCol;
 			out_color = vec4(result, 1.0);
 		}
@@ -290,11 +290,11 @@ void LuoTY::Init()
 
 	//bind Uniform
 	glUniform1i(glGetUniformLocation(program, "diffuse_map"), 0);
-	//ÉèÖÃCamera²ÎÊı
+	//è®¾ç½®Cameraå‚æ•°
 	camera.worPosition = glm::vec3(0, 0, 6);
 	camera.center = glm::vec3(0, 3, 0);
 	camera.up = glm::vec3(0, 1, 0);
-	//ÉèÖÃUniform±äÁ¿
+	//è®¾ç½®Uniformå˜é‡
 	uniforms.wlightPos = glm::vec3(-2, 3, 4);
 	uniforms.wviewPos = camera.worPosition;
 	glGenVertexArrays(1, &vao);
@@ -303,7 +303,7 @@ void LuoTY::Init()
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	//vertexÊı¾İÉèÖÃ
+	//vertexæ•°æ®è®¾ç½®
 	glBufferData(GL_ARRAY_BUFFER, getSubMeshSize(), NULL, GL_STATIC_DRAW);
 	int offset_v = 0;
 	for (Mesh mesh : subMesh)
@@ -311,7 +311,7 @@ void LuoTY::Init()
 		glBufferSubData(GL_ARRAY_BUFFER, offset_v, mesh.vertices.size() * sizeof(Vertex), mesh.vertices.data());
 		offset_v += mesh.vertices.size() * sizeof(Vertex);
 	}
-	//indicesË÷ÒıÉèÖÃ
+	//indicesç´¢å¼•è®¾ç½®
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, getTotalIndeicesSize(), indices.data(), GL_STATIC_DRAW);
 
 	//set the offset of data (test for one mesh)
@@ -329,7 +329,7 @@ void LuoTY::Init()
 	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offset);//uv
 
 	glUseProgram(0);
-	//ÉèÖÃÉî¶È£¬ÌŞ³ı
+	//è®¾ç½®æ·±åº¦ï¼Œå‰”é™¤
 	glEnable(GL_DEPTH_TEST);
 	//glDisable(GL_CULL_FACE);
 
@@ -342,7 +342,7 @@ void LuoTY::Init()
 		out vec4 fragPosLightSpace;
 
 		uniform mat4 MVP;
-		uniform mat4 lightSpaceMatrix;   // µØÃæÒ²Òª½ø¹âÔ´¿Õ¼ä
+		uniform mat4 lightSpaceMatrix;   // åœ°é¢ä¹Ÿè¦è¿›å…‰æºç©ºé—´
 
 		void main()
 		{
@@ -361,7 +361,7 @@ void LuoTY::Init()
 
 		float ShadowCalculation(vec4 fragPosLightSpace)
 		{
-			// Í¸ÊÓ³ı·¨ -> [0,1]
+			// é€è§†é™¤æ³• -> [0,1]
 			vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 			projCoords = projCoords * 0.5 + 0.5;
 
@@ -369,7 +369,7 @@ void LuoTY::Init()
 
 			float closestDepth = texture(shadowMap, projCoords.xy).r;
 			float currentDepth = projCoords.z;
-			float bias = 0.005;                          // ¿Éµ÷
+			float bias = 0.005;                          // å¯è°ƒ
 
 			return (currentDepth - bias) > closestDepth ? 1.0 : 0.0;
 		}
@@ -395,7 +395,7 @@ void LuoTY::Init()
 	glLinkProgram(programPlane);
 	glUseProgram(programPlane);
 
-	// Æ½Ãæ¶¥µã
+	// å¹³é¢é¡¶ç‚¹
 	planeVertices = {
 		-10.0f, -1.0f, -10.0f,
 		 10.0f, -1.0f, -10.0f,
@@ -403,7 +403,7 @@ void LuoTY::Init()
 		-10.0f, -1.0f,  10.0f
 	};
 
-	// Æ½ÃæË÷Òı
+	// å¹³é¢ç´¢å¼•
 	planeIndices = { 0, 1, 2, 0, 2, 3 };
 
 	glGenVertexArrays(1, &planeVAO);
@@ -421,7 +421,7 @@ void LuoTY::Init()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
 	glUseProgram(0);
-	//Ìì¿ÕºĞ
+	//å¤©ç©ºç›’
 	float skyboxVertices[] = {
 		// positions
 		-1.0f,  1.0f, -1.0f,
@@ -467,7 +467,7 @@ void LuoTY::Init()
 		 1.0f, -1.0f,  1.0f
 	};
 
-	// Ìì¿ÕºĞ shader
+	// å¤©ç©ºç›’ shader
 	const char* skyboxVS =
 		R"(
 			#version 450
@@ -577,7 +577,7 @@ void LuoTY::render()
 		glm::vec3 lightPos = uniforms.wlightPos;
 		glm::mat4 lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		float orthoSize = 15.0f;
-		//Ä£Äâ·½Ïò¹âÊ¹ÓÃÕı½»
+		//æ¨¡æ‹Ÿæ–¹å‘å…‰ä½¿ç”¨æ­£äº¤
 		glm::mat4 lightProj = glm::ortho(-orthoSize, orthoSize, -orthoSize, orthoSize, 1.0f, 50.0f);
 		lightSpaceMatrix = lightProj * lightView;
 		int width, height;
@@ -590,7 +590,7 @@ void LuoTY::render()
 		glClear(GL_DEPTH_BUFFER_BIT);
 		glUseProgram(shadowProgram);
 		glUniformMatrix4fv(glGetUniformLocation(shadowProgram, "lightSpaceMatrix"), 1, GL_FALSE, &lightSpaceMatrix[0][0]);
-		//»­Ä£ĞÍ£¨½öĞ´Éî¶È£©
+		//ç”»æ¨¡å‹ï¼ˆä»…å†™æ·±åº¦ï¼‰
 		glm::mat4 M_shadow = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
 		glUniformMatrix4fv(glGetUniformLocation(shadowProgram, "model"),
 			1, GL_FALSE, &M_shadow[0][0]);
@@ -601,7 +601,7 @@ void LuoTY::render()
 				(void*)(mesh.indexOffset * sizeof(unsigned int)));
 		}
 
-		//»­µØÃæ£¨Ò²ÒªÍ¶ÒõÓ°£©
+		//ç”»åœ°é¢ï¼ˆä¹Ÿè¦æŠ•é˜´å½±ï¼‰
 		glm::mat4 Mplane = glm::mat4(1.0f);
 		glUniformMatrix4fv(glGetUniformLocation(shadowProgram, "model"),
 			1, GL_FALSE, &Mplane[0][0]);
@@ -609,7 +609,7 @@ void LuoTY::render()
 		glDrawElements(GL_TRIANGLES, planeIndices.size(), GL_UNSIGNED_INT, 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		//UniformÉèÖÃ
+		//Uniformè®¾ç½®
 		GLfloat time = (GLfloat)glfwGetTime();
 		//glm::mat4 M = glm::rotate(glm::mat4(1.0f), time, glm::vec3(0, 1, 0));
 		glm::mat4 M = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f, 0.5f, 0.5f));
@@ -617,7 +617,7 @@ void LuoTY::render()
 		glm::mat4 P = glm::perspective(glm::radians(60.0f), 800.0f / 500.0f, 0.1f, 1000.0f);
 		glm::mat4 MV = V * M;
 		glm::mat4 MVP = P * V * M;
-		//»òÕßÊ¹ÓÃglm::value_ptr(MVP)»ñÈ¡Ö¸Õë
+		//æˆ–è€…ä½¿ç”¨glm::value_ptr(MVP)è·å–æŒ‡é’ˆ
 		glUseProgram(program);
 		glUniformMatrix4fv(glGetUniformLocation(program, "lightSpaceMatrix"),
 			1, GL_FALSE, &lightSpaceMatrix[0][0]);
@@ -640,33 +640,33 @@ void LuoTY::render()
 			glDrawElements(GL_TRIANGLES, mesh.indexCount,
 				GL_UNSIGNED_INT, (void*)(mesh.indexOffset * sizeof(unsigned int)));
 		}
-		//»æÖÆÆ½Ãæ
+		//ç»˜åˆ¶å¹³é¢
 		glm::mat4 M_plane = glm::mat4(1.0f);
 		glm::mat4 MVP_plane = P * V * M_plane;
 
 		glUseProgram(programPlane);
 		glUniformMatrix4fv(glGetUniformLocation(programPlane, "lightSpaceMatrix"),
 			1, GL_FALSE, &lightSpaceMatrix[0][0]);
-		glActiveTexture(GL_TEXTURE0);   // µØÃæÖ»ÓÃÒõÓ°Í¼
+		glActiveTexture(GL_TEXTURE0);   // åœ°é¢åªç”¨é˜´å½±å›¾
 		glBindTexture(GL_TEXTURE_2D, shadowDepthTex);
 		glUniform1i(glGetUniformLocation(programPlane, "shadowMap"), 0);
 		glBindVertexArray(planeVAO);
 		glUniformMatrix4fv(glGetUniformLocation(programPlane, "MVP"), 1, GL_FALSE, &MVP_plane[0][0]);
 		glDrawElements(GL_TRIANGLES, planeIndices.size(), GL_UNSIGNED_INT, 0);
-		//»æÖÆÌì¿ÕºĞ
-		glDepthFunc(GL_LEQUAL); // ÔÊĞíÌì¿ÕºĞÔÚ×îÔ¶´¦
+		//ç»˜åˆ¶å¤©ç©ºç›’
+		glDepthFunc(GL_LEQUAL); // å…è®¸å¤©ç©ºç›’åœ¨æœ€è¿œå¤„
 		glDepthMask(GL_FALSE);
 		glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 		glUseProgram(skyboxProgram);
-		glm::mat4 view = glm::mat4(glm::mat3(V)); // È¥µôÆ½ÒÆ
+		glm::mat4 view = glm::mat4(glm::mat3(V)); // å»æ‰å¹³ç§»
 		glUniformMatrix4fv(glGetUniformLocation(skyboxProgram, "view"), 1, GL_FALSE, &view[0][0]);
 		glUniformMatrix4fv(glGetUniformLocation(skyboxProgram, "projection"), 1, GL_FALSE, &P[0][0]);
 		glBindVertexArray(skyboxVAO);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glDepthMask(GL_TRUE);   // »Ö¸´Éî¶ÈĞ´Èë
-		glDepthFunc(GL_LESS);   // »Ö¸´Éî¶È²âÊÔ
+		glDepthMask(GL_TRUE);   // æ¢å¤æ·±åº¦å†™å…¥
+		glDepthFunc(GL_LESS);   // æ¢å¤æ·±åº¦æµ‹è¯•
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
@@ -675,10 +675,10 @@ void LuoTY::render()
 
 void LuoTY::shutdown()
 {
-	//ÊÍ·Å Assimp µÄ CPU ÄÚ´æ
+	//é‡Šæ”¾ Assimp çš„ CPU å†…å­˜
 	importer.FreeScene();
 
-	//ÊÍ·Å CPU ²àµÄ¶¥µã/Ë÷ÒıÊı¾İ
+	//é‡Šæ”¾ CPU ä¾§çš„é¡¶ç‚¹/ç´¢å¼•æ•°æ®
 	subMesh.clear();
 	subMesh.shrink_to_fit();
 	indices.clear();
@@ -686,7 +686,7 @@ void LuoTY::shutdown()
 	tex_diffuse.clear();
 	tex_diffuse.shrink_to_fit();
 
-	//ÊÍ·Å GPU ×ÊÔ´
+	//é‡Šæ”¾ GPU èµ„æº
 	glDeleteVertexArrays(1, &vao);
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
@@ -700,7 +700,7 @@ void LuoTY::shutdown()
 	glDeleteBuffers(1, &planeEBO);
 	glDeleteProgram(programPlane);
 
-	//Ïú»Ù´°¿Ú
+	//é”€æ¯çª—å£
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
@@ -724,7 +724,7 @@ void LuoTY::loadPMX(const std::string& filePath)
 	{
 		std::cout << "model import success" << std::endl;
 	}
-	//±éÀúmesh
+	//éå†mesh
 	subMesh.reserve(numMeshes);
 	tex_diffuse.resize(scene->mNumMaterials, 0);
 	for (size_t i = 0; i < numMeshes; i++)
@@ -739,7 +739,7 @@ void LuoTY::loadPMX(const std::string& filePath)
 		Mesh mymesh;
 		numVertices = mesh->mNumVertices;
 		numIndices = mesh->mFaces->mNumIndices;
-		//»ñÈ¡¶¥µãÊı¾İ
+		//è·å–é¡¶ç‚¹æ•°æ®
 		mymesh.vertices.reserve(numVertices);
 		for (size_t j = 0; j < numVertices; j++)
 		{
@@ -748,13 +748,13 @@ void LuoTY::loadPMX(const std::string& filePath)
 			v.position = glm::vec4(mesh->mVertices[j].x, mesh->mVertices[j].y, mesh->mVertices[j].z, 1.0);
 			v.normal = glm::vec3(mesh->mNormals[j].x, mesh->mNormals[j].y, mesh->mNormals[j].z);
 			v.color = glm::vec3(0.4f, 0.4f, 0.4f);
-			//¶şÎ¬Êı×éµÄµÚÒ»Î»±íÊ¾µÚ¼¸×éÎÆÀí×ø±ê
+			//äºŒç»´æ•°ç»„çš„ç¬¬ä¸€ä½è¡¨ç¤ºç¬¬å‡ ç»„çº¹ç†åæ ‡
 			v.uv = glm::vec2(mesh->mTextureCoords[0][j].x, mesh->mTextureCoords[0][j].y);
 			mymesh.vertices.push_back(v);
 		}
 		mymesh.indexCount = mesh->mNumFaces * 3;
 		mymesh.indexOffset = indices.size();
-		//»ñÈ¡¶¥µãË÷Òı
+		//è·å–é¡¶ç‚¹ç´¢å¼•
 		indices.reserve(numIndices);
 		for (size_t k = 0; k < mesh->mNumFaces; k++)
 		{
@@ -770,8 +770,8 @@ void LuoTY::loadPMX(const std::string& filePath)
 
 		//subMesh.back().index_diffuse = tex_diffuse[mesh->mMaterialIndex];
 	}
-	//»ñÈ¡²ÄÖÊĞÅÏ¢
-	//ÕâÀï´æÔÚÒ»Ğ©ÎÊÌâ£¬²ÄÖÊÎÄ¼ş¸ñÊ½×ª»¯Ê±¼äÌ«³¤£¬ÈçºÎËõ¶ÌÊ±¼ä£¿
+	//è·å–æè´¨ä¿¡æ¯
+	//è¿™é‡Œå­˜åœ¨ä¸€äº›é—®é¢˜ï¼Œæè´¨æ–‡ä»¶æ ¼å¼è½¬åŒ–æ—¶é—´å¤ªé•¿ï¼Œå¦‚ä½•ç¼©çŸ­æ—¶é—´ï¼Ÿ
 	for (size_t m = 0; m < scene->mNumMaterials; m++)
 	{
 		material = scene->mMaterials[m];
@@ -824,7 +824,7 @@ GLuint LuoTY::loadTexFromFile(const std::string& path)
 		std::cerr << "stb failed: " << path << std::endl;
 		return 0;
 	}
-	//½«texture×ª»¯ÎªOpenGL¿ÉÊ¶±ğ¸ñÊ½
+	//å°†textureè½¬åŒ–ä¸ºOpenGLå¯è¯†åˆ«æ ¼å¼
 	GLuint tex;
 	glGenTextures(1, &tex);
 	glBindTexture(GL_TEXTURE_2D, tex);
@@ -893,7 +893,7 @@ void LuoTY::resizeShadowMap(int width, int height) {
 	SHADOW_W = width;
 	SHADOW_H = height;
 
-	// ÖØĞÂ·ÖÅäÒõÓ°Éî¶ÈÌùÍ¼
+	// é‡æ–°åˆ†é…é˜´å½±æ·±åº¦è´´å›¾
 	glBindTexture(GL_TEXTURE_2D, shadowDepthTex);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_W, SHADOW_H, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -906,7 +906,7 @@ void framebufferSize_callback(GLFWwindow* window, int width, int height)
 		app->resizeShadowMap(width, height);
 	}
 }
-//keyÆúÓÃ
+//keyå¼ƒç”¨
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	float sensitivity = 0.5f;
@@ -942,8 +942,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 	}
 
 }
-//Êó±êÆ«ÒÆ¿ØÖÆÊÓ½Ç
-//Õâ¸ö°æ±¾¿ÉÒÔ½â¾öÌø±äµÄÎÊÌâ,ÕıÏòÍÆÆ«º½½ÇºÍ¸©Ñö½Ç»áÓĞÌø±äÎÊÌâ
+//é¼ æ ‡åç§»æ§åˆ¶è§†è§’
+//è¿™ä¸ªç‰ˆæœ¬å¯ä»¥è§£å†³è·³å˜çš„é—®é¢˜,æ­£å‘æ¨åèˆªè§’å’Œä¿¯ä»°è§’ä¼šæœ‰è·³å˜é—®é¢˜
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
 	float sensitivity = 0.1f;
@@ -955,21 +955,21 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 		{
 			lastX = xpos;
 			lastY = ypos;
-			// ·´ÍÆyawºÍpitch
+			// åæ¨yawå’Œpitch
 			glm::vec3 dir = glm::normalize(camera.center - camera.worPosition);
 			pitch = glm::degrees(asin(dir.y));
 			yaw = glm::degrees(atan2(dir.z, dir.x));
 			isFirst = false;
-			return; // ±¾Ö¡²»×öÊÓ½Çµ÷Õû£¬·ÀÖ¹Ìø±ä
+			return; // æœ¬å¸§ä¸åšè§†è§’è°ƒæ•´ï¼Œé˜²æ­¢è·³å˜
 		}
 
 		offsetX = xpos - lastX;
 		offsetY = lastY - ypos;
 		lastX = xpos;
 		lastY = ypos;
-		// Æ«º½½Ç
+		// åèˆªè§’
 		yaw += offsetX * sensitivity;
-		// ¸©Ñö½Ç
+		// ä¿¯ä»°è§’
 		pitch += offsetY * sensitivity;
 		if (pitch > 89.0f)
 			pitch = 89.0f;
@@ -985,26 +985,26 @@ void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 	{
 		isFirst = true;
 	}
-}//Êó±ê¹öÂÖÊµÏÖËõ·Å
-//Êó±ê¹öÂÖ¿ØÖÆ
+}//é¼ æ ‡æ»šè½®å®ç°ç¼©æ”¾
+//é¼ æ ‡æ»šè½®æ§åˆ¶
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	float sensitivity = 0.1f;
 	glm::vec3 forward = glm::normalize(camera.center - camera.worPosition);
-	//Êó±ê¹öÂÖÏòÉÏ
+	//é¼ æ ‡æ»šè½®å‘ä¸Š
 	if (yoffset > 0)
 	{
 		camera.worPosition += forward * sensitivity;
 		camera.center += forward * sensitivity;
 	}
-	//Êó±ê¹öÂÖÏòÏÂ
+	//é¼ æ ‡æ»šè½®å‘ä¸‹
 	if (yoffset < 0)
 	{
 		camera.worPosition -= forward * sensitivity;
 		camera.center -= forward * sensitivity;
 	}
 }
-//¼üÅÌÊäÈë¿ØÖÆ
+//é”®ç›˜è¾“å…¥æ§åˆ¶
 void processInput(GLFWwindow* window)
 {
 	float sensitivity = 0.1f;

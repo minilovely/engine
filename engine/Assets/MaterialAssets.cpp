@@ -4,14 +4,14 @@ std::unordered_map<std::string, std::shared_ptr<Texture2D>> MaterialAssets::text
 
 std::shared_ptr<Texture2D> MaterialAssets::getTexture(const std::string& fullPath)
 {
-    //ÕÒµ½ÎÆÀí
+    //æ‰¾åˆ°çº¹ç†
     auto it = textureCache.find(fullPath);
     if (it != textureCache.end())
     {
         std::cout << "[MaterialAssets] Using cached texture: " << fullPath << std::endl;
         return it->second;
     }
-    //Î´ÕÒµ½ÎÆÀí
+    //æœªæ‰¾åˆ°çº¹ç†
     try
     {
         auto texture = std::make_shared<Texture2D>(fullPath);

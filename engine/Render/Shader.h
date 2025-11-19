@@ -11,7 +11,7 @@ public:
 	
 	void use() const;
 
-	//基本类型按值传递，复杂只读类型选择const+引用
+	//鍩烘湰绫诲瀷鎸夊�间紶閫掞紝澶嶆潅鍙绫诲瀷閫夋嫨const+寮曠敤
 	void setBool(const std::string& name, bool b) const;
 	void setMat4(const std::string& name, const glm::mat4& m) const;
 	void setVec3(const std::string& name, const glm::vec3& v) const;
@@ -26,7 +26,7 @@ public:
 	void SetLightPos(const glm::vec3& v)         const { setVec3("wlightPos", v); }
 	void SetViewPos(const glm::vec3& v)          const { setVec3("wviewPos", v); }
 private:
-	//编译后创建的program的id
+	//缂栬瘧鍚庡垱寤虹殑program鐨刬d
 	unsigned int id = 0;
 };
 

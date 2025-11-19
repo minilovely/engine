@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 
-//¶ÁÈ¡jsonÎÄ¼ş
+//è¯»å–jsonæ–‡ä»¶
 class PassAssets
 {
 public:

@@ -48,11 +48,11 @@ void Camera::rotate(float yaw, float pitch)
     this->yaw += yaw;
     this->pitch += pitch;
 
-    // ÏÞÖÆ¸©Ñö½Ç
+    // é™åˆ¶ä¿¯ä»°è§’
     if (pitch > 89.0f) pitch = 89.0f;
     if (pitch < -89.0f) pitch = -89.0f;
 
-    // ¼ÆËãÐÂ·½Ïò
+    // è®¡ç®—æ–°æ–¹å‘
     glm::vec3 direction;
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
@@ -99,10 +99,10 @@ void Camera::updateFromInput(float dt)
     {
         move(up * m_speed);
     }
-    glm::vec2 current = Input::getMousePos();      // µ±Ç° GLFW ×ø±ê
+    glm::vec2 current = Input::getMousePos();      // å½“å‰ GLFW åæ ‡
     if (Input::isMouseDown(GLFW_MOUSE_BUTTON_RIGHT))
     {
-        if (firstMouse)          // µÚÒ»Ö¡Ö»¼ÇÂ¼£¬²»ÀÛ¼Ó
+        if (firstMouse)          // ç¬¬ä¸€å¸§åªè®°å½•ï¼Œä¸ç´¯åŠ 
         {
             lastX = current.x;
             lastY = current.y;
@@ -110,7 +110,7 @@ void Camera::updateFromInput(float dt)
             return;
         }
         float offsetX = current.x - lastX;
-        float offsetY = lastY - current.y;   // ×¢Òâ Y Òª·´×ª
+        float offsetY = lastY - current.y;   // æ³¨æ„ Y è¦åè½¬
         lastX = current.x;
         lastY = current.y;
 
@@ -124,14 +124,14 @@ void Camera::updateFromInput(float dt)
         dir.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
         dir.y = sin(glm::radians(pitch));
         dir.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-        center = position + glm::normalize(dir);   // Á¢¼´Ë¢ÐÂ
+        center = position + glm::normalize(dir);   // ç«‹å³åˆ·æ–°
     }
     else
     {
-        firstMouse = true;   // ÓÒ¼üÒ»ËÉ¾ÍÖØÖÃ
+        firstMouse = true;   // å³é”®ä¸€æ¾å°±é‡ç½®
     }
 
-    // ¹öÂÖËõ·Å¿ØÖÆ
+    // æ»šè½®ç¼©æ”¾æŽ§åˆ¶
     float scroll = Input::getTotalScrollOffset();
     if (scroll != 0.0f) 
     {

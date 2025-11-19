@@ -16,7 +16,7 @@ void PassAssets::Load(const std::string& jsonpath)
 		std::cout << "Cannot find json file : " + jsonpath << std::endl;
 	}
 	json j;
-	i >> j;// " << "²Ù×÷·ûÒÑ±»ÆúÓÃ
+	i >> j;// " << "æ“ä½œç¬¦å·²è¢«å¼ƒç”¨
 
 	name = j.value("name", "Unamed");
 	vsPath = j.value("vs", "");

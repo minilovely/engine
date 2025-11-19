@@ -1,5 +1,5 @@
 #pragma once
-//ÕâÀïÊ¹ÓÃstructÊÇÒòÎªÔÚGLFWÄÚ²¿ÊµÏÖ¾ÍÊÇÓÃµÄstruct
+//è¿™é‡Œä½¿ç”¨structæ˜¯å› ä¸ºåœ¨GLFWå†…éƒ¨å®ç°å°±æ˜¯ç”¨çš„struct
 struct GLFWwindow;
 
 class Window
@@ -7,7 +7,7 @@ class Window
 public:
 	Window(int width, int height, const char* title);
 	~Window();
-	//½ûÖ¹¸´ÖÆ²Ù×÷
+	//ç¦æ­¢å¤åˆ¶æ“ä½œ
 	Window(Window&) = delete;
 	Window& operator=(const Window&) = delete;
 
@@ -23,11 +23,11 @@ private:
 	
 	GLFWwindow* handle = nullptr;
 
-	//³ÉÔ±º¯Êı
+	//æˆå‘˜å‡½æ•°
 	void InitGLFW();
 	void InitGLAD();
 
-	//WindowÀàÖ»¸ºÔğ½«»ñÈ¡µ½µÄÊäÈëÉè±¸Êı¾İ´«µİ¸øInputÀà
+	//Windowç±»åªè´Ÿè´£å°†è·å–åˆ°çš„è¾“å…¥è®¾å¤‡æ•°æ®ä¼ é€’ç»™Inputç±»
 	static void framebufferSize_callback(GLFWwindow* window, int width, int height);
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void cursor_callback(GLFWwindow* window, double xpos, double ypos);

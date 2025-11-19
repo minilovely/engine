@@ -240,5 +240,6 @@
     <None Include="Assets\Shaders\SkyBox\skyBox.vert" />
     <None Include="Assets\Shaders\SkyBox\skyBox.frag" />
     <None Include="Assets\Passes_json\skyBox.json" />
+    <None Include=".editorconfig" />
   </ItemGroup>
 </Project>

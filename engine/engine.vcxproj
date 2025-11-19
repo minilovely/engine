@@ -108,6 +108,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\OpenGL\stb\stb;D:\OpenGL\GLM\include;D:\OpenGL\GLFW\include;D:\OpenGL\glad\include;D:\OpenGL\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -202,6 +203,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="Assets\Passes_json\plane.json" />
     <None Include="Assets\Passes_json\shadow.json" />
     <None Include="Assets\Passes_json\skyBox.json" />

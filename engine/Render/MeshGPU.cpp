@@ -42,7 +42,7 @@ MeshGPU::~MeshGPU()
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
 }
-//°ó¶¨VAO£¬²ÄÖÊ
+//ç»‘å®šVAOï¼Œæè´¨
 void MeshGPU::Bind() const
 {
     glBindVertexArray(vao);

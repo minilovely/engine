@@ -21,7 +21,7 @@ class Skeleton
 public:
 	std::vector<Bone> bones;
 
-	//Õâ¸ö±íÊÇÎªÁË´´½¨Ë÷Òı±í£¬¼ÇÂ¼µ¥¸öÄ£ĞÍµÄËùÓĞ³öÏÖÁËµÄ¹Ç÷ÀÃû£¬²¢±êÉÏË÷Òı
+	//è¿™ä¸ªè¡¨æ˜¯ä¸ºäº†åˆ›å»ºç´¢å¼•è¡¨ï¼Œè®°å½•å•ä¸ªæ¨¡å‹çš„æ‰€æœ‰å‡ºç°äº†çš„éª¨éª¼åï¼Œå¹¶æ ‡ä¸Šç´¢å¼•
 	std::unordered_map<std::string, int> boneMap; 
 
 	int addIfNew(const std::string& boneName,const glm::mat4& offset)
@@ -40,17 +40,17 @@ public:
 		}
 	}
 };
-// SkeletonPose´æ´¢Ã¿¸ù¹Ç÷ÀµÄ±ä»»¾ØÕó
+// SkeletonPoseå­˜å‚¨æ¯æ ¹éª¨éª¼çš„å˜æ¢çŸ©é˜µ
 class SkeletonPose
 {
 public:
-	std::vector<glm::mat4> localMatrices;  // ¾Ö²¿¶¯»­¾ØÕó
-	std::vector<glm::mat4> globalMatrices; // È«¾Ö±ä»»¾ØÕó
-	std::vector<glm::mat4> finalMatrices;  // ×îÖÕÃÉÆ¤¾ØÕó (global * offset)
+	std::vector<glm::mat4> localMatrices;  // å±€éƒ¨åŠ¨ç”»çŸ©é˜µ
+	std::vector<glm::mat4> globalMatrices; // å…¨å±€å˜æ¢çŸ©é˜µ
+	std::vector<glm::mat4> finalMatrices;  // æœ€ç»ˆè’™çš®çŸ©é˜µ (global * offset)
 
 	void resize(size_t count)
 	{
-		//assignº¯Êı»áÌæ»»vectorÄÚÈİ²¢³õÊ¼»¯
+		//assignå‡½æ•°ä¼šæ›¿æ¢vectorå†…å®¹å¹¶åˆå§‹åŒ–
 		localMatrices.assign(count, glm::mat4(1.0f));
 		globalMatrices.assign(count, glm::mat4(1.0f));
 		finalMatrices.assign(count, glm::mat4(1.0f));
@@ -61,7 +61,7 @@ public:
 		std::fill(globalMatrices.begin(), globalMatrices.end(), glm::mat4(1.0f));
 	}
 };
-//È«¾Öµ¥Àı¹Ç÷À»º´æ£¬´æ´¢¾²Ì¬¹Ç÷ÀºÍ¶¯Ì¬×ËÊÆ
+//å…¨å±€å•ä¾‹éª¨éª¼ç¼“å­˜ï¼Œå­˜å‚¨é™æ€éª¨éª¼å’ŒåŠ¨æ€å§¿åŠ¿
 class GlobalSkeletonCache
 {
 public:
@@ -77,7 +77,7 @@ public:
 		return (it == skeletons.end()) ? nullptr : &it->second;
 	}
 
-	SkeletonPose* getPose(const std::string& key)  // key = ÈÎÒâ×Ö·û´®£¬±ÈÈçÄ£ĞÍÂ·¾¶
+	SkeletonPose* getPose(const std::string& key)  // key = ä»»æ„å­—ç¬¦ä¸²ï¼Œæ¯”å¦‚æ¨¡å‹è·¯å¾„
 	{
 		auto it = poses.find(key);
 		return (it == poses.end()) ? nullptr : &it->second;
@@ -94,131 +94,200 @@ public:
 		skeletons[key] = sk;
 	}
 private:
-	std::unordered_map<std::string, SkeletonPose> poses;//¶¯Ì¬×ËÊÆ£¬´æ´¢³¡¾°µÄÃ¿¸ömodelÊµÀıµÄ¹Ç÷À×ËÊÆ
-	std::unordered_map<std::string, Skeleton> skeletons;//¾²Ì¬¹Ç÷À,ÓÉassimpµ¼Èë
+	std::unordered_map<std::string, SkeletonPose> poses;//åŠ¨æ€å§¿åŠ¿ï¼Œå­˜å‚¨åœºæ™¯çš„æ¯ä¸ªmodelå®ä¾‹çš„éª¨éª¼å§¿åŠ¿
+	std::unordered_map<std::string, Skeleton> skeletons;//é™æ€éª¨éª¼,ç”±assimpå¯¼å…¥
 };
 
 class BoneMapper
 {
 public:
-	// »ù´¡¹Ç÷ÀÃû³ÆÓ³Éä±í£¨VMD±ê×¼Ãû³Æ -> PMX¿ÉÄÜµÄ±äÌå£©
+	// åŸºç¡€éª¨éª¼åç§°æ˜ å°„è¡¨ï¼ˆVMDæ ‡å‡†åç§° -> PMXå¯èƒ½çš„å˜ä½“ï¼‰
     inline static const std::unordered_map<std::string, std::vector<std::string>> BONE_NAME_MAP =
     {
-        // ºËĞÄÇû¸É
-        {"¥»¥ó¥¿©`", {"center", "Center", "root", "Root", "È«¤Æ¤ÎÓH", "¤¹¤Ù¤Æ¤ÎÓH"}},
-        {"¥°¥ë©`¥Ö", {"groove", "Groove"}},
-        {"Ñü", {"waist", "Waist"}},
-        {"ÏÂ°ëÉí", {"lower_body", "ÏÂ°ëÉí", "LowerBody", "Lower Body", "ÏÂ°ëÉí2"}},
-        {"ÉÏ°ëÉí", {"upper_body", "ÉÏ°ëÉí", "UpperBody", "Upper Body", "ÉÏ°ëÉí2", "ÉÏ°ëÉí3"}},
-        {"ÉÏ°ëÉí2", {"upper_body2", "ÉÏ°ëÉí2", "UpperBody2"}},
-        {"Ê×", {"neck", "Neck"}},
-        {"î^", {"head", "Head"}},
+		// æ ¸å¿ƒèº¯å¹²ï¼ˆæ·»åŠ æ›´å¤šå˜ä½“ï¼‰
+				{"ã‚»ãƒ³ã‚¿ãƒ¼", {"center", "Center", "root", "Root", "å…¨ã¦ã®è¦ª", "ã™ã¹ã¦ã®è¦ª", "ã‚»ãƒ³ã‚¿ãƒ¼"}},
+				{"ã‚°ãƒ«ãƒ¼ãƒ–", {"groove", "Groove", "ã‚°ãƒ«ãƒ¼ãƒ–"}},
+				{"è…°", {"waist", "Waist", "è…°"}},
+				{"ä¸‹åŠèº«", {"lower_body", "ä¸‹åŠèº«", "LowerBody", "Lower Body", "ä¸‹åŠèº«2"}},
+				{"ä¸ŠåŠèº«", {"upper_body", "ä¸ŠåŠèº«", "UpperBody", "Upper Body", "ä¸ŠåŠèº«2", "ä¸ŠåŠèº«3"}},
+				{"ä¸ŠåŠèº«2", {"upper_body2", "ä¸ŠåŠèº«2", "UpperBody2"}},
+				{"é¦–", {"neck", "Neck", "é¦–"}},
+				{"é ­", {"head", "Head", "é ­"}},
 
-        // ÊÖ±Û
-        {"×ó¼ç", {"shoulder_L", "×ó¼ç", "LeftShoulder", "¼ç.L", "shoulder.l"}},
-        {"×óÍó", {"arm_L", "×óÍó", "LeftArm", "Íó.L", "arm.l"}},
-        {"×ó¤Ò¤¸", {"elbow_L", "×óÖâ", "LeftElbow", "¤Ò¤¸.L", "elbow.l"}},
-        {"×óÊÖÊ×", {"wrist_L", "×óÊÖÊ×", "LeftWrist", "ÊÖÊ×.L", "wrist.l"}},
-        {"ÓÒ¼ç", {"shoulder_R", "ÓÒ¼ç", "RightShoulder", "¼ç.R", "shoulder.r"}},
-        {"ÓÒÍó", {"arm_R", "ÓÒÍó", "RightArm", "Íó.R", "arm.r"}},
-        {"ÓÒ¤Ò¤¸", {"elbow_R", "ÓÒÖâ", "RightElbow", "¤Ò¤¸.R", "elbow.r"}},
-        {"ÓÒÊÖÊ×", {"wrist_R", "ÓÒÊÖÊ×", "RightWrist", "ÊÖÊ×.R", "wrist.r"}},
+				// æ‰‹è‡‚ï¼ˆå·¦ï¼‰
+				{"å·¦è‚©", {"shoulder_L", "å·¦è‚©", "LeftShoulder", "è‚©.L", "shoulder.l", "lshoulder", "LShoulder"}},
+				{"å·¦è…•", {"arm_L", "å·¦è…•", "LeftArm", "è…•.L", "arm.l", "larm", "LArm"}},
+				{"å·¦ã²ã˜", {"elbow_L", "å·¦è‚˜", "LeftElbow", "ã²ã˜.L", "elbow.l", "lelbow", "LElbow"}},
+				{"å·¦æ‰‹é¦–", {"wrist_L", "å·¦æ‰‹é¦–", "LeftWrist", "æ‰‹é¦–.L", "wrist.l", "lwrist", "LWrist"}},
 
-        // ÊÖÖ¸£¨¼ò»¯°æ£©
-        {"×óÓHÖ¸£°", {"thumb0_L", "×óÓHÖ¸0", "Thumb0_L"}},
-        {"×óÓHÖ¸£±", {"thumb1_L", "×óÓHÖ¸1", "Thumb1_L"}},
-        // ... ÆäËûÊÖÖ¸
+				// æ‰‹è‡‚ï¼ˆå³ï¼‰
+				{"å³è‚©", {"shoulder_R", "å³è‚©", "RightShoulder", "è‚©.R", "shoulder.r", "rshoulder", "RShoulder"}},
+				{"å³è…•", {"arm_R", "å³è…•", "RightArm", "è…•.R", "arm.r", "rarm", "RArm"}},
+				{"å³ã²ã˜", {"elbow_R", "å³è‚˜", "RightElbow", "ã²ã˜.R", "elbow.r", "relbow", "RElbow"}},
+				{"å³æ‰‹é¦–", {"wrist_R", "å³æ‰‹é¦–", "RightWrist", "æ‰‹é¦–.R", "wrist.r", "rwrist", "RWrist"}},
 
-        // ÍÈ²¿
-        {"×ó×ã", {"leg_L", "×ó×ã", "LeftLeg", "×ã.L", "leg.l"}},
-        {"×ó¤Ò¤¶", {"knee_L", "×ó¤Ò¤¶", "LeftKnee", "¤Ò¤¶.L", "knee.l"}},
-        {"×ó×ãÊ×", {"ankle_L", "×ó×ãÊ×", "LeftAnkle", "×ãÊ×.L", "ankle.l"}},
-        {"ÓÒ×ã", {"leg_R", "ÓÒ×ã", "RightLeg", "×ã.R", "leg.r"}},
-        {"ÓÒ¤Ò¤¶", {"knee_R", "ÓÒ¤Ò¤¶", "RightKnee", "¤Ò¤¶.R", "knee.r"}},
-        {"ÓÒ×ãÊ×", {"ankle_R", "ÓÒ×ãÊ×", "RightAnkle", "×ãÊ×.R", "ankle.r"}},
+				// è…¿éƒ¨ï¼ˆå·¦ï¼‰
+				{"å·¦è¶³", {"leg_L", "å·¦è¶³", "LeftLeg", "è¶³.L", "leg.l", "lleg", "LLeg"}},
+				{"å·¦ã²ã–", {"knee_L", "å·¦ã²ã–", "LeftKnee", "ã²ã˜.L", "knee.l", "lknee", "LKnee"}},
+				{"å·¦è¶³é¦–", {"ankle_L", "å·¦è¶³é¦–", "LeftAnkle", "è¶³é¦–.L", "ankle.l", "lankle", "LAnkle"}},
 
-        // IK ¹Ç
-        {"×ó×ã£É£Ë", {"leg_IK_L", "×ó×ãIK", "LegIK_L", "×ãIK.L"}},
-        {"ÓÒ×ã£É£Ë", {"leg_IK_R", "ÓÒ×ãIK", "LegIK_R", "×ãIK.R"}},
-        {"×ó¤Ä¤ŞÏÈ£É£Ë", {"toe_IK_L", "×ó¤Ä¤ŞÏÈIK", "ToeIK_L"}},
-        {"ÓÒ¤Ä¤ŞÏÈ£É£Ë", {"toe_IK_R", "ÓÒ¤Ä¤ŞÏÈIK", "ToeIK_R"}},
+				// è…¿éƒ¨ï¼ˆå³ï¼‰
+				{"å³è¶³", {"leg_R", "å³è¶³", "RightLeg", "è¶³.R", "leg.r", "rleg", "RLeg"}},
+				{"å³ã²ã–", {"knee_R", "å³ã²ã–", "RightKnee", "ã²ã˜.R", "knee.r", "rknee", "RKnee"}},
+				{"å³è¶³é¦–", {"ankle_R", "å³è¶³é¦–", "RightAnkle", "è¶³é¦–.R", "ankle.r", "rankle", "RAnkle"}},
 
-        // Å¤×ª¹Ç
-        {"×óÍóŞæ", {"arm_twist_L", "×óÍóŞæ", "ArmTwist_L"}},
-        {"ÓÒÍóŞæ", {"arm_twist_R", "ÓÒÍóŞæ", "ArmTwist_R"}},
-        {"×óÊÖŞæ", {"hand_twist_L", "×óÊÖŞæ", "HandTwist_L"}},
-        {"ÓÒÊÖŞæ", {"hand_twist_R", "ÓÒÊÖŞæ", "HandTwist_R"}},
+				// IKéª¨éª¼
+				{"å·¦è¶³ï¼©ï¼«", {"leg_IK_L", "å·¦è¶³IK", "LegIK_L", "è¶³IK.L", "å·¦è¶³ï¼©ï¼«"}},
+				{"å³è¶³ï¼©ï¼«", {"leg_IK_R", "å³è¶³IK", "LegIK_R", "è¶³IK.R", "å³è¶³ï¼©ï¼«"}},
+				{"å·¦ã¤ã¾å…ˆï¼©ï¼«", {"toe_IK_L", "å·¦ã¤ã¾å…ˆIK", "ToeIK_L", "å·¦ã¤ã¾å…ˆï¼©ï¼«"}},
+				{"å³ã¤ã¾å…ˆï¼©ï¼«", {"toe_IK_R", "å³ã¤ã¾å…ˆIK", "ToeIK_R", "å³ã¤ã¾å…ˆï¼©ï¼«"}},
 
+				// æ‰­è½¬éª¨éª¼ï¼ˆæ˜ å°„åˆ°ä¸»éª¨éª¼ï¼‰
+				{"å·¦è…•æ©", {"arm_twist_L", "å·¦è…•æ©", "ArmTwist_L", "å·¦è…•æ©", "å·¦è…•æ©1", "å·¦è…•æ©2", "å·¦è…•æ©3"}},
+				{"å³è…•æ©", {"arm_twist_R", "å³è…•æ©", "ArmTwist_R", "å³è…•æ©", "å³è…•æ©1", "å³è…•æ©2", "å³è…•æ©3"}},
+				{"å·¦æ‰‹æ©", {"hand_twist_L", "å·¦æ‰‹æ©", "HandTwist_L", "å·¦æ‰‹æ©", "å·¦æ‰‹æ©1", "å·¦æ‰‹æ©2", "å·¦æ‰‹æ©3"}},
+				{"å³æ‰‹æ©", {"hand_twist_R", "å³æ‰‹æ©", "HandTwist_R", "å³æ‰‹æ©", "å³æ‰‹æ©1", "å³æ‰‹æ©2", "å³æ‰‹æ©3"}},
+				// å¤´å‘ï¼ˆæ·»åŠ é€šç”¨æ˜ å°„ï¼‰
+				{"FaShi", {"FaShi", "FaShi_01", "FaShi_02", "FaShi_03", "FaShi_04"}},
+				{"QianFa", {"QianFa", "å‰é«ª"}},
+				{"HouFa", {"HouFa", "å¾Œé«ª"}},
+				{"TouFa_L", {"TouFa_L", "å·¦é«ª"}},
+				{"TouFa_R", {"TouFa_R", "å³é«ª"}},
     };
 
-	// Ö÷²éÕÒº¯Êı£¨Ä£·Â Blender MMD Tools£©
     static int FindBoneIndex(const Skeleton* skeleton, const std::string& vmdBoneName)
     {
         if (!skeleton || vmdBoneName.empty()) return -1;
 
-        // ===== µÚ1ÓÅÏÈ¼¶£º¾«È·Æ¥Åä£¨Ô­Ê¼Ãû³Æ£©=====
-        auto exact = skeleton->boneMap.find(vmdBoneName);
-        if (exact != skeleton->boneMap.end()) return exact->second;
-
-        // ===== µÚ2ÓÅÏÈ¼¶£ºÓ³Éä±íÆ¥Åä£¨×î¿É¿¿£©=====
-        auto mapIt = BONE_NAME_MAP.find(vmdBoneName);
-        if (mapIt != BONE_NAME_MAP.end()) {
-            for (const std::string& possibleName : mapIt->second) {
-                auto boneIt = skeleton->boneMap.find(possibleName);
-                if (boneIt != skeleton->boneMap.end()) {
-                    return boneIt->second;
-                }
-            }
-        }
-
-        // ===== µÚ3ÓÅÏÈ¼¶£º¹éÒ»»¯Æ¥Åä£¨ºó±¸·½°¸£©=====
-        std::string normVMD = Normalize(vmdBoneName);
-        for (const auto& pair : skeleton->boneMap) {
-            if (Normalize(pair.first) == normVMD) {
-                return pair.second;
-            }
-        }
-
-        //// ===== µÚ4ÓÅÏÈ¼¶£º×Ó´®Æ¥Åä£¨×îºóÊÖ¶Î£©=====
-        //for (const auto& pair : skeleton->boneMap) {
-        //    const std::string& pmxName = pair.first;
-        //    // VMD Ãû°üº¬ PMX Ãû »ò·´Ö®
-        //    if (pmxName.find(vmdBoneName) != std::string::npos ||
-        //        vmdBoneName.find(pmxName) != std::string::npos) {
-        //        return pair.second;
-        //    }
-        //}
-
-        // ÍêÈ«Ê§°Ü
+		// ===== ç¬¬1ä¼˜å…ˆçº§ï¼šç²¾ç¡®åŒ¹é…ï¼ˆåŸå§‹åç§°ï¼‰=====
+		auto exact = skeleton->boneMap.find(vmdBoneName);
+		if (exact != skeleton->boneMap.end())
+		{
+			std::cout << "[BoneMapper] Exact match: '" << vmdBoneName << "' -> index " << exact->second << std::endl;
+			return exact->second;
+		}
+		// ===== ç¬¬2ä¼˜å…ˆçº§ï¼šç›´æ¥æ˜ å°„ï¼ˆVMDæ ‡å‡†å â†’ PMXå˜ä½“ï¼‰=====
+		auto mapIt = BONE_NAME_MAP.find(vmdBoneName);
+		if (mapIt != BONE_NAME_MAP.end())
+		{
+			for (const std::string& possibleName : mapIt->second)
+			{
+				auto boneIt = skeleton->boneMap.find(possibleName);
+				if (boneIt != skeleton->boneMap.end())
+				{
+					std::cout << "[BoneMapper] Direct map: '" << vmdBoneName << "' -> '" << possibleName << "' -> index " << boneIt->second << std::endl;
+					return boneIt->second;
+				}
+			}
+		}
+		// ===== ç¬¬3ä¼˜å…ˆçº§ï¼šåå‘æ˜ å°„ï¼ˆVMDåå¯èƒ½æ˜¯PMXå˜ä½“ï¼‰=====
+				// éå†æ˜ å°„è¡¨ï¼Œæ£€æŸ¥vmdBoneNameæ˜¯å¦åœ¨æŸä¸ªå˜ä½“åˆ—è¡¨ä¸­
+		for (const auto& [standardName, variants] : BONE_NAME_MAP) {
+			for (const std::string& variant : variants) {
+				// å¦‚æœVMDååŒ¹é…æŸä¸ªå˜ä½“ï¼Œåˆ™è¿”å›æ ‡å‡†åå¯¹åº”çš„ç´¢å¼•
+				if (AreNamesEquivalent(variant, vmdBoneName)) {
+					auto boneIt = skeleton->boneMap.find(standardName);
+					if (boneIt != skeleton->boneMap.end()) {
+						std::cout << "[BoneMapper] âœ“ Reverse map: '" << vmdBoneName << "' -> standard '" << standardName << "' -> index " << boneIt->second << std::endl;
+						return boneIt->second;
+					}
+				}
+			}
+		}
+		// ===== ç¬¬4ä¼˜å…ˆçº§ï¼šå½’ä¸€åŒ–åŒ¹é…ï¼ˆå¤„ç†å…¨è§’/åŠè§’ã€å¤§å°å†™ï¼‰=====
+		std::string normVMD = Normalize(vmdBoneName);
+		for (const auto& pair : skeleton->boneMap) {
+			if (Normalize(pair.first) == normVMD) {
+				std::cout << "[BoneMapper] Normalized match: '" << vmdBoneName << "' -> '" << pair.first << "' -> index " << pair.second << std::endl;
+				return pair.second;
+			}
+		}
+		// ===== ç¬¬5ä¼˜å…ˆçº§ï¼šæ™ºèƒ½å­ä¸²åŒ¹é…ï¼ˆæœ€åæ‰‹æ®µï¼‰=====
+		for (const auto& pair : skeleton->boneMap) {
+			if (IsNameCompatible(pair.first, vmdBoneName)) {
+				std::cout << "[BoneMapper] Substring match: '" << vmdBoneName << "' ~ '" << pair.first << "' -> index " << pair.second << std::endl;
+				return pair.second;
+			}
+		}
+        // å®Œå…¨å¤±è´¥
         std::cerr << "[BoneMapper] Failed to match VMD bone: '" << vmdBoneName << "'" << std::endl;
         return -1;
-
     }
 
-	// ¼ò»¯°æ¹éÒ»»¯£¨½öÒÆ³ı±äÁ¿ºó×º£©
+	// ç®€åŒ–ç‰ˆå½’ä¸€åŒ–ï¼ˆä»…ç§»é™¤å˜é‡åç¼€ï¼‰
     static std::string Normalize(const std::string& name)
     {
-        std::string result = name;
-        // ×ªÎªĞ¡Ğ´
-        std::transform(result.begin(), result.end(), result.begin(),
-            [](unsigned char c) { return std::tolower(c); });
-        // ÒÆ³ı¿Õ¸ñ¡¢ÏÂ»®Ïß¡¢Á¬×Ö·û¡¢µã
-        result.erase(std::remove_if(result.begin(), result.end(),
-            [](char c) { return c == ' ' || c == '_' || c == '-' || c == '.'; }), result.end());
-        return result;
+		std::string result = name;
 
-    }
+		// è½¬ä¸ºå°å†™
+		std::transform(result.begin(), result.end(), result.begin(),
+			[](unsigned char c) { return std::tolower(c); });
+		// ç§»é™¤åˆ†éš”ç¬¦
+		result.erase(std::remove_if(result.begin(), result.end(),
+			[](char c) { return c == ' ' || c == '_' || c == '-' || c == '.'; }), result.end());
 
-	// ¼ì²éÊÇ·ñÎªÎïÀí¿ØÖÆ¹Ç£¨ĞèÒªÌø¹ı£©
+		return result;
+	}
+	// æ£€æŸ¥ä¸¤ä¸ªåç§°æ˜¯å¦ç­‰ä»·ï¼ˆå½’ä¸€åŒ–åæ¯”è¾ƒï¼‰
+	static bool AreNamesEquivalent(const std::string& a, const std::string& b)
+	{
+		return Normalize(a) == Normalize(b);
+	}
+	// æ™ºèƒ½å…¼å®¹æ€§æ£€æŸ¥ï¼ˆå­ä¸²+å…³é”®è¯åŒ¹é…ï¼‰
+	static bool IsNameCompatible(const std::string& pmxName, const std::string& vmdName)
+	{
+		std::string normPMX = Normalize(pmxName);
+		std::string normVMD = Normalize(vmdName);
+
+		// å­ä¸²åŒ¹é…
+		if (normPMX.find(normVMD) != std::string::npos ||
+			normVMD.find(normPMX) != std::string::npos) {
+			return true;
+		}
+
+		// å…³é”®è¯åŒ¹é…ï¼ˆå·¦å³+éƒ¨ä½ï¼‰
+		return MatchKeyComponents(normPMX, normVMD);
+	}
+	static bool MatchKeyComponents(const std::string& a, const std::string& b)
+	{
+		// å®šä¹‰å…³é”®è¯ç»„ä»¶æ˜ å°„
+		const std::unordered_map<std::string, std::vector<std::string>> components = {
+			{"left", {"å·¦", "l", "left", "L"}},
+			{"right", {"å³", "r", "right", "R"}},
+			{"shoulder", {"è‚©", "shoulder"}},
+			{"arm", {"è…•", "arm"}},
+			{"elbow", {"è‚˜", "ã²ã˜", "elbow"}},
+			{"wrist", {"æ‰‹é¦–", "wrist"}},
+			{"leg", {"è¶³", "leg"}},
+			{"knee", {"ã²ã–", "knee"}},
+			{"ankle", {"è¶³é¦–", "ankle"}},
+			{"ik", {"ï¼©ï¼«", "IK", "ik"}}
+		};
+
+		// æ£€æŸ¥æ˜¯å¦å…±äº«è‡³å°‘ä¸€ä¸ªå…³é”®è¯ç»„ä»¶
+		for (const auto& [key, variants] : components) {
+			bool aHas = std::any_of(variants.begin(), variants.end(),
+				[&](const std::string& v) { return a.find(v) != std::string::npos; });
+			bool bHas = std::any_of(variants.begin(), variants.end(),
+				[&](const std::string& v) { return b.find(v) != std::string::npos; });
+			if (aHas && bHas) return true;
+		}
+		return false;
+	}
+	// æ£€æŸ¥æ˜¯å¦ä¸ºç‰©ç†æ§åˆ¶éª¨ï¼ˆéœ€è¦è·³è¿‡ï¼‰
     static bool IsPhysicsBone(const std::string& name)
     {
-        // ¸ü¾«È·µÄÎïÀí¹ÇÅĞ¶Ï
-        return name.find("qq_") == 0 ||
-            name.find("qh_") == 0 ||
-            name.find("g_") == 0 ||  // Åö×²Ìå
-            name.find("j_") == 0 ||  // ¹Ø½Ú
-            name.find("M-") == 0 ||
-            name.find("ÑaÖú") != std::string::npos ||
-            name.find("ÑY") != std::string::npos;
-    }
+		if (name.empty()) return false;
+
+		return name.find("qq_") == 0 ||
+			name.find("qh_") == 0 ||
+			name.find("g_") == 0 ||    // ç¢°æ’ä½“
+			name.find("j_") == 0 ||    // å…³èŠ‚
+			name.find("M-") == 0 ||
+			name.find("è£œåŠ©") != std::string::npos ||
+			name.find("è£") != std::string::npos ||
+			name.find("å–æ¶ˆ") != std::string::npos ||    // è…°ã‚­ãƒ£ãƒ³ã‚»ãƒ«ç­‰
+			name.find("dummy") != std::string::npos ||   // ãƒ€ãƒŸãƒ¼
+			name.find("ãƒ€ãƒŸãƒ¼") != std::string::npos;
+	}
 };

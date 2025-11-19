@@ -10,7 +10,7 @@ struct Vertex
     glm::vec3 normal;
     glm::vec2 uv;
 
-    int boneIDs[4] = { -1, -1, -1, -1 };  // -1±íÊ¾ÎŞÓ°Ïì
+    int boneIDs[4] = { -1, -1, -1, -1 };  // -1è¡¨ç¤ºæ— å½±å“
     float weights[4] = { 0, 0, 0, 0 };
 };
 
@@ -20,12 +20,12 @@ struct MeshCPU
     std::vector<unsigned int> indices;
     std::shared_ptr<Material> material;
 
-	std::vector<int> bones;//¼ÇÂ¼¸ÃmeshÓÃµ½µÄ¹Ç÷ÀË÷Òı
+	std::vector<int> bones;//è®°å½•è¯¥meshç”¨åˆ°çš„éª¨éª¼ç´¢å¼•
 };
-//ModelÀà´æ·Å¶¥µãCPU¶ËÊı¾İ£¬¿ØÖÆImporterPMXµÄÊä³öÎªÍêÕûÄ£ĞÍ
+//Modelç±»å­˜æ”¾é¡¶ç‚¹CPUç«¯æ•°æ®ï¼Œæ§åˆ¶ImporterPMXçš„è¾“å‡ºä¸ºå®Œæ•´æ¨¡å‹
 class Model 
 {
 public:
     std::vector<MeshCPU> meshes;
-	Skeleton skeleton;//¹Ç¼Ü
+	Skeleton skeleton;//éª¨æ¶
 };

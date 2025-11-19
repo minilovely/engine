@@ -21,54 +21,54 @@
 #include<iostream>
 #include <windows.h>
 /*
-³ÌĞòÊ³ÓÃËµÃ÷£º
-1.window´°Ìå´´½¨  example:    Window window(³¤, ¿í, "´°¿ÚÃû");
-2.ÔØÌå´´½¨        example:    auto actor = std::make_unique<Actor>("ÔØÌåÃû");
-3.Ìì¿ÕºĞ´´½¨      example:    auto skyBox = std::make_unique<SkyBox>();
-×é¼ş£º
-1.camera´´½¨      example:    auto camComp = actor->AddComponent<Camera>();
-2.µÆ¹â´´½¨        example:    auto light = actor->AddComponent<Light>();
-3.ÔØÌå×ø±ê´´½¨    example:    auto trans = actor->AddComponent<Transform>();
+ç¨‹åºé£Ÿç”¨è¯´æ˜ï¼š
+1.windowçª—ä½“åˆ›å»º  example:    Window window(é•¿, å®½, "çª—å£å");
+2.è½½ä½“åˆ›å»º        example:    auto actor = std::make_unique<Actor>("è½½ä½“å");
+3.å¤©ç©ºç›’åˆ›å»º      example:    auto skyBox = std::make_unique<SkyBox>();
+ç»„ä»¶ï¼š
+1.cameraåˆ›å»º      example:    auto camComp = actor->AddComponent<Camera>();
+2.ç¯å…‰åˆ›å»º        example:    auto light = actor->AddComponent<Light>();
+3.è½½ä½“åæ ‡åˆ›å»º    example:    auto trans = actor->AddComponent<Transform>();
 
-Ö§³Ö¹¦ÄÜ£º
-1.meshÖ§³Ö×Ô¶¨ÒåÌí¼ÓPassÀàĞÍäÖÈ¾·½Ê½
-2.meshÖ§³Ö×Ô¶¨ÒåÑ¡ÔñjsonÎÄ¼ş£¬°ó¶¨ÒÑÓĞµÄshader£¬Õë¶ÔÓÚ¸ÃmeshµÄäÖÈ¾ÉèÖÃ
-3.³¡¾°Ö§³ÖÍ¨¹ı¿ØÖÆmeshµÄÊôĞÔvalue,½øĞĞ×Ô¶¨ÒåäÖÈ¾Ë³Ğò
-4.³¡¾°Ö§³ÖÍ¨¹ıRenderDevice¿ØÖÆäÖÈ¾³¡¾°µÄÍ¨ÓÃÉèÖÃ£¬ÈçÉî¶È²âÊÔ£¬ÌŞ³ı
-5.¿ÉÌí¼ÓÈÎÒâPMX¸ñÊ½Ä£ĞÍ£¬µ«ÊÇĞèÒª½«ÎÆÀíÌùÍ¼·ÅÖÃÔÚÓëÄ£ĞÍÎÄ¼şÍ¬Ò»Ä¿Â¼ÏÂ
+æ”¯æŒåŠŸèƒ½ï¼š
+1.meshæ”¯æŒè‡ªå®šä¹‰æ·»åŠ Passç±»å‹æ¸²æŸ“æ–¹å¼
+2.meshæ”¯æŒè‡ªå®šä¹‰é€‰æ‹©jsonæ–‡ä»¶ï¼Œç»‘å®šå·²æœ‰çš„shaderï¼Œé’ˆå¯¹äºè¯¥meshçš„æ¸²æŸ“è®¾ç½®
+3.åœºæ™¯æ”¯æŒé€šè¿‡æ§åˆ¶meshçš„å±æ€§value,è¿›è¡Œè‡ªå®šä¹‰æ¸²æŸ“é¡ºåº
+4.åœºæ™¯æ”¯æŒé€šè¿‡RenderDeviceæ§åˆ¶æ¸²æŸ“åœºæ™¯çš„é€šç”¨è®¾ç½®ï¼Œå¦‚æ·±åº¦æµ‹è¯•ï¼Œå‰”é™¤
+5.å¯æ·»åŠ ä»»æ„PMXæ ¼å¼æ¨¡å‹ï¼Œä½†æ˜¯éœ€è¦å°†çº¹ç†è´´å›¾æ”¾ç½®åœ¨ä¸æ¨¡å‹æ–‡ä»¶åŒä¸€ç›®å½•ä¸‹
 6.
 
-×¢ÒâÊÂÏî:
-1.³ÌĞòËùÓĞÊµÌå°´ÕÕ¡ª¡ªµ¥¸öÔØÌå¿É¶ÔÓ¦¶à×é¼şµÄĞÎÊ½´æÔÚ
-2.ÎªÁË±£Ö¤Transform×é¼ş¹¦ÄÜµÄ¼¯ÖĞĞÔ£¬Camera×é¼şÔÚÒ»¶¨³Ì¶ÈÉÏÒÀÀµÓÚTransform×é¼ş£¬
-  ÔÚÌí¼ÓCamera×é¼şÖ®Ç°£¬ĞèÒªÏÈÌí¼ÓTransform×é¼ş
+æ³¨æ„äº‹é¡¹:
+1.ç¨‹åºæ‰€æœ‰å®ä½“æŒ‰ç…§â€”â€”å•ä¸ªè½½ä½“å¯å¯¹åº”å¤šç»„ä»¶çš„å½¢å¼å­˜åœ¨
+2.ä¸ºäº†ä¿è¯Transformç»„ä»¶åŠŸèƒ½çš„é›†ä¸­æ€§ï¼ŒCameraç»„ä»¶åœ¨ä¸€å®šç¨‹åº¦ä¸Šä¾èµ–äºTransformç»„ä»¶ï¼Œ
+  åœ¨æ·»åŠ Cameraç»„ä»¶ä¹‹å‰ï¼Œéœ€è¦å…ˆæ·»åŠ Transformç»„ä»¶
 
-×é¼ş²ÎÊıĞŞ¸Ä£º
-ËùÓĞ×é¼şµÄ²ÎÊıĞŞ¸Ä¹æÔò£º
-×é¼ş±äÁ¿Ãû->²ÎÊıÃû(ĞŞ¸ÄµÄÊıÖµ)
+ç»„ä»¶å‚æ•°ä¿®æ”¹ï¼š
+æ‰€æœ‰ç»„ä»¶çš„å‚æ•°ä¿®æ”¹è§„åˆ™ï¼š
+ç»„ä»¶å˜é‡å->å‚æ•°å(ä¿®æ”¹çš„æ•°å€¼)
 
-×é¼şÊôĞÔ±í£º
-×é¼şÃû:        ÊôĞÔÃû             º¬Òå                  ÆäËû
+ç»„ä»¶å±æ€§è¡¨ï¼š
+ç»„ä»¶å:        å±æ€§å             å«ä¹‰                  å…¶ä»–
 Camera
-               fov                ÊÓ½Ç¶È
-               aspect             ÊÓ¿Ú²ÃÇĞ±È            ÔİÎ´¿ª·Å´ËÏî£¬Ä¿Ç°²ÃÇĞ±ÈÓë´°¿Ú´óĞ¡ñîºÏ
-               nearPlane          ½üÆ½Ãæ¾àÀë
-               farPlane           Ô¶Æ½Ãæ¾àÀë
-               moveSpeed          ÒÆ¶¯ËÙ¶È
-               zoomSpeed          Ëõ·ÅËÙ¶È
+               fov                è§†è§’åº¦
+               aspect             è§†å£è£åˆ‡æ¯”            æš‚æœªå¼€æ”¾æ­¤é¡¹ï¼Œç›®å‰è£åˆ‡æ¯”ä¸çª—å£å¤§å°è€¦åˆ
+               nearPlane          è¿‘å¹³é¢è·ç¦»
+               farPlane           è¿œå¹³é¢è·ç¦»
+               moveSpeed          ç§»åŠ¨é€Ÿåº¦
+               zoomSpeed          ç¼©æ”¾é€Ÿåº¦
 Transform
-               position           ÔØÌåÎ»ÖÃ
-               rotation           Ğı×ªÎ»ÖÃ
-               scale              Ëõ·Å´óĞ¡
+               position           è½½ä½“ä½ç½®
+               rotation           æ—‹è½¬ä½ç½®
+               scale              ç¼©æ”¾å¤§å°
 Light
-               type               ¹âÔ´ÀàĞÍ              0ÎªÆ½ĞĞ¹â£¬1Îªµã¹âÔ´
-               color              ¹âÔ´ÑÕÉ«
-               intensity          ¹âÔ´Ç¿¶È
-               direction          Æ½ĞĞ¹â·½Ïò
-               range              µã¹âÔ´·¶Î§
-               constant           µã¹âÔ´½ü¾àÀëË¥¼õ      0.0R~0.3R
-               linear             µã¹âÔ´ÖĞ¾àÀëË¥¼õ      0.3R~0.7R
-               quadratic          µã¹âÔ´Ô¶¾àÀëË¥¼õ      0.7R~1.0R
+               type               å…‰æºç±»å‹              0ä¸ºå¹³è¡Œå…‰ï¼Œ1ä¸ºç‚¹å…‰æº
+               color              å…‰æºé¢œè‰²
+               intensity          å…‰æºå¼ºåº¦
+               direction          å¹³è¡Œå…‰æ–¹å‘
+               range              ç‚¹å…‰æºèŒƒå›´
+               constant           ç‚¹å…‰æºè¿‘è·ç¦»è¡°å‡      0.0R~0.3R
+               linear             ç‚¹å…‰æºä¸­è·ç¦»è¡°å‡      0.3R~0.7R
+               quadratic          ç‚¹å…‰æºè¿œè·ç¦»è¡°å‡      0.7R~1.0R
 */
 
 
@@ -78,16 +78,16 @@ int main()
     SetConsoleCP(CP_UTF8);
     setlocale(LC_ALL, ".UTF-8");
 
-    //´°¿Ú
+    //çª—å£
     Window window(1280, 720, "Model Viewer");
 
-    //Ïà»ú
+    //ç›¸æœº
     auto cameraActor = Utils::MakeCameraActor("camera");
     Camera* mainCam = cameraActor->GetComponent<Camera>();
 
     MeshRegistry& mr = MeshRegistry::instance();
     mr.clear();
-    //Ä£ĞÍ
+    //æ¨¡å‹
     std::shared_ptr<PassAssets> model_asset = std::make_shared<PassAssets>();
     model_asset->Load("Assets/Passes_json/model.json");
     auto modelActor = Utils::MakeModelActor("D:/Models/LTYv4//LTYv4/luotianyi_v4_ver3.3.pmx",
@@ -102,7 +102,7 @@ int main()
     }
     mr.append(model_meshes);
 
-    //Æ½Ãæ
+    //å¹³é¢
     std::shared_ptr<PassAssets> plane_asset = std::make_shared<PassAssets>();
     plane_asset->Load("Assets/Passes_json/plane.json");
     auto planeActor = Utils::MakePlaneActor("plane", plane_asset);
@@ -112,15 +112,15 @@ int main()
     plane_mesh->setValue(2000);
     mr.add(plane_mesh);
 
-    //¹âÔ´
+    //å…‰æº
     //auto pointLight = Utils::MakePointLightActor("pointLight");
     auto dirLightActor = Utils::MakeDirectionalLightActor("mainLight");
     Light* dirLight = dirLightActor->GetComponent<Light>();
     LightManager::Get().registerLight(dirLightActor.get(), dirLight);
 
-    RenderPipeline pipeline;//ÕâÖÖÉêÇë·½Ê½»áÔÚÕ»ÖĞÉêÇëÄÚ´æ
+    RenderPipeline pipeline;//è¿™ç§ç”³è¯·æ–¹å¼ä¼šåœ¨æ ˆä¸­ç”³è¯·å†…å­˜
     pipeline.AddPass<PassShadow>();
-    pipeline.AddPass<PassForward>();//ËùÓĞ¼ÓÈëpipelineµÄPassÄ¿Ç°Éè¶¨Ö´ĞĞInit()
+    pipeline.AddPass<PassForward>();//æ‰€æœ‰åŠ å…¥pipelineçš„Passç›®å‰è®¾å®šæ‰§è¡ŒInit()
 
     std::vector<std::string> night_faces =
     {
@@ -139,7 +139,7 @@ int main()
 
     while (!window.shouldClose())
     {
-        accumulator += 0.016f;  // ½üËÆÖµ
+        accumulator += 0.016f;  // è¿‘ä¼¼å€¼
         while (accumulator >= physicsTimeStep)
         {
             window.PollEvent();

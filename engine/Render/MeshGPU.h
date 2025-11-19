@@ -11,7 +11,7 @@ class MeshGPU
 public:
     std::vector<int> localBonesIdx;
 
-    //CPU数据转入GPU，将传入的顶点及其索引装入vao,ebo,vbo
+    //CPU鏁版嵁杞叆GPU锛屽皢浼犲叆鐨勯《鐐瑰強鍏剁储寮曡鍏ao,ebo,vbo
     MeshGPU(const std::vector<Vertex>& verts, 
             const std::vector<unsigned int>& index,
             const std::shared_ptr<Material>& material);

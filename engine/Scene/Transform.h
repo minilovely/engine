@@ -4,7 +4,7 @@
 class Transform : public Component
 {
 public:
-	//ÔÚTransformµÄ¹¹Ôìº¯ÊıÌæ»»Îªµ÷ÓÃ»ùÀà¹¹Ôìº¯Êı
+	//åœ¨Transformçš„æ„é€ å‡½æ•°æ›¿æ¢ä¸ºè°ƒç”¨åŸºç±»æ„é€ å‡½æ•°
 	Transform(Actor* owner) : Component(owner){}
 	void setPosition(const glm::vec3& p) { position = p; }
 

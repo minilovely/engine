@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "../include/Vmd.h"
 #include "../Assets/Bone.h"
+#include "../Core/math.h"
 
 #include <string>
 #include <memory>
@@ -31,7 +32,7 @@ private:
 	const Skeleton* skeleton = nullptr;
 	SkeletonPose* pose = nullptr;
 
-	std::unordered_map<std::string, int> vmdToPmxMap; //¼ÇÂ¼vmdÎÄ¼şµÄ¹Ç÷ÀÃûµ½pmx¹Ç÷ÀË÷ÒıµÄÓ³Éä
+	std::unordered_map<std::string, int> vmdToPmxMap; //è®°å½•vmdæ–‡ä»¶çš„éª¨éª¼ååˆ°pmxéª¨éª¼ç´¢å¼•çš„æ˜ å°„
 
 	Transform* transform = nullptr;
 

@@ -8,7 +8,7 @@ VmdAnimation::VmdAnimation(Actor* owner) : Component(owner)
     std::string key = owner->getName();
     pose = GlobalSkeletonCache::get().getPose(key);
     skeleton = GlobalSkeletonCache::get().getSkeleton(key);
-    
+
     transform = owner->GetComponent<Transform>();
     if (!transform)
     {
@@ -29,15 +29,15 @@ bool VmdAnimation::Load(const std::string& vmdFilePath)
 
 void VmdAnimation::Update(float dt)
 {
-    //����״̬���
+    //基础状态检查
     if (!isPlay || !pose || motion->bone_frames.empty())
         return;
 
-    //����ʱ�䣨VMD��׼30fps��
+    //更新时间（VMD标准30fps）
     currentTime += dt * 30.0f;
     int targetFrame = static_cast<int>(currentTime);
 
-    //ѭ����������
+    //循环动画处理
     if (targetFrame > motion->bone_frames.back().frame)
     {
         currentTime = 0.0f;
@@ -68,6 +68,7 @@ void VmdAnimation::BuildBoneIndexMapping()
     std::vector<std::string> unmatchedBones;
     for (const std::string& vmdBoneName : uniqueVmdBoneNames)
     {
+		std::cout << "[VmdAnimation] Mapping VMD bone: " << vmdBoneName << std::endl;
         if (BoneMapper::IsPhysicsBone(vmdBoneName))
         {
             std::cout << "[VmdAnimation] Skipping physics bone: " << vmdBoneName << std::endl;
@@ -113,7 +114,7 @@ void VmdAnimation::ApplyVMDAnimation(int targetFrame)
                 }
             }
         }
-        // Ӧ���ҵ��Ĺؼ�֡
+        // 应用找到的关键帧
         if (targetKeyFrame)
         {
             ApplyBoneFrame(*targetKeyFrame, pmxIndex);
@@ -127,15 +128,30 @@ void VmdAnimation::ApplyBoneFrame(const vmd::VmdBoneFrame& frame, int pmxIndex)
     {
         return;
     }
-    glm::vec3 pos(frame.position[0], frame.position[1], -frame.position[2]);
-    glm::quat rot(frame.orientation[3], frame.orientation[0],frame.orientation[1], -frame.orientation[2]);
+    glm::vec3 pos(frame.position[0], frame.position[1], frame.position[2]);
+    glm::quat rot(frame.orientation[3], frame.orientation[0],frame.orientation[1], frame.orientation[2]);
 
     glm::mat4 T = glm::translate(glm::mat4(1.0f), pos);
     glm::mat4 R = glm::mat4_cast(rot);
 
-	//glm::vec3 zeroPos(0.0f);
-	//pose->localMatrices[1] = R * glm::translate(glm::mat4(1.0f), zeroPos);
-    pose->localMatrices[pmxIndex] = T * R * skeleton->bones[pmxIndex].localTransMat;
+	glm::mat4 initialTransform = skeleton->bones[pmxIndex].localTransMat;
+
+	glm::vec3 initialPos = glm::vec3(initialTransform[3]);
+	glm::mat3 initialRotMat = glm::mat3(initialTransform);
+	glm::quat initialRot = glm::quat_cast(initialRotMat);
+
+	glm::vec3 initialScale = glm::vec3(
+		glm::length(glm::vec3(initialTransform[0])),
+		glm::length(glm::vec3(initialTransform[1])),
+		glm::length(glm::vec3(initialTransform[2]))
+	);
+
+	glm::vec3 finalPos = initialPos + pos;
+	glm::quat finalRot = rot * initialRot;
+
+    pose->localMatrices[pmxIndex] = glm::translate(glm::mat4(1.0f), finalPos) *
+		glm::mat4_cast(finalRot) *
+		glm::scale(glm::mat4(1.0f), initialScale);
 }
 
 void VmdAnimation::CalculateGlobalPoses()
@@ -165,10 +181,12 @@ void VmdAnimation::ApplyOffsetMatrices()
 }
 
 
-//TODO:1.��vmd��ȡ�������� A:����vmd�ļ������⣬����vmd��û��ת��������������
-//     2.����λ��Ť�����⣬���������ڹ���û��ƥ��ɹ�������
-//     3.pmx��vmd����ƥ��������⣬�����޸����
-//     4.vmd��pmx�����������ϵ���죬���Ҹо�������������ϵ������,PMX������������ϵ��vmd����������ϵ
-//     5.�����ܺ��������⣬��ô����תģ�ͣ��ҵ�ƽ�йⷽ��ͱ���----����shaderд����
-//     6.����汾��vmd���ֻvmd���ڵĹ������������PMX����û�ж������ݵĹ�������Щ�����Ͳ��ᶯ������Ϊʲôͷ��֮��Ĳ��ֺ������Ƿֿ���
+//TODO:1.有vmd读取乱码问题 A:这是vmd文件的问题，部分vmd是没有转码后还有乱码的问题
+//     2.顶点位置扭曲问题，可能是现在骨骼没有匹配成功的问题
+//     3.pmx和vmd骨骼匹配存在问题，正在修复解决
+//     4.vmd和pmx好像存在坐标系差异，而且感觉不仅仅是坐标系的问题,PMX采用左手坐标系，vmd是左手坐标系(√）
+//     5.代码框架好像有问题，怎么我旋转模型，我的平行光方向就变了----这是shader写错了（√）
+//     6.这个版本的vmd组件只vmd存在的骨骼动画，如果PMX包含没有动画数据的骨骼，
+//		 这些骨骼就不会动，解释为什么头发之类的部分和躯干是分开的
+//     7.骨骼映射表有些问题，其中一个问题是骨骼表单向映射的问题，应该能解释目前出现的所有问题
 

@@ -7,11 +7,11 @@
 #include <string>
 
 class LightManager;
-//Actor±¾Éí²¢Ã»ÓĞÊ²Ã´×÷ÓÃ£¬Ö÷Òª×÷ÓÃÊÇ×÷ÎªcomponentµÄÈİÆ÷
+//Actoræœ¬èº«å¹¶æ²¡æœ‰ä»€ä¹ˆä½œç”¨ï¼Œä¸»è¦ä½œç”¨æ˜¯ä½œä¸ºcomponentçš„å®¹å™¨
 class Actor
 {
 public:
-    //explicit×÷ÓÃÎª±ÜÃâº¯ÊıÒşÊ½µ÷ÓÃ
+    //explicitä½œç”¨ä¸ºé¿å…å‡½æ•°éšå¼è°ƒç”¨
     explicit Actor(const std::string& name) : name(name) {}
     ~Actor() = default;
 
@@ -20,7 +20,7 @@ public:
     {
         auto comp = std::make_unique<T>(this, std::forward<Args>(args)...);
         T* ptr = comp.get();
-        components.push_back(std::move(comp));//moveÎªÒÆ¶¯ÓïÒå£¬½«×óÖµ×ª»¯ÎªÓÒÖµÒıÓÃ
+        components.push_back(std::move(comp));//moveä¸ºç§»åŠ¨è¯­ä¹‰ï¼Œå°†å·¦å€¼è½¬åŒ–ä¸ºå³å€¼å¼•ç”¨
 
         if (auto* light = dynamic_cast<Light*>(ptr))
         {

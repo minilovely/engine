@@ -8,7 +8,7 @@
 #include <iostream>
 #include <unordered_map>
 
-static glm::mat4 AssimpToGlm(const aiMatrix4x4& m)/*assimpÊÇĞĞÓÅÏÈ£¬glm´æ´¢ÓëOpenGLÒ»ÖÂ£¬ÎªÁĞÓÅÏÈ*/
+static glm::mat4 AssimpToGlm(const aiMatrix4x4& m)/*assimpæ˜¯è¡Œä¼˜å…ˆï¼Œglmå­˜å‚¨ä¸OpenGLä¸€è‡´ï¼Œä¸ºåˆ—ä¼˜å…ˆ*/
 {
     return glm::transpose(glm::make_mat4(&m.a1));
 }
@@ -18,7 +18,7 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
     Assimp::Importer importer;
     const aiScene* scene = importer.ReadFile(filePath,
                                                 aiProcess_Triangulate | aiProcess_FlipUVs |
-                                                aiProcess_ConvertToLeftHanded /*ÕâÊÇ×óÊÖ*/ |
+                                                aiProcess_ConvertToLeftHanded /*è¿™æ˜¯å·¦æ‰‹*/ |
                                                 aiProcess_GenSmoothNormals );
     if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
     {
@@ -28,10 +28,10 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
 
     auto model = std::make_shared<Model>();
     model->meshes.reserve(scene->mNumMeshes);
-    auto materials = std::vector<std::shared_ptr<Material>>();//ÊÕ¼¯ËùÓĞmeshµÄ²ÄÖÊ
+    auto materials = std::vector<std::shared_ptr<Material>>();//æ”¶é›†æ‰€æœ‰meshçš„æè´¨
     materials.reserve(scene->mNumMaterials);
     
-    //¼ÓÔØËùÓĞ²ÄÖÊÎÆÀí
+    //åŠ è½½æ‰€æœ‰æè´¨çº¹ç†
     for (unsigned int m = 0; m < scene->mNumMaterials; ++m)
     {
         auto material = std::make_shared<Material>();
@@ -42,7 +42,7 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
         {
             std::string modelFolder = filePath.substr(0, filePath.find_last_of("/\\") + 1);
             std::string fullPath = modelFolder + texPath.C_Str();
-            //¶ÔÊÇ·ñÒÑÓĞÎÆÀíÂ·¾¶¼ì²é
+            //å¯¹æ˜¯å¦å·²æœ‰çº¹ç†è·¯å¾„æ£€æŸ¥
             auto tex = MaterialAssets::getTexture(fullPath);
             if (tex)
             {
@@ -52,10 +52,10 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
             //std::cout << fullPath << std::endl;
         }
     }
-    //×ª»»Íø¸ñ
+    //è½¬æ¢ç½‘æ ¼
     unsigned int baseVertex = 0;
     int rootBoneIndex = 0;
-    //¹¹½¨È«¾Ö¹Ç÷À±í
+    //æ„å»ºå…¨å±€éª¨éª¼è¡¨
     Skeleton& skeleton = model->skeleton;
 
     for (unsigned int i = 0; i < scene->mNumMeshes; ++i)
@@ -71,13 +71,13 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
         {
             tempVertices[v].pos = { aMesh->mVertices[v].x, aMesh->mVertices[v].y, aMesh->mVertices[v].z };
             tempVertices[v].normal = { aMesh->mNormals[v].x, aMesh->mNormals[v].y, aMesh->mNormals[v].z };
-            //ÅĞ¶Ï¸ÃmeshÊÇ·ñ´æÔÚuv
+            //åˆ¤æ–­è¯¥meshæ˜¯å¦å­˜åœ¨uv
             if (aMesh->mTextureCoords[0])
             {
                 tempVertices[v].uv = { aMesh->mTextureCoords[0][v].x,aMesh->mTextureCoords[0][v].y };
             }
         }
-        //¶¥µãË÷Òı
+        //é¡¶ç‚¹ç´¢å¼•
         mesh.indices.reserve(aMesh->mNumFaces * 3);
         for (unsigned int f = 0; f < aMesh->mNumFaces; ++f)
         {
@@ -85,14 +85,14 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
             for (unsigned int idx = 0; idx < face.mNumIndices; ++idx)
                 mesh.indices.push_back(face.mIndices[idx]);
         }
-		//ÊÕ¼¯¹Ç÷Àµ½È«¾Ö¹Ç÷À±í
+		//æ”¶é›†éª¨éª¼åˆ°å…¨å±€éª¨éª¼è¡¨
         for (unsigned int j = 0; j < aMesh->mNumBones; j++)
         {
             aiBone* aBone = aMesh->mBones[j];
             std::string boneName = aBone->mName.C_Str();
-            //´æ´¢¹Ç÷ÀÆ«ÒÆ¾ØÕó£¬ÎªÃ¿¸ö¹Ç÷À´´½¨Ë÷Òı
+            //å­˜å‚¨éª¨éª¼åç§»çŸ©é˜µï¼Œä¸ºæ¯ä¸ªéª¨éª¼åˆ›å»ºç´¢å¼•
 			skeleton.addIfNew(boneName, AssimpToGlm(aBone->mOffsetMatrix));
-            int boneIndex = skeleton.boneMap[boneName];//ÕâÀï·µ»ØµÄ¾ÍÊÇskeleton½¨Á¢µÄË÷Òı
+            int boneIndex = skeleton.boneMap[boneName];//è¿™é‡Œè¿”å›çš„å°±æ˜¯skeletonå»ºç«‹çš„ç´¢å¼•
             for (unsigned int k = 0; k < aBone->mNumWeights; k++)
             {
 				aiVertexWeight weight = aBone->mWeights[k];
@@ -109,13 +109,13 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
             finalVertex.normal = temp.normal;
             finalVertex.uv = temp.uv;
 
-            // ÅÅĞòºÍ²Ã¼ô
+            // æ’åºå’Œè£å‰ª
             auto& influences = temp.boneInfluences;
 
             std::sort(influences.begin(), influences.end(),
                 [](const std::pair<int, float>& a, const std::pair<int, float>& b)
                 {
-                    return a.second > b.second;  // È¨ÖØ´óµÄÔÚÇ°
+                    return a.second > b.second;  // æƒé‡å¤§çš„åœ¨å‰
                 });
             int numBones = std::min(4, (int)influences.size());
             float weightSum = 0.0f;
@@ -125,7 +125,7 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
                 finalVertex.weights[i] = influences[i].second;  // weight
                 weightSum += influences[i].second;
             }
-            // ¹éÒ»»¯È¨ÖØ£¨È·±£×ÜºÍÎª1.0£©
+            // å½’ä¸€åŒ–æƒé‡ï¼ˆç¡®ä¿æ€»å’Œä¸º1.0ï¼‰
             if (weightSum > 0.0f)
             {
                 for (int i = 0; i < numBones; ++i)
@@ -133,7 +133,7 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
                     finalVertex.weights[i] /= weightSum;
                 }
             }
-            // Çå¿ÕÊ£Óà²ÛÎ»
+            // æ¸…ç©ºå‰©ä½™æ§½ä½
             for (int i = numBones; i < 4; ++i)
             {
                 finalVertex.boneIDs[i] = -1;
@@ -141,7 +141,7 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
             }
             mesh.vertices.push_back(finalVertex);
         }
-		//ÊÕ¼¯¸ÃmeshÓÃµ½µÄ¹Ç÷ÀË÷Òı
+		//æ”¶é›†è¯¥meshç”¨åˆ°çš„éª¨éª¼ç´¢å¼•
 		std::unordered_set<int> meshBoneSet;
         for(auto& v : mesh.vertices)
         {
@@ -159,8 +159,8 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
         model->meshes.push_back(std::move(mesh));
     }
 	BuildBoneHierarchy(scene->mRootNode, model->skeleton, -1);
-    //µ÷ÊÔÑéÖ¤
-    //std::cout << "=== ¹Ç÷À²ã¼¶ÑéÖ¤ ===" << std::endl;
+    //è°ƒè¯•éªŒè¯
+    //std::cout << "=== éª¨éª¼å±‚çº§éªŒè¯ ===" << std::endl;
     //for (size_t i = 0; i < skeleton.bones.size(); ++i)
     //{
     //    std::cout << "Bone[" << i << "]: " << skeleton.bones[i].name

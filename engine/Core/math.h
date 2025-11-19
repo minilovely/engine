@@ -1,4 +1,4 @@
-//ÎÄ¼þ×÷ÓÃ:Ìá¹©»ù´¡ÊýÑ§·½·¨£¬¿É¶Ô·½·¨½øÐÐÖØÔØ
+//æ–‡ä»¶ä½œç”¨:æä¾›åŸºç¡€æ•°å­¦æ–¹æ³•ï¼Œå¯å¯¹æ–¹æ³•è¿›è¡Œé‡è½½
 
 #pragma once
 #define GLM_ENABLE_EXPERIMENTAL

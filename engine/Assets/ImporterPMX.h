@@ -9,7 +9,7 @@
 #include <memory>
 #include <string>
 
-//ImporterPMX类需要Model类作为一个中间层，中间层主要作用是对多个mesh封装
+//ImporterPMX绫婚渶瑕丮odel绫讳綔涓轰竴涓腑闂村眰锛屼腑闂村眰涓昏浣滅敤鏄澶氫釜mesh灏佽
 class Model;
 
 struct TempVertex

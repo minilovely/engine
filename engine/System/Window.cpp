@@ -24,13 +24,13 @@ Window::Window(int width, int height, const char* title)
 	glfwMakeContextCurrent(handle);
 	glfwSetWindowUserPointer(handle, this);
 	InitGLAD();
-	//设置CallBack函数
+	//璁剧疆CallBack鍑芥暟
 	glfwSetFramebufferSizeCallback(handle, framebufferSize_callback);
 	glfwSetKeyCallback(handle, key_callback);
 	glfwSetCursorPosCallback(handle, cursor_callback);
 	glfwSetMouseButtonCallback(handle, MouseButtonCallback);
 	glfwSetScrollCallback(handle, scroll_callback);
-	//设置鼠标显示方式
+	//璁剧疆榧犳爣鏄剧ず鏂瑰紡
 	glfwSetInputMode(handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 }
@@ -56,7 +56,7 @@ void Window::SwapBuffers()
 {
 	glfwSwapBuffers(handle);
 }
-//初始化GLFW
+//鍒濆鍖朑LFW
 void Window::InitGLFW()
 {
 	if (!glfwInit())

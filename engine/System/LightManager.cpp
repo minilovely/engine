@@ -41,7 +41,7 @@ void LightManager::upLoadToShader(Shader* shader)
 		return;
 	}
 	//updateTransform();
-	size_t lightCount = std::min(lights_active.size(), size_t(MAX_LIGHT)); // 限制最大光源数
+	size_t lightCount = std::min(lights_active.size(), size_t(MAX_LIGHT)); // 闄愬埗鏈�澶у厜婧愭暟
 
 	shader->setInt("lightCount", lightCount);
 

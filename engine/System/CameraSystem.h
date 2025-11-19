@@ -8,14 +8,14 @@ class CameraSystem
 public:
     static CameraSystem& Instance();
 
-    // ×¢²á/·´×¢²á
+    // æ³¨å†Œ/åæ³¨å†Œ
     void Register(Camera* cam);
     void UnRegister(Camera* cam);
 
-    // ÓÉ Window µÄ»Øµ÷Ö±½Óµ÷ÓÃ
+    // ç”± Window çš„å›è°ƒç›´æ¥è°ƒç”¨
     void OnWindowResized(int width, int height);
 
-    // Ã¿Ö¡ÔÚÓ¦ÓÃ²ãµ÷ÓÃ£¨main Ñ­»·Àï£©
+    // æ¯å¸§åœ¨åº”ç”¨å±‚è°ƒç”¨ï¼ˆmain å¾ªç¯é‡Œï¼‰
     void UpdateFromInput(float dt);
 
 private:
