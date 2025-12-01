@@ -114,6 +114,15 @@
     <ClCompile Include="Scene\VmdAnimation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="System\AnimationSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Audio.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="System\AudioSystem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\NonCopyable.h">
@@ -222,6 +231,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="include\EncodingHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="System\AnimationSystem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="miniaudio.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Audio.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="System\AudioSystem.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

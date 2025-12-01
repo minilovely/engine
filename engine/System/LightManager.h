@@ -27,7 +27,7 @@ public:
 	{
         for (auto* l : lights_active)
 		{
-            if (l->getType() == static_cast<int>(Light::Type::Diractional))
+            if (l->getType() == static_cast<int>(Light::Type::Directional))
                 return l;
         }
         return nullptr;

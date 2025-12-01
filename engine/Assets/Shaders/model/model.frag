@@ -65,9 +65,10 @@ float ShadowCalc(vec3 wPos, vec3 wNormal)
     projCoords = projCoords * 0.5 + 0.5;
     
     // 超出阴影贴图范围则不失效
-    if(projCoords.z > 1.0)
+	if(projCoords.z > 1.0 || projCoords.x < 0.0 || projCoords.x > 1.0 || 
+		   projCoords.y < 0.0 || projCoords.y > 1.0)
         return 1.0;
-    
+		
     float currentDepth = projCoords.z;
     float closestDepth = texture(shadowMap, projCoords.xy).r;
     

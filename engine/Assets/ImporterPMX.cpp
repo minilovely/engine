@@ -153,10 +153,41 @@ std::shared_ptr<Model> ImporterPMX::Load(const std::string& filePath)
                 }
             }
 		}
+		//assimp拿不到.pmx文件的morph数据
+		if (aMesh->mNumAnimMeshes > 0)
+		{
+			for (int i = 0; i < aMesh->mNumAnimMeshes; i++)
+			{
+				aiAnimMesh* aAnimMesh = aMesh->mAnimMeshes[i];
+				FaceMorph faceMorph;
+				faceMorph.name = aAnimMesh->mName.C_Str();
+				faceMorph.weight = aAnimMesh->mWeight;
+				faceMorph.positionOffsets.resize(aMesh->mNumVertices);
+				for (int j = 0; j < aMesh->mNumVertices; j++)
+				{
+					faceMorph.positionOffsets[j] = { aAnimMesh->mVertices[j].x,
+														aAnimMesh->mVertices[j].y,
+														aAnimMesh->mVertices[j].z };
+				}
+				if (aAnimMesh->HasNormals())
+				{
+					faceMorph.normalOffsets.resize(aMesh->mNumVertices);
+					for (int i = 0; i < aMesh->mNumVertices; i++)
+					{
+						faceMorph.normalOffsets[i] = { aAnimMesh->mNormals[i].x,
+															aAnimMesh->mNormals[i].y,
+															aAnimMesh->mNormals[i].z };
+					}
+				}
+				mesh.faceMorphs.push_back(std::move(faceMorph));
+				mesh.faceMorphMap[faceMorph.name] = i;
+				std::cout << "Loaded FaceMorph: " << faceMorph.name << " with weight " << faceMorph.weight << std::endl;
+			}
+		}
 		mesh.bones.assign(meshBoneSet.begin(), meshBoneSet.end());
-
         mesh.material = materials[aMesh->mMaterialIndex];
         model->meshes.push_back(std::move(mesh));
+
     }
 	BuildBoneHierarchy(scene->mRootNode, model->skeleton, -1);
     //调试验证

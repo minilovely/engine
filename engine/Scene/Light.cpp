@@ -6,8 +6,14 @@
 #include <string>
 #include <iostream>
 
+Light::Light(Actor* owner) : Component(owner)
+{
+
+}
+
 Light::~Light()
 {
+
 }
 
 glm::vec3 Light::getPos() const
@@ -35,7 +41,7 @@ glm::mat4 Light::GetLightSpaceMatrix() const
 
 void Light::updateLightSpaceMatrix()
 {
-    if(type == static_cast<int>(Type::Diractional))
+    if(type == static_cast<int>(Type::Directional))
     {
         glm::vec3 lightDir = glm::normalize(direction);
         glm::vec3 sceneCenter = glm::vec3(0.0f);

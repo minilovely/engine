@@ -3,17 +3,16 @@
 #include "Actor.h"
 #include "../include/Vmd.h"
 #include "../Assets/Bone.h"
-#include "../Core/math.h"
+#include "../System/AnimationSystem.h"
 
 #include <string>
 #include <memory>
-#include "Transform.h"
 
 class VmdAnimation : public Component
 {
 public:
 	explicit VmdAnimation(Actor* owner);
-	~VmdAnimation() = default;
+	~VmdAnimation();
 
 	bool Load(const std::string& vmdFilePath);
 	void Update(float dt) override;
@@ -33,14 +32,37 @@ private:
 	SkeletonPose* pose = nullptr;
 
 	std::unordered_map<std::string, int> vmdToPmxMap; //记录vmd文件的骨骼名到pmx骨骼索引的映射
+	std::unordered_map<std::string, vmd::VmdBoneFrame*> vmdIKFrameMap;//记录某一帧IK骨骼的临时快照
+	
+	// 优化数据结构：按骨骼名称分组并排序的帧数据，用于快速二分查找
+	std::unordered_map<std::string, std::vector<const vmd::VmdBoneFrame*>> sortedBoneFramesMap;
 
-	Transform* transform = nullptr;
+	struct IKChain
+	{
+		std::string ikBoneName;
+		int ikBoneIndex = -1;
+		int endEffectorIndex = -1;
+		std::vector<int> jointIndices;
+		bool isValid() const { return ikBoneIndex >= 0 && endEffectorIndex >= 0 && !jointIndices.empty(); }
+	};
+
+	std::vector<IKChain> IKChains;
 
 	void BuildBoneIndexMapping();
+	void BuildIKChains();
+	void BuildChainFromEndEffector(int endIndex, IKChain& chain, std::string stopBoneName);
+	glm::vec3 ExtractIKTarget(const std::string& ikBoneName);
+	void SolveIKChain(IKChain& chain, const glm::vec3& targetPos);
+	glm::vec3 CalculateBoneWorldPosition(int jointIndex);
+
 	void ResetToDefaultPose();
-	void ApplyVMDAnimation(int targetFrame);
+	void ApplyFKAnimation(int targetFrame);
 	void ApplyBoneFrame(const vmd::VmdBoneFrame& frame, int pmxIndex);
 	void CalculateGlobalPoses();
 	void ApplyOffsetMatrices();
+	
+	// 优化函数
+	void PreprocessAnimationFrames();
+	const vmd::VmdBoneFrame* FindLatestKeyFrame(const std::vector<const vmd::VmdBoneFrame*>& frames, int targetFrame);
 };
 

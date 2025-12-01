@@ -6,7 +6,7 @@ class Camera;
 class CameraSystem
 {
 public:
-    static CameraSystem& Instance();
+    static CameraSystem& Get();
 
     // 注册/反注册
     void Register(Camera* cam);

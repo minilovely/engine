@@ -49,7 +49,7 @@ bool Window::shouldClose()
 void Window::PollEvent()
 {
 	glfwPollEvents();
-	Input::Tick();
+	InputSystem::Tick();
 }
 
 void Window::SwapBuffers()
@@ -89,23 +89,23 @@ void Window::framebufferSize_callback(GLFWwindow* window, int width, int height)
 	handle->width = width;
 	handle->height = height;
 	glViewport(0, 0, width, height);
-	CameraSystem::Instance().OnWindowResized(width, height);
+	CameraSystem::Get().OnWindowResized(width, height);
 }
 
 void Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	Input::setKey(key, action != GLFW_RELEASE);
+	InputSystem::setKey(key, action != GLFW_RELEASE);
 }
 
 void Window::cursor_callback(GLFWwindow* window, double x, double y)
 {
-	Input::setMousePos(static_cast<float>(x), static_cast<float>(y));
+	InputSystem::setMousePos(static_cast<float>(x), static_cast<float>(y));
 }
 void Window::MouseButtonCallback(GLFWwindow* win, int btn, int action, int mods)
 {
-	Input::setMouseButton(btn, action != GLFW_RELEASE);
+	InputSystem::setMouseButton(btn, action != GLFW_RELEASE);
 }
 void Window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	Input::setTotalOffset(static_cast<float>(yoffset));
+	InputSystem::setTotalOffset(static_cast<float>(yoffset));
 }

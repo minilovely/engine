@@ -13,6 +13,9 @@
 #include "System/CameraSystem.h"
 #include "System/Window.h"
 #include "System/LightManager.h"
+#include "System/AnimationSystem.h"
+#include "System/AudioSystem.h"
+#include "System/InputSystem.h"
 #include "Core/MeshRegistry.h"
 #include "Utils.h"
 
@@ -80,7 +83,8 @@ int main()
 
     //窗口
     Window window(1280, 720, "Model Viewer");
-
+	//音频系统
+	AudioSystem::Get().Init();
     //相机
     auto cameraActor = Utils::MakeCameraActor("camera");
     Camera* mainCam = cameraActor->GetComponent<Camera>();
@@ -90,7 +94,7 @@ int main()
     //模型
     std::shared_ptr<PassAssets> model_asset = std::make_shared<PassAssets>();
     model_asset->Load("Assets/Passes_json/model.json");
-    auto modelActor = Utils::MakeModelActor("D:/Models/LTYv4//LTYv4/luotianyi_v4_ver3.3.pmx",
+    auto modelActor = Utils::MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx",
         "model", model_asset);
     auto model_meshes = modelActor->GetComponents<Mesh>();
     std::shared_ptr<Shader> modelShader = model_asset->getShader();
@@ -115,8 +119,6 @@ int main()
     //光源
     //auto pointLight = Utils::MakePointLightActor("pointLight");
     auto dirLightActor = Utils::MakeDirectionalLightActor("mainLight");
-    Light* dirLight = dirLightActor->GetComponent<Light>();
-    LightManager::Get().registerLight(dirLightActor.get(), dirLight);
 
     RenderPipeline pipeline;//这种申请方式会在栈中申请内存
     pipeline.AddPass<PassShadow>();
@@ -139,11 +141,15 @@ int main()
 
     while (!window.shouldClose())
     {
+		window.PollEvent();
+		InputSystem::Tick();
         accumulator += 0.016f;  // 近似值
         while (accumulator >= physicsTimeStep)
         {
-            window.PollEvent();
-            CameraSystem::Instance().UpdateFromInput(physicsTimeStep);
+            CameraSystem::Get().UpdateFromInput(physicsTimeStep);
+            AnimationSystem::Get().UpdateFromInput(physicsTimeStep);
+			AudioSystem::Get().UpdateFromInput(physicsTimeStep);
+
             modelActor->Update(physicsTimeStep);
             accumulator -= physicsTimeStep;
         }

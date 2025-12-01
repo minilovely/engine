@@ -9,7 +9,7 @@
 
 Camera::Camera(Actor* owner) : Component(owner)
 {
-    CameraSystem::Instance().Register(this);
+    CameraSystem::Get().Register(this);
     position = owner->GetComponent<Transform>()->getPosition();
     center = glm::vec3(0, 3, 0);
     up = glm::vec3(0, 1, 0);
@@ -18,7 +18,7 @@ Camera::Camera(Actor* owner) : Component(owner)
 
 Camera::~Camera()
 {
-    CameraSystem::Instance().UnRegister(this);
+    CameraSystem::Get().UnRegister(this);
 }
 
 glm::mat4 Camera::getViewMatrix() const
@@ -75,32 +75,32 @@ void Camera::updateFromInput(float dt)
 	glm::vec3 forward = glm::normalize(center - position);
 	glm::vec3 right = glm::normalize(glm::cross(forward, up));
     
-    if (Input::isKeyDown(GLFW_KEY_W))
+    if (InputSystem::isKeyDown(GLFW_KEY_W))
     {
         move(forward * m_speed);
     }
-    if (Input::isKeyDown(GLFW_KEY_S))
+    if (InputSystem::isKeyDown(GLFW_KEY_S))
     {
         move(-forward * m_speed);
     }
-    if (Input::isKeyDown(GLFW_KEY_A)) 
+    if (InputSystem::isKeyDown(GLFW_KEY_A))
     {
         move(-right * m_speed);
     }
-    if (Input::isKeyDown(GLFW_KEY_D)) 
+    if (InputSystem::isKeyDown(GLFW_KEY_D))
     {
         move(right * m_speed);
     }
-    if (Input::isKeyDown(GLFW_KEY_C)) 
+    if (InputSystem::isKeyDown(GLFW_KEY_C))
     {
         move(-up * m_speed);
     }
-    if (Input::isKeyDown(GLFW_KEY_SPACE)) 
+    if (InputSystem::isKeyDown(GLFW_KEY_SPACE))
     {
         move(up * m_speed);
     }
-    glm::vec2 current = Input::getMousePos();      // 当前 GLFW 坐标
-    if (Input::isMouseDown(GLFW_MOUSE_BUTTON_RIGHT))
+    glm::vec2 current = InputSystem::getMousePos();      // 当前 GLFW 坐标
+    if (InputSystem::isMouseDown(GLFW_MOUSE_BUTTON_RIGHT))
     {
         if (firstMouse)          // 第一帧只记录，不累加
         {
@@ -132,11 +132,11 @@ void Camera::updateFromInput(float dt)
     }
 
     // 滚轮缩放控制
-    float scroll = Input::getTotalScrollOffset();
+    float scroll = InputSystem::getTotalScrollOffset();
     if (scroll != 0.0f) 
     {
         zoom(scroll * z_speed);
-        Input::resetScroll();
+		InputSystem::resetScroll();
     }
 }
 

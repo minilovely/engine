@@ -10,6 +10,7 @@
 #include "System/CameraSystem.h"
 #include "Render/SkyBox.h"
 #include "Scene/VmdAnimation.h"
+#include "Scene/Audio.h"
 
 #include <memory>
 #include <vector>
@@ -19,9 +20,7 @@ namespace Utils
     std::unique_ptr<Actor> MakeModelActor(const std::string& filePath, std::string name, std::shared_ptr<PassAssets> asset)
     {
         auto actor = std::make_unique<Actor>(name);
-        
         auto model = ImporterPMX::Load(filePath);
-
         auto trans = actor->AddComponent<Transform>();
         trans->setPosition({ 0, 0, 0 });
         trans->setScale({ 0.5f, 0.5f, 0.5f });
@@ -31,9 +30,11 @@ namespace Utils
         GlobalSkeletonCache::get().createPose(name, model->skeleton.bones.size());//目前是空姿势表
         //vmd动画组件
         auto* vmd = actor->AddComponent<VmdAnimation>();
-        vmd->Load("D:/Models/t1.vmd");  
+        vmd->Load("D:/Models/t3_1.vmd");  
         vmd->Play();
-
+		auto audio = actor->AddComponent<Audio>("D:/Voice/music/One Last Kiss.flac");
+		audio->SetLooping(true);
+		audio->SetVolume(0.5f);
         for (const auto& mesh : model->meshes)
         {
             auto meshComp = actor->AddComponent<Mesh>();
@@ -49,7 +50,7 @@ namespace Utils
     {
         auto actor = std::make_unique<Actor>(name);
         auto transComp = actor->AddComponent<Transform>();
-        transComp->setPosition({ 0, 5, 6 });
+        transComp->setPosition({ 0, 3, 8 });
 
         auto camComp = actor->AddComponent<Camera>();
         camComp->setCenter({ 0,3,0 });
@@ -62,12 +63,13 @@ namespace Utils
         auto trans = actor->AddComponent<Transform>();
         auto light = actor->AddComponent<Light>();
 
-        trans->setPosition(glm::vec3(2.0, 0.0, 0.0));
+        trans->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f));
         light->setType(0);  // Directional
-        light->setDirection(glm::vec3(1.0f, 0.0f, -1.0f));
+        light->setDirection(glm::vec3(1.0f, -1.0f, -1.0f));
         light->setColor(glm::vec3(1.0f, 0.9f, 0.8f));
         light->setIntensity(1.2f);
 
+		LightManager::Get().registerLight(actor.get(), light);
         return actor;
     }
 

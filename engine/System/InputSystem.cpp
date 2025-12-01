@@ -3,60 +3,56 @@
 #include "GLFW/glfw3.h"
 #include <algorithm>
 
-bool Input::keysCur[512] = {};
-bool Input::keysPre[512] = {};
-bool Input::mouse[3] = {};
-glm::vec2 Input::mouseCurPos = glm::vec2(0.0f);
-glm::vec2 Input::mousePrePos = glm::vec2(0.0f);
+bool InputSystem::keysCur[512] = {};
+bool InputSystem::keysPre[512] = {};
+bool InputSystem::mouse[3] = {};
+glm::vec2 InputSystem::mouseCurPos = glm::vec2(0.0f);
+glm::vec2 InputSystem::mousePrePos = glm::vec2(0.0f);
 
-float Input::scroll_Y = 0.0f;
+float InputSystem::scroll_Y = 0.0f;
 
-void Input::Tick()
+void InputSystem::Tick()
 {
 	std::copy(std::begin(keysCur), std::end(keysCur), std::begin(keysPre));
 	//mousePrePos = mouseCurPos;
 }
-bool Input::isKeyPressed(int key)
+bool InputSystem::isKeyPressed(int key)
 {
 	return keysCur[key] && !keysPre[key];
 }
-bool Input::isKeyDown(int key)
+bool InputSystem::isKeyDown(int key)
 {
 	return keysCur[key] && keysPre[key];
 }
-bool Input::isKeyReleased(int key)
+bool InputSystem::isKeyReleased(int key)
 {
 	return !keysCur[key] && keysPre[key];
 }
-bool Input::isMouseDown(int button)
+bool InputSystem::isMouseDown(int button)
 {
 	return mouse[button];
 }
-//glm::vec2 Input::getMouseOffset()
-//{
-//	return glm::vec2(mouseCurPos - mousePrePos);
-//}
-float Input::getTotalScrollOffset()
+float InputSystem::getTotalScrollOffset()
 {
 	return scroll_Y;
 }
-void Input::setKey(int key, bool down)
+void InputSystem::setKey(int key, bool down)
 {
 	keysCur[key] = down;
 }
-void Input::setMousePos(float x, float y)
+void InputSystem::setMousePos(float x, float y)
 {
 	mouseCurPos = glm::vec2(x, y);
 }
-void Input::setMouseButton(int key, bool down)
+void InputSystem::setMouseButton(int key, bool down)
 {
 	mouse[key] = down;
 }
-void Input::setTotalOffset(float offset)
+void InputSystem::setTotalOffset(float offset)
 {
 	scroll_Y = offset;
 }
-void Input::resetScroll()
+void InputSystem::resetScroll()
 {
 	scroll_Y = 0.0f;
 }

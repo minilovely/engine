@@ -49,7 +49,7 @@ void ShadowMap::BindTexture(unsigned int unit)
 
 void ShadowMap::Unbind()
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, 1280, 720);
 }
 

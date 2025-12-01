@@ -1,7 +1,7 @@
 #include "CameraSystem.h"
 #include "../Scene/Camera.h"
 
-CameraSystem& CameraSystem::Instance()
+CameraSystem& CameraSystem::Get()
 {
     static CameraSystem inst;
     return inst;

@@ -11,11 +11,11 @@ class Light : public Component
 public:
 	enum class Type : int
 	{
-		Diractional = 0,
+		Directional = 0,
 		Point = 1
 	};
 
-	explicit Light(Actor* owner) : Component(owner) {}
+	explicit Light(Actor* owner);
 
 	Light() = default;
 	~Light();

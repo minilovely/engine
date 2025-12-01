@@ -1,7 +1,7 @@
 #pragma once
 #include "../Core/math.h"
 
-class Input
+class InputSystem
 {
 	friend class Window;
 public:
