@@ -26,6 +26,7 @@ public:
 	void SetVolume(float volume);
 	float GetVolume() const;
 
+	ma_sound* GetSound() { return sound_.get(); }
 	// 循环模式
 	void SetLooping(bool loop);
 	bool IsLooping() const;

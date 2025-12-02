@@ -72,6 +72,13 @@ Light
                constant           点光源近距离衰减      0.0R~0.3R
                linear             点光源中距离衰减      0.3R~0.7R
                quadratic          点光源远距离衰减      0.7R~1.0R
+vmdAnimation
+			   isPlay             动画播放状态
+			   currentTime        当前动画时间点
+Audio
+			   volume             音量大小              0.0f~1.0f
+			   isLooping          是否循环播放
+			   isPlaying          播放状态
 */
 
 

@@ -17,7 +17,7 @@ public:
 
     // 每帧在应用层调用（main 循环里）
     void UpdateFromInput(float dt);
-
+	Camera* GetMainCamera() { return cameras.empty() ? nullptr : cameras[0]; }
 private:
     CameraSystem() = default;
     std::vector<Camera*> cameras;

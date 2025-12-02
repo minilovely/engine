@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+class Camera;
 
 class AudioSystem
 {
@@ -21,6 +22,7 @@ public:
 	float getMasterVolume() const;
 
 	void UpdateFromInput(float dt);
+	void SetMaxDistance(float distance) { maxDistance = distance; }
 private:
 	AudioSystem() = default;
 	~AudioSystem() { Shutdown(); }
@@ -30,7 +32,12 @@ private:
 	bool initialized = false;
 
 	bool wasKeyPressed = false;
+	float masterVolume = 0.6f;
+	float maxDistance = 15.0f;
 
 	std::vector<Audio*> audios;
 	std::unordered_map<std::string, std::weak_ptr<ma_sound>> soundCache;
+
+	void UpdateSpatialAudio();
+	void UpdateSpatialAudio(Camera* camera);
 };
