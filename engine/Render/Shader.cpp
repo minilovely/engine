@@ -3,30 +3,6 @@
 
 #include <iostream>
 
-static bool CheckCompile(unsigned int shader)
-{
-    int ok = 0;
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
-    if (!ok) {
-        char log[512];
-        glGetShaderInfoLog(shader, 512, nullptr, log);
-        std::cout << "Shader compile error:\n" << log << std::endl;
-    }
-    return ok;
-}
-
-static bool CheckLink(unsigned int prog)
-{
-    int ok = 0;
-    glGetProgramiv(prog, GL_LINK_STATUS, &ok);
-    if (!ok) {
-        char log[512];
-        glGetProgramInfoLog(prog, 512, nullptr, log);
-        std::cout << "Program link error:\n" << log << std::endl;
-    }
-    return ok;
-}
-
 Shader::Shader(const std::string& vs_src, const std::string& fs_src)
 {
     unsigned int vs = glCreateShader(GL_VERTEX_SHADER);
@@ -56,46 +32,70 @@ Shader::~Shader()
     glDeleteProgram(id);
 }
 
-void Shader::use() const
+void Shader::use()
 {
     glUseProgram(id);
 }
 
-void Shader::setBool(const std::string& name, bool b) const
+void Shader::setBool(const std::string& name, bool b)
 {
 	glUniform1i(glGetUniformLocation(id, name.c_str()), static_cast<int>(b));
 }
 
-void Shader::setMat4(const std::string& name, const glm::mat4& m) const
+void Shader::setMat4(const std::string& name, const glm::mat4& m)
 {
     glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE, glm::value_ptr(m));
 }
 
-void Shader::setVec3(const std::string& name, const glm::vec3& v) const
+void Shader::setVec3(const std::string& name, const glm::vec3& v)
 {
     glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, glm::value_ptr(v));
 }
 
-void Shader::setInt(const std::string& name, int i) const
+void Shader::setInt(const std::string& name, int i)
 {
     glUniform1i(glGetUniformLocation(id, name.c_str()), i);
 }
 
-void Shader::setFloat(const std::string& name, float f) const
+void Shader::setFloat(const std::string& name, float f)
 {
     glUniform1f(glGetUniformLocation(id, name.c_str()), f);
 }
 
-void Shader::setMat4Array(const std::string& name, std::vector<glm::mat4> m) const
+void Shader::setMat4Array(const std::string& name, std::vector<glm::mat4> m)
 {
 	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()),
         static_cast<int>(m.size()), GL_FALSE, glm::value_ptr(m[0]));
 }
 
-void Shader::setIntArray(const std::string& name, std::vector<int> i) const
+void Shader::setIntArray(const std::string& name, std::vector<int> i)
 {
     glUniform1iv(glGetUniformLocation(id, name.c_str()),
 		static_cast<int>(i.size()), i.data());
+}
+
+bool Shader::CheckCompile(unsigned int shader)
+{
+	int ok = 0;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+	if (!ok) {
+		char log[512];
+		glGetShaderInfoLog(shader, 512, nullptr, log);
+		std::cout << "Shader compile error:\n" << log << std::endl;
+	}
+	return ok;
+}
+
+bool Shader::CheckLink(unsigned int prog)
+{
+	int ok = 0;
+	glGetProgramiv(prog, GL_LINK_STATUS, &ok);
+	if (!ok) {
+		char log[512];
+		glGetProgramInfoLog(prog, 512, nullptr, log);
+		std::cout << "Program link error:\n" << log << std::endl;
+	}
+	return ok;
 }
 
 

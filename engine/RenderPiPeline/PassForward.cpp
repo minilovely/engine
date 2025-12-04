@@ -34,6 +34,7 @@ void PassForward::Collect(const Camera& camera,Mesh* mesh, RenderQueue& outQueue
     cmd.mesh = gpuMesh;
     cmd.M = trans->getModelMatrix();
     cmd.MVP = P * V * cmd.M;
+	cmd.VP = P * V;
     cmd.viewPos = camPos;
     cmd.material = mat;
     cmd.value = mesh->getValue();

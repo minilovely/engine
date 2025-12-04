@@ -43,7 +43,7 @@ MeshGPU::~MeshGPU()
     glDeleteBuffers(1, &ebo);
 }
 //绑定VAO，材质
-void MeshGPU::Bind() const
+void MeshGPU::Bind()
 {
     glBindVertexArray(vao);
     if (material)
@@ -56,7 +56,7 @@ void MeshGPU::Bind() const
     }
 }
 
-void MeshGPU::Draw() const
+void MeshGPU::Draw()
 {
     glPointSize(10.0f);
     //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);

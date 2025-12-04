@@ -101,7 +101,7 @@ int main()
     //模型
     std::shared_ptr<PassAssets> model_asset = std::make_shared<PassAssets>();
     model_asset->Load("Assets/Passes_json/model.json");
-    auto modelActor = Utils::MakeModelActor("D:/Models/LTY/luotianyi_v4_chibi_ver3.0.pmx",
+    auto modelActor = Utils::MakeModelActor("D:/Models/芙宁娜/【芙宁娜_荒】.pmx",
         "model", model_asset);
     auto model_meshes = modelActor->GetComponents<Mesh>();
     std::shared_ptr<Shader> modelShader = model_asset->getShader();
@@ -124,7 +124,7 @@ int main()
     mr.add(plane_mesh);
 
     //光源
-    //auto pointLight = Utils::MakePointLightActor("pointLight");
+    auto pointLight = Utils::MakePointLightActor("pointLight");
     auto dirLightActor = Utils::MakeDirectionalLightActor("mainLight");
 
     RenderPipeline pipeline;//这种申请方式会在栈中申请内存
