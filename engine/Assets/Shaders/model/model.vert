@@ -50,7 +50,7 @@ void main()
 		mat3 normalMat = mat3(transpose(inverse(M)));
 		vs_out.vNorm = normalMat * normal;
 		vs_out.wVertPos = vec3(M * vec4(pos, 1.0));
-		finalPos = M * vec4(pos, 1.0);
+		finalPos = vec4(pos, 1.0);
 	}
 	vs_out.vUV   = uv;
 

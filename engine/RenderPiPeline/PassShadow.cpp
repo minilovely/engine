@@ -22,6 +22,7 @@ void PassShadow::Init()
 
 void PassShadow::Collect(const Camera& /*camera*/, Mesh* mesh, RenderQueue& outQueue)
 {
+	SkeletonPose* pose = GlobalSkeletonCache::get().getPose(mesh->GetOwner()->getName());
     // 获取主平行光
     Light* dirLight = lightManager ? lightManager->GetMainDirectionalLight() : nullptr;
     if (!dirLight) return;
@@ -38,6 +39,24 @@ void PassShadow::Collect(const Camera& /*camera*/, Mesh* mesh, RenderQueue& outQ
     cmd.shadowMap = shadowMap;
     cmd.shadowAssets = shadowAssets;
     cmd.PassType = RenderCommand::PassType::Shadow;
+	if (pose)
+	{
+		cmd.hasBones = true;
+		cmd.uBoneMats.reserve(gpuMesh->localBonesIdx.size());
+		for (auto idx : gpuMesh->localBonesIdx)
+		{
+			if (idx >= 0 && idx < pose->finalMatrices.size())
+			{
+				cmd.uBoneMats.push_back(pose->finalMatrices[idx]);
+			}
+			else
+			{
+				std::cerr << "[PassForward] Invalid global bone index: " << idx << std::endl;
+				cmd.uBoneMats.push_back(glm::mat4(1.0f));
+			}
+		}
+	}
+
     outQueue.Add(cmd);
 }
 

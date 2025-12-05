@@ -17,8 +17,8 @@ public:
             const std::shared_ptr<Material>& material);
     ~MeshGPU();
 
-    void Bind() const;
-    void Draw() const;
+    void Bind();
+    void Draw();
 
     Material* getMaterial() { return material.get(); }
 

@@ -50,7 +50,7 @@ namespace Utils
     {
         auto actor = std::make_unique<Actor>(name);
         auto transComp = actor->AddComponent<Transform>();
-        transComp->setPosition({ 0, 3, 8 });
+        transComp->setPosition({ 0, 6, 8 });
 
         auto camComp = actor->AddComponent<Camera>();
         camComp->setCenter({ 0,3,0 });
@@ -66,7 +66,7 @@ namespace Utils
         trans->setPosition(glm::vec3(-2.0f, 0.0f, 0.0f));
         light->setType(0);  // Directional
         light->setDirection(glm::vec3(1.0f, -1.0f, -1.0f));
-        light->setColor(glm::vec3(1.0f, 0.9f, 0.8f));
+        light->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
         light->setIntensity(1.2f);
 
 		LightManager::Get().registerLight(actor.get(), light);
@@ -80,9 +80,9 @@ namespace Utils
         auto light = actor->AddComponent<Light>();
 
         light->setType(1);  // Point
-        light->setColor(glm::vec3(0.8f, 0.8f, 1.0f));
+        light->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
         light->setIntensity(3.0f);
-        trans->setPosition({ -2.0f, 3.0f, 2.0f });
+        trans->setPosition({ 2.0f, 3.0f, -2.0f });
 
         return actor;
     }

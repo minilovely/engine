@@ -31,7 +31,7 @@ TextureCube::~TextureCube()
     glDeleteTextures(1, &handle);
 }
 
-void TextureCube::Bind(unsigned int unit) const
+void TextureCube::Bind(unsigned int unit)
 {
     glActiveTexture(GL_TEXTURE0 + unit);
     glBindTexture(GL_TEXTURE_CUBE_MAP, handle);

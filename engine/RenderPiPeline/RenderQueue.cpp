@@ -45,6 +45,11 @@ void RenderQueue::DrawShadow()
             shader->use();
             shader->setMat4("lightSpaceMatrix", cmd.lightSpaceMatrix);
             shader->setMat4("M", cmd.M);
+			shader->setBool("uHasBones", cmd.hasBones);
+			if (!cmd.uBoneMats.empty())
+			{
+				shader->setMat4Array("uBoneMats", cmd.uBoneMats);
+			}
         }
 
         if (cmd.mesh)
@@ -75,6 +80,7 @@ void RenderQueue::DrawForward()
         lightManager.upLoadToShader(shader.get());
         shader->setMat4("MVP", cmd.MVP);
         shader->setMat4("M", cmd.M);
+		shader->setMat4("VP", cmd.VP);
         shader->setVec3("viewPos", cmd.viewPos);
         shader->setVec3("color", cmd.material->getTexColor());
 

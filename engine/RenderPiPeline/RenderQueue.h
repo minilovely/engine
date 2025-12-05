@@ -14,6 +14,7 @@ struct RenderCommand
     glm::mat4                 M;
     glm::mat4                 lightSpaceMatrix;
     glm::mat4                 MVP;
+	glm::mat4				  VP;
     glm::vec3                 viewPos;
     int                       lightCount = 0;
     
